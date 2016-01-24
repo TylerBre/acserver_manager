@@ -1,6 +1,8 @@
 var fs = require('fs');
 var promise = require('bluebird');
 var path = require('path');
+var _ = require('lodash');
+var JSON = require('json-parse-helpfulerror');
 
 var FS = module.exports;
 
@@ -70,6 +72,18 @@ FS.ui_data_only = (pwd, ui_filename, formatter) => {
   }
 }
 
-FS.un_format = (data) => {
-  return data.replace(/\r\n|\r|\n|\t/g, '');
+FS.un_format_json = (data) => {
+  // remove formatting characters
+  data = data.replace(/\r\n|\r|\n|\t/g, '');
+
+  // http://www.fileformat.info/info/unicode/char/feff/index.htm
+  //
+  // we were getting json with weird unicode formatting characters, solution is
+  // to just convert the whole string to ASCII Characters.
+  data = _.reduce(data, (reduced, character) => {
+    reduced += character.charCodeAt(0) <= 127 ? character : '';
+    return reduced;
+  }, '');
+
+  return JSON.parse(data);
 }

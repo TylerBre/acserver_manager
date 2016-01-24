@@ -13,6 +13,7 @@
     "express": "^4.13.4",
     "express-session": "^1.13.0",
     "jade": "^1.11.0",
+    "json-parse-helpfulerror": "^1.0.3",
     "lodash": "^4.0.0",
     "method-override": "^2.3.5",
     "passport": "^0.3.2",
