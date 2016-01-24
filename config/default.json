@@ -1,5 +1,19 @@
 {
   "app": {
     "port": 3000
+  },
+  "waterline": {
+    "connections": {
+      "psql": {
+        "adapter": "psql",
+        "host": "localhost",
+        "user": "postgres",
+        "password": "postgres",
+        "database": "acserver_manager"
+      }
+    },
+    "defaults": {
+      "migrate": "alter"
+    }
   }
 }
