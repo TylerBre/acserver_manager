@@ -7,8 +7,16 @@ var helpers = require('../helpers');
 // var requireAuthentication = controllers.auth.allow.registeredUsers;
 
 // router.get('*', controllers.app.before);
+router.get('/tracks/raw', (req, res, next) => {
+  helpers.content.tracks().then((tracks) => res.render('content_cars', {cars: tracks}));
+});
+
 router.get('/cars', (req, res, next) => {
   app.models.car.find().then((cars) => res.render('content_cars', {cars}));
+});
+
+router.get('/cars/raw', (req, res, next) => {
+  helpers.content.cars().then((cars) => res.render('content_cars', {cars}));
 });
 
 router.get('/cars/update', (req, res, next) => {
