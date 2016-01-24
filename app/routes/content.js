@@ -57,3 +57,8 @@ router.get('/cars/destroy', (req, res, next) => {
 });
 
 module.exports = router;
+
+
+// function deep_update (model, item, criterea, updated_count) {
+//   // body...
+// }
