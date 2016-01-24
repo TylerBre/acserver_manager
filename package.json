@@ -19,6 +19,7 @@
     "response-time": "^2.3.1",
     "sails-postgresql": "^0.11.0",
     "serve-favicon": "^2.3.0",
+    "skipper": "^0.5.9",
     "waterline": "^0.10.30"
   },
   "devDependencies": {
