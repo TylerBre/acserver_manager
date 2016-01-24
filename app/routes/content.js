@@ -23,14 +23,12 @@ router.get('/cars/update', (req, res, next) => {
     return app.models.car.findOrCreate(car).where(criterea).then((data) => {
       // we found a match, but the data is old, we need to update it
       if (!_.isMatch(data, car)) {
-        console.log("not match")
         updated += 1;
         return app.models.car.update(criterea, car);
       }
 
       // multiple matches in the db, delete them and add the new one
       if (_.isArray(data)) {
-        console.log("is ary")
         updated += 1
         return app.models.car.destroy(data).then(() => {
           return app.models.car.create(car);
