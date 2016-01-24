@@ -1,0 +1,46 @@
+{
+  "name": "acserver_manager",
+  "version": "1.0.0",
+  "description": "manage assetto corsa dedicated servers",
+  "main": "app.js",
+  "dependencies": {
+    "bluebird": "^3.1.1",
+    "body-parser": "^1.14.2",
+    "compression": "^1.6.1",
+    "config": "^1.19.0",
+    "cookie-parser": "^1.4.1",
+    "errorhandler": "^1.4.3",
+    "express": "^4.13.4",
+    "express-session": "^1.13.0",
+    "jade": "^1.11.0",
+    "lodash": "^4.0.0",
+    "method-override": "^2.3.5",
+    "passport": "^0.3.2",
+    "response-time": "^2.3.1",
+    "sails-postgresql": "^0.11.0",
+    "serve-favicon": "^2.3.0",
+    "waterline": "^0.10.30"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-browserify2": "0.0.2",
+    "gulp-express": "^0.3.5",
+    "gulp-less": "^3.0.5",
+    "gulp-minify-css": "^1.2.3",
+    "gulp-nodemon": "^2.0.6",
+    "gulp-watch": "^4.3.5"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TylerBre/acserver_manager.git"
+  },
+  "author": "Tyler Breland",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TylerBre/acserver_manager/issues"
+  },
+  "homepage": "https://github.com/TylerBre/acserver_manager#readme"
+}

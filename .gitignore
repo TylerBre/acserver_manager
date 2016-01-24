@@ -1,0 +1,29 @@
+lib-cov
+*.seed
+*.log
+*.csv
+*.dat
+*.out
+*.pid
+*.gz
+.DS_Store
+
+.elasticbeanstalk/
+certs/
+pids
+results
+.idea
+
+
+# backend
+npm-debug.log
+node_modules
+
+
+# Frontend Ignores
+*.css
+*.map
+app/assets/compiled
+
+# conf file ignores
+
