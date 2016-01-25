@@ -1,12 +1,12 @@
 var fs_content = require('./fs_content.js');
-// var app = require('../../app');
+var app = require('../../app');
 var path = require('path');
 var _ = require('lodash');
 
 var Content = module.exports;
 
 Content.cars = (pwd) => {
-  var seed_content = path.join('/Users/tbreland/Documents/personal/acserver_manager', 'seed/content');
+  var seed_content = path.join(app.get('root'), 'seed/content');
   pwd = pwd || '/home/acserver/acserver/content/cars';
   return fs_content.readDir(pwd)
     .reduce(fs_content.directories_only(pwd), [])
@@ -32,20 +32,17 @@ Content.cars = (pwd) => {
 };
 
 Content.tracks = (pwd, no_validate) => {
-  var seed_content = path.join('/Users/tbreland/Documents/personal/acserver_manager', 'seed/content');
+  var seed_content = path.join(app.get('root'), 'seed/content');
   pwd = pwd || '/home/acserver/acserver/content/tracks';
   return fs_content.readDir(pwd)
     .reduce(fs_content.directories_only(pwd), [])
     .then((directories) => {
       if (no_validate) {
         return _.map(directories, (directory_name) => {
-          return {
-            pwd,
-            directory_name
-          };
+          return { pwd, directory_name };
         })
-
       }
+
       return fs_content.readFile(path.join(seed_content, 'official_track_list.json')).then((official_track_list) => {
         return _.map(directories, (directory_name) => {
           return {
