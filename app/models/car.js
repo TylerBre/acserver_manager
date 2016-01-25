@@ -13,7 +13,8 @@ module.exports = Waterline.Collection.extend({
     torque: 'string',
     weight: 'string',
     torque_curve: 'array',
-    power_curve: 'array'
+    power_curve: 'array',
+    official: 'boolean'
   },
 
   fromKunos: (data) => {

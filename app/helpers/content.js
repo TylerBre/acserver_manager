@@ -4,13 +4,14 @@ var path = require('path');
 var Content = module.exports;
 
 Content.cars = (pwd) => {
-  pwd = pwd || '/home/ubuntu/acserver/content/cars';
+  pwd = pwd || '/home/acserver/acserver/content/cars';
   return fs_content.readDir(pwd)
     .reduce(fs_content.directories_only(pwd), [])
     .reduce(fs_content.ui_directories_only(pwd), [])
     .reduce(fs_content.ui_data_only(pwd, 'ui_car.json', (item, data) => {
       return {
-        'badge': path.join(pwd, item.file_name, 'badge.png'),
+        'file_name': item.file_name,
+        'badge': path.join(pwd, item.file_name, 'ui', 'badge.png'),
         'data': fs_content.un_format_json(data)
       };
     }), [])
@@ -18,15 +19,18 @@ Content.cars = (pwd) => {
 };
 
 Content.tracks = (pwd) => {
-  pwd = pwd || '/home/ubuntu/acserver/content/tracks';
+  pwd = pwd || '/home/acserver/acserver/content/tracks';
   return fs_content.readDir(pwd)
     .reduce(fs_content.directories_only(pwd), [])
     .reduce(fs_content.ui_directories_only(pwd), [])
-    .reduce(fs_content.ui_data_only(pwd, 'ui_track.json', (item, data) => {
+    .reduce(fs_content.ui_data_only(pwd, 'ui_track.json', (item, data, configuration) => {
       return {
-        'outline': path.join(pwd, item.file_name, 'outline.png'),
-        'preview': path.join(pwd, item.file_name, 'preview.png'),
+        'file_name': item.file_name,
+        'configuration': configuration,
+        // this might be the worst code I've ever written...
+        'outline': path.join(path.join(pwd, item.file_name), ((configuration) ? path.join(configuration, 'outline.png') : 'outline.png')),
+        'preview': path.join(path.join(pwd, item.file_name), ((configuration) ? path.join(configuration, 'preview.png') : 'preview.png')),
         'data': fs_content.un_format_json(data)
       };
-    }), [])
+    }), []);
 };

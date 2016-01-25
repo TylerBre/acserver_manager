@@ -12,7 +12,9 @@ module.exports = Waterline.Collection.extend({
     city: 'string',
     pitboxes: 'integer',
     direction: 'string',
-    length: 'string'
+    length: 'string',
+    official: 'boolean',
+    configuration_name: 'string'
   },
 
   fromKunos: (data) => {
