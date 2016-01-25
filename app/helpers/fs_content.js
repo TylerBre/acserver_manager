@@ -96,21 +96,20 @@ FS.directories_only = (pwd) => {
   }
 }
 
-FS.ui_directories_only = (pwd) => {
-  return (total, file_name) => {
-    return FS.readDir(path.join(pwd, file_name)).then((data) => {
-      if (data.indexOf('ui') > 0) total.push({file_name, data});
-      return total;
-    }).catch((e) => {
-      console.log(e);
-      return total;
-    });
-  }
+FS.ui_directories_only = (total, file_obj) => {
+  return FS.readDir(path.join(file_obj.pwd, file_obj.directory_name)).then((data) => {
+    if (data.indexOf('ui') >= 0) total.push({file_obj, data});
+    return total;
+  }).catch((e) => {
+    console.log(e);
+    return total;
+  });
 }
 
-FS.ui_data_only = (pwd, ui_filename, formatter) => {
+FS.ui_data_only = (ui_filename, formatter) => {
   return (total, item) => {
-    var ui_path = path.join(pwd, item.file_name, '/ui');
+
+    var ui_path = path.join(item.file_obj.pwd, item.file_obj.directory_name, 'ui');
     return FS.readDir(ui_path).then((data) => {
 
       if (data.indexOf(ui_filename) >= 0) {
@@ -132,8 +131,7 @@ FS.ui_data_only = (pwd, ui_filename, formatter) => {
         }).catch(() => {
           return _total;
         });
-      }, []).all().reduce((_total, data) => {
-
+      }, []).reduce((_total, data) => {
         return FS.readFile(path.join(data.configuration_path, ui_filename)).then((_data) => {
           _total.push(formatter(item, _data, data.file_name));
           return _total;
@@ -144,18 +142,19 @@ FS.ui_data_only = (pwd, ui_filename, formatter) => {
 }
 
 FS.un_format_json = (data) => {
-  // remove formatting characters
-  data = data.toString();
-  data = data.replace(/\r\n|\r|\n|\t|\0/g, '');
 
-  // http://www.fileformat.info/info/unicode/char/feff/index.htm
-  //
-  // we were getting json with weird unicode formatting characters, solution is
-  // to just convert the whole string to ASCII Characters.
-  data = _.reduce(data, (reduced, character) => {
-    reduced += character.charCodeAt(0) <= 127 ? character : '';
-    return reduced;
-  }, '');
+    // remove formatting characters
+    data = data.replace(/\r\n|\r|\n|\t|\0/g, '');
+
+    // http://www.fileformat.info/info/unicode/char/feff/index.htm
+
+    // we were getting json with weird unicode formatting characters, solution is
+    // to just convert the whole string to ASCII Characters.
+    data = _.reduce(data, (reduced, character) => {
+      reduced += character.charCodeAt(0) <= 127 ? character : '';
+      return reduced;
+    }, '');
+
 
   return JSON.parse(data);
 }

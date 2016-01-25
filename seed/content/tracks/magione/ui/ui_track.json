@@ -1,1 +1,20 @@
-"{\"name\":\"Magione\",\"description\":\"Autodromo di Umbria\",\"tags\":[\"circuit\",\"original\",\"drift\",\"Italy\"],\"geotags\":[\"lat\",\"lon\"],\"country\":\"Italy\",\"city\":\"Magione\",\"length\":\"2507\",\"width\":\"11m\",\"pitboxes\":\"18\",\"run\":\"clockwise\"}"
+{
+  "name": "Magione",
+  "description": "Autodromo di Umbria",
+  "tags": [
+    "circuit",
+    "original",
+    "drift",
+    "Italy"
+  ],
+  "geotags": [
+    "lat",
+    "lon"
+  ],
+  "country": "Italy",
+  "city": "Magione",
+  "length": "2507",
+  "width": "11m",
+  "pitboxes": "18",
+  "run": "clockwise"
+}

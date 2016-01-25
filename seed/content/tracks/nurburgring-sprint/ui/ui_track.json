@@ -1,1 +1,19 @@
-"{\"name\":\"Nurburgring-sprint\",\"description\":\"Nuerburgring sprint racing track\",\"tags\":[\"original\",\"circuit\",\"Germany\"],\"geotags\":[\"lat\",\"lon\"],\"country\":\"Germany\",\"city\":\"Nurburg\",\"length\":\"3629\",\"width\":\"11m-14m\",\"pitboxes\":\"24\",\"run\":\"clockwise\"}"
+{
+  "name": "Nurburgring-sprint",
+  "description": "Nuerburgring sprint racing track",
+  "tags": [
+    "original",
+    "circuit",
+    "Germany"
+  ],
+  "geotags": [
+    "lat",
+    "lon"
+  ],
+  "country": "Germany",
+  "city": "Nurburg",
+  "length": "3629",
+  "width": "11m-14m",
+  "pitboxes": "24",
+  "run": "clockwise"
+}

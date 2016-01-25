@@ -1,1 +1,22 @@
-"{\"name\":\"DRIFT\",\"description\":\"DRIFT TRACK\",\"tags\":[\"#drift\",\"drift\",\"test track\",\"circuit\",\"original\",\"Japan\"],\"geotags\":[\"lat\",\"lon\"],\"country\":\"Japan\",\"city\":\"Tokyo\",\"length\":\"905\",\"width\":\"10m-15m\",\"pitboxes\":\"18\",\"run\":\"DRIFT\"}"
+{
+  "name": "DRIFT",
+  "description": "DRIFT TRACK",
+  "tags": [
+    "#drift",
+    "drift",
+    "test track",
+    "circuit",
+    "original",
+    "Japan"
+  ],
+  "geotags": [
+    "lat",
+    "lon"
+  ],
+  "country": "Japan",
+  "city": "Tokyo",
+  "length": "905",
+  "width": "10m-15m",
+  "pitboxes": "18",
+  "run": "DRIFT"
+}

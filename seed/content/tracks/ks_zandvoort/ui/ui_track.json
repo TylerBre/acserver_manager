@@ -1,1 +1,19 @@
-"{\"name\":\"Zandvoort\",\"description\":\"Zandvoort Circuit Park\",\"tags\":[\"circuit\",\"original\",\"Netherlands\"],\"geotags\":[\"lat\",\"lon\"],\"country\":\"Netherlands\",\"city\":\"Zandvoort\",\"length\":\"4307\",\"width\":\"10m-13m\",\"pitboxes\":\"18\",\"run\":\"clockwise\"}"
+{
+  "name": "Zandvoort",
+  "description": "Zandvoort Circuit Park",
+  "tags": [
+    "circuit",
+    "original",
+    "Netherlands"
+  ],
+  "geotags": [
+    "lat",
+    "lon"
+  ],
+  "country": "Netherlands",
+  "city": "Zandvoort",
+  "length": "4307",
+  "width": "10m-13m",
+  "pitboxes": "18",
+  "run": "clockwise"
+}

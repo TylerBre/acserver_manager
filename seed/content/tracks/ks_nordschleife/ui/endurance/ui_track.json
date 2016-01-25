@@ -1,1 +1,18 @@
-"{\"name\":\"Nordschleife Endurance\",\"description\":\"Nuerburgring Nordschleife\",\"tags\":[\"test track\",\"Germany\"],\"geotags\":[\"50.3356 N\",\"6.9475 E\"],\"country\":\"Germany\",\"city\":\"Nurburg\",\"length\":\"25378\",\"width\":\"10m-15m\",\"pitboxes\":\"24\",\"run\":\"clockwise\"}"
+{
+  "name": "Nordschleife Endurance",
+  "description": "Nuerburgring Nordschleife",
+  "tags": [
+    "test track",
+    "Germany"
+  ],
+  "geotags": [
+    "50.3356 N",
+    "6.9475 E"
+  ],
+  "country": "Germany",
+  "city": "Nurburg",
+  "length": "25378",
+  "width": "10m-15m",
+  "pitboxes": "24",
+  "run": "clockwise"
+}

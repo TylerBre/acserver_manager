@@ -1,1 +1,20 @@
-"{\"name\":\"Vallelunga-club\",\"description\":\"Autodromo Piero Taruffi\",\"tags\":[\"circuit\",\"original\",\"drift\",\"Italy\"],\"geotags\":[\"lat\",\"lon\"],\"country\":\"Italy\",\"city\":\"Rome\",\"length\":\"1746\",\"width\":\"11m-14m\",\"pitboxes\":\"22\",\"run\":\"clockwise\"}"
+{
+  "name": "Vallelunga-club",
+  "description": "Autodromo Piero Taruffi",
+  "tags": [
+    "circuit",
+    "original",
+    "drift",
+    "Italy"
+  ],
+  "geotags": [
+    "lat",
+    "lon"
+  ],
+  "country": "Italy",
+  "city": "Rome",
+  "length": "1746",
+  "width": "11m-14m",
+  "pitboxes": "22",
+  "run": "clockwise"
+}

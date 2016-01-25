@@ -1,1 +1,19 @@
-"{\"name\":\"Mugello\",\"description\":\"Autodromo del Mugello\",\"tags\":[\"circuit\",\"original\",\"Italy\"],\"geotags\":[\"lat\",\"lon\"],\"country\":\"Italy\",\"city\":\"Scarperia\",\"length\":\"5245\",\"width\":\"14m\",\"pitboxes\":\"24\",\"run\":\"clockwise\"}"
+{
+  "name": "Mugello",
+  "description": "Autodromo del Mugello",
+  "tags": [
+    "circuit",
+    "original",
+    "Italy"
+  ],
+  "geotags": [
+    "lat",
+    "lon"
+  ],
+  "country": "Italy",
+  "city": "Scarperia",
+  "length": "5245",
+  "width": "14m",
+  "pitboxes": "24",
+  "run": "clockwise"
+}

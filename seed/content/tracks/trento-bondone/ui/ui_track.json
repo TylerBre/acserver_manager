@@ -1,1 +1,21 @@
-"{\"name\":\"Trento-Bondone\",\"description\":\"Hillclimb course\",\"tags\":[\"A2B\",\"Hillclimb\",\"touge\",\"original\",\"Italy\"],\"geotags\":[\"lat\",\"lon\"],\"country\":\"Italy\",\"city\":\"Trento\",\"length\":\"17619\",\"width\":\"8m\",\"pitboxes\":\"4\",\"run\":\"clockwise\"}"
+{
+  "name": "Trento-Bondone",
+  "description": "Hillclimb course",
+  "tags": [
+    "A2B",
+    "Hillclimb",
+    "touge",
+    "original",
+    "Italy"
+  ],
+  "geotags": [
+    "lat",
+    "lon"
+  ],
+  "country": "Italy",
+  "city": "Trento",
+  "length": "17619",
+  "width": "8m",
+  "pitboxes": "4",
+  "run": "clockwise"
+}

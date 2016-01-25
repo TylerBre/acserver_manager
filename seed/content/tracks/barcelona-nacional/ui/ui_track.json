@@ -1,1 +1,20 @@
-"{\"name\":\"Barcelona-nacional\",\"description\":\"Circuit de Catalunya\",\"tags\":[\"circuit\",\"original\",\"drift\",\"Spain\"],\"geotags\":[\"lat\",\"lon\"],\"country\":\"Spain\",\"city\":\"Montmelo\",\"length\":\"3.000 m\",\"width\":\"11m\",\"pitboxes\":\"26\",\"run\":\"clockwise\"}"
+{
+  "name": "Barcelona-nacional",
+  "description": "Circuit de Catalunya",
+  "tags": [
+    "circuit",
+    "original",
+    "drift",
+    "Spain"
+  ],
+  "geotags": [
+    "lat",
+    "lon"
+  ],
+  "country": "Spain",
+  "city": "Montmelo",
+  "length": "3.000 m",
+  "width": "11m",
+  "pitboxes": "26",
+  "run": "clockwise"
+}

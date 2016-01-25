@@ -1,1 +1,20 @@
-"{\"name\":\"Brands Hatch Indy\",\"description\":\"Brands Hatch Indy\",\"tags\":[\"circuit\",\"original\",\"drift\",\"UK\"],\"geotags\":[\"lat\",\"lon\"],\"country\":\"United Kingdom\",\"city\":\"Kent\",\"length\":\"1.929 m\",\"width\":\"12m\",\"pitboxes\":\"22\",\"run\":\"clockwise\"}"
+{
+  "name": "Brands Hatch Indy",
+  "description": "Brands Hatch Indy",
+  "tags": [
+    "circuit",
+    "original",
+    "drift",
+    "UK"
+  ],
+  "geotags": [
+    "lat",
+    "lon"
+  ],
+  "country": "United Kingdom",
+  "city": "Kent",
+  "length": "1.929 m",
+  "width": "12m",
+  "pitboxes": "22",
+  "run": "clockwise"
+}

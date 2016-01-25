@@ -1,1 +1,19 @@
-"{\"name\":\"Silverstone-National\",\"description\":\"Circuit of Silverstone National Layout\",\"tags\":[\"circuit\",\"original\",\"Great Britain\"],\"geotags\":[\"lat\",\"lon\"],\"country\":\"Great Britain\",\"city\":\"Silverstone\",\"length\":\"2638\",\"width\":\"14m\",\"pitboxes\":\"24\",\"run\":\"clockwise\"}"
+{
+  "name": "Silverstone-National",
+  "description": "Circuit of Silverstone National Layout",
+  "tags": [
+    "circuit",
+    "original",
+    "Great Britain"
+  ],
+  "geotags": [
+    "lat",
+    "lon"
+  ],
+  "country": "Great Britain",
+  "city": "Silverstone",
+  "length": "2638",
+  "width": "14m",
+  "pitboxes": "24",
+  "run": "clockwise"
+}
