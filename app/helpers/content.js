@@ -28,8 +28,8 @@ Content.tracks = (pwd) => {
         'file_name': item.file_name,
         'configuration': configuration,
         // this might be the worst code I've ever written...
-        'outline': path.join(path.join(pwd, item.file_name), ((configuration) ? path.join(configuration, 'outline.png') : 'outline.png')),
-        'preview': path.join(path.join(pwd, item.file_name), ((configuration) ? path.join(configuration, 'preview.png') : 'preview.png')),
+        'outline': path.join(path.join(pwd, item.file_name, 'ui'), ((configuration) ? path.join(configuration, 'outline.png') : 'outline.png')),
+        'preview': path.join(path.join(pwd, item.file_name, 'ui'), ((configuration) ? path.join(configuration, 'preview.png') : 'preview.png')),
         'data': fs_content.un_format_json(data)
       };
     }), []);

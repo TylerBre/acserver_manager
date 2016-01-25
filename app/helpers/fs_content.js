@@ -37,6 +37,16 @@ FS.writeFile = (file_path, data) => {
   });
 }
 
+FS.writeJSON = (file_path, data) => {
+  return new promise((resolve, reject) => {
+    fs_extra.outputJson(file_path, data, (err, data) => {
+      if (err) reject(err);
+
+      resolve(data);
+    });
+  });
+}
+
 FS.copyFile = (src, dest) => {
   return new promise((resolve, reject) => {
     fs_extra.copy(src, dest, (err) => {
@@ -135,7 +145,8 @@ FS.ui_data_only = (pwd, ui_filename, formatter) => {
 
 FS.un_format_json = (data) => {
   // remove formatting characters
-  data = data.replace(/\r\n|\r|\n|\t/g, '');
+  data = data.toString();
+  data = data.replace(/\r\n|\r|\n|\t|\0/g, '');
 
   // http://www.fileformat.info/info/unicode/char/feff/index.htm
   //
