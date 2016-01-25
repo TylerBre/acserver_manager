@@ -7,8 +7,25 @@ var helpers = require('../helpers');
 // var requireAuthentication = controllers.auth.allow.registeredUsers;
 
 // router.get('*', controllers.app.before);
+router.get('/tracks', (req, res, next) => {
+  app.models.track.find().then((content) => res.render('content_raw', {content}));
+});
+
 router.get('/tracks/raw', (req, res, next) => {
-  helpers.content.tracks().then((tracks) => res.render('content_cars', {cars: tracks}));
+  helpers.content.tracks().then((content) => res.render('content_raw', {content}));
+});
+
+router.get('/tracks/update', (req, res, next) => {
+  controllers.content.update(helpers.content.tracks, app.models.track, (track) => {
+    return {
+      file_name: track.file_name,
+      file_name_secondary: track.file_name_secondary
+    }
+  }).then((updated) => res.json(updated));
+});
+
+router.get('/tracks/destroy', (req, res, next) => {
+  app.models.track.destroy().then(() => res.redirect('/content/tracks'));
 });
 
 router.get('/cars', (req, res, next) => {
@@ -16,44 +33,20 @@ router.get('/cars', (req, res, next) => {
 });
 
 router.get('/cars/raw', (req, res, next) => {
-  helpers.content.cars().then((cars) => res.render('content_cars', {cars}));
+  helpers.content.cars().then((content) => res.render('content_raw', {content}));
 });
 
 router.get('/cars/update', (req, res, next) => {
-  var updated = 0;
-  helpers.content.cars().map((_car) => {
-    var car = app.models.car.fromKunos(_car.data);
-    var criterea = {
-      name: car.name,
-      brand: car.brand
+  controllers.content.update(helpers.content.cars, app.models.car, (car) => {
+    return {
+      file_name: car.file_name
     };
 
-    return app.models.car.findOrCreate(car).where(criterea).then((data) => {
-      // we found a match, but the data is old, we need to update it
-      if (!_.isMatch(data, car)) {
-        updated += 1;
-        return app.models.car.update(criterea, car);
-      }
-
-      // multiple matches in the db, delete them and add the new one
-      if (_.isArray(data)) {
-        updated += 1
-        return app.models.car.destroy(data).then(() => {
-          return app.models.car.create(car);
-        });
-      }
-
-      // must be new data, or unchanged existing data
-      return data;
-    })
-  }).then(() => res.send("updated: " + updated));
+  }).then((updated) => res.json(updated));
 });
 
 router.get('/cars/destroy', (req, res, next) => {
-
-  app.models.car.destroy().then(() => {
-    res.redirect('/content/cars');
-  });
+  app.models.car.destroy().then(() => res.redirect('/content/cars'));
 });
 
 module.exports = router;

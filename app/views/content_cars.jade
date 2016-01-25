@@ -1,3 +1,8 @@
 extends ./layout
 block content
-  pre=JSON.stringify(cars, null, 2)
+  each car in cars
+    .panel.panel-default
+      .panel-heading=car.name
+      .panel-body=car.car_class
+
+
