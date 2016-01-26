@@ -35,6 +35,7 @@ app.use(bodyParser.urlencoded({
 app.use(require('method-override')());
 app.use(require('cookie-parser')());
 app.use(require('errorhandler')());
+app.use(require('skipper')());
 
 // env
 app.set('config', config.get('app'));
@@ -44,7 +45,7 @@ app.set('view engine', 'jade');
 
 // routes
 // app.use('/auth', require('./app/routes/auth'));
-app.use('/race', require('./app/routes/race'));
+app.use('/race_presets', require('./app/routes/race_presets'));
 app.use('/content', require('./app/routes/content'));
 app.use('/', require('./app/routes/web'));
 

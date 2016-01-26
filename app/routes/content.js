@@ -7,6 +7,10 @@ var helpers = require('../helpers');
 // var requireAuthentication = controllers.auth.allow.registeredUsers;
 
 // router.get('*', controllers.app.before);
+router.get('/', (req, res, next) => {
+  controllers.content.index().then((content) => res.render('content_raw', {content}));
+});
+
 router.get('/tracks', (req, res, next) => {
   app.models.track.find().then((content) => res.render('content_raw', {content}));
 });

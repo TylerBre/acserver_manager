@@ -10,6 +10,13 @@
         "user": "postgres",
         "password": "postgres",
         "database": "acserver_manager"
+      },
+      "psql-file": {
+        "adapter": "psql",
+        "host": "localhost",
+        "user": "postgres",
+        "password": "postgres",
+        "database": "acserver_manager"
       }
     },
     "defaults": {

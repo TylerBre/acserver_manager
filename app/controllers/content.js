@@ -6,9 +6,18 @@ var db = require('../models');
 
 var ContentController = module.exports;
 
-ContentController.update_all = () => {
+ContentController.index = () => {
+  return promise.all([
+    app.models.car.find(),
+    app.models.track.find()
+  ]).spread((cars, tracks) => {
+    return {cars, tracks};
+  });
+}
 
-};
+// ContentController.update_all = () => {
+
+// };
 
 ContentController.update = (content_scraper, model, find_criterea) => {
   return content_scraper().then((content) => {
