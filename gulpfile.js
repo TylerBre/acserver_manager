@@ -21,6 +21,14 @@ gulp.task('watch_styles', () => {
   return gulp.watch(less_src, ['styles'])
 });
 
+gulp.task('watch_scripts', () => {
+  return gulp.watch('./app/assets/scripts/**/*.js', ['scripts'])
+});
+
+gulp.task('watch_templates', () => {
+  return gulp.watch('./app/views/templates/**/*.jade', ['templates', 'scripts'])
+});
+
 gulp.task('styles', () => {
   return gulp.src('./app/assets/styles/style.less')
     .pipe(less())
@@ -30,7 +38,16 @@ gulp.task('styles', () => {
     .pipe(gulp.dest('./app/assets/public'));
 });
 
-gulp.task('templates', function() {
+gulp.task('scripts', () => {
+  gulp.src('./app/assets/scripts/main.js')
+    .pipe(browserify({
+      transform: ["partialify", "browserify-shim"],
+      debug: !gulp.env.production
+    }))
+    .pipe(gulp.dest('./app/assets/public'));
+})
+
+gulp.task('templates', () => {
   var YOUR_LOCALS = {};
 
   gulp.src('./app/views/templates/**/*.jade')
@@ -43,6 +60,5 @@ gulp.task('templates', function() {
 // gulp.task('scripts', () => {
 
 // });
-
-gulp.task('up', ['server', 'watch_styles']);
-gulp.task('local', ['watch_styles']);
+gulp.task('compile_assets', ['templates', 'scripts', 'styles']);
+gulp.task('up', ['server', 'compile_assets', 'watch_styles', 'watch_templates', 'watch_scripts']);

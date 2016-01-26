@@ -3,6 +3,14 @@
   "version": "1.0.0",
   "description": "manage assetto corsa dedicated servers",
   "main": "app.js",
+  "browser": {},
+  "browserify-shim": {},
+  "browserify": {
+    "transform": [
+      "partialify",
+      "browserify-shim"
+    ]
+  },
   "dependencies": {
     "bluebird": "^3.1.1",
     "body-parser": "^1.14.2",
@@ -23,17 +31,24 @@
     "serve-favicon": "^2.3.0",
     "skipper": "^0.5.9",
     "systeminformation": "^2.0.1",
+    "vue": "^1.0.15",
+    "vue-async-data": "^1.0.2",
+    "vue-resource": "^0.7.0",
+    "vue-router": "^0.7.10",
+    "vue-validator": "^1.4.4",
     "waterline": "^0.10.30"
   },
   "devDependencies": {
+    "browserify-shim": "^3.8.12",
     "gulp": "^3.9.0",
-    "gulp-browserify2": "0.0.2",
+    "gulp-browserify": "^0.5.1",
     "gulp-express": "^0.3.5",
     "gulp-jade": "^1.1.0",
     "gulp-less": "^3.0.5",
     "gulp-minify-css": "^1.2.3",
     "gulp-nodemon": "^2.0.6",
-    "gulp-watch": "^4.3.5"
+    "gulp-watch": "^4.3.5",
+    "partialify": "^3.1.5"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
