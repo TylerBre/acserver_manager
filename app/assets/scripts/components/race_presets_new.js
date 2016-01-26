@@ -2,14 +2,11 @@ var Vue = require('vue');
 
 module.exports = Vue.extend({
   route: {
-    data: function (transition) {
-      return this.$http.get('/api/content').then(function (res) {
-        // debugger;
-        return res.data;
-      });
+    data (transition) {
+      return this.$http.get('/api/content').then((res) => res.data);
     }
   },
-  data: function () {
+  data () {
     return {
       track: null,
       car_list: [],
@@ -19,8 +16,8 @@ module.exports = Vue.extend({
     };
   },
   computed: {
-    stringified_data: function () {
-      return JSON.stringify(this.$data, null, 2)
+    stringified_data () {
+      return JSON.stringify(this.$data, null, 2);
     }
   },
   template: require('../templates/race_preset_new.html')

@@ -20,20 +20,19 @@ Vue.transition('fade', {
 });
 
 var App = Vue.extend({
-  data: function() {
-    return {
-      server: 0
-    };
+  data() {
+    return {server: 0}
   },
-  ready: function () {
-    // var count = 0;
-    // var self = this;
-    // setInterval(function () {
-    //   count += 1;
-    //   self.$root.$data.server = count;
-    // }, 500);
+  ready () {
+    var count = 0;
+    var self = this;
+    setInterval(() => {
+      count += 1;
+      self.$root.$data.server = count;
+    }, 500);
   }
 });
+
 var router = new VueRouter({
   hashbang: false,
   history: true,

@@ -2,17 +2,13 @@ var Vue = require('vue');
 
 module.exports = Vue.extend({
   route: {
-    data: function (transition) {
-      return this.$http.get('/api' + transition.to.path).then(function (res) {
-        return res.data;
-      });
+    data (transition) {
+      return this.$http.get('/api' + transition.to.path).then((res) => res.data);
     }
   },
-  data: function () {
-    return {};
-  },
+  data: () => {},
   computed: {
-    stringified_data: function () {
+    stringified_data () {
       return JSON.stringify(this.$data, null, 2)
     }
   },

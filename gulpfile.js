@@ -1,13 +1,22 @@
 var gulp = require('gulp');
+var vinyl = require('vinyl');
+var source = require('vinyl-source-stream');
+var buffer = require('vinyl-buffer');
+var gutil = require('gulp-util');
+var uglify = require('gulp-uglify');
+var sourcemaps = require('gulp-sourcemaps');
+var gulpif = require('gulp-if');
 var path = require('path');
 var nodemon = require('gulp-nodemon');
-var browserify = require('gulp-browserify2');
+var browserify = require('browserify');
+var through2 = require('through2');
 var less = require('gulp-less');
 var watch = require('gulp-watch');
 var minifyCSS = require('gulp-minify-css');
 var jade = require('gulp-jade');
 
 var less_src = './app/assets/styles/**/*.less';
+
 
 gulp.task('server', () => {
   return nodemon({
@@ -40,13 +49,32 @@ gulp.task('styles', () => {
 });
 
 gulp.task('scripts', () => {
-  gulp.src('./app/assets/scripts/main.js')
-    .pipe(browserify({
-      transform: ["partialify", "browserify-shim"],
-      debug: !gulp.env.production
+
+  var browserify_opts = {
+    debug: true,
+    transform: ['partialify', 'browserify-shim']
+  };
+
+  return gulp.src('./app/assets/scripts/main.js')
+    .pipe(through2.obj((file, enc, next) => {
+      browserify(browserify_opts)
+        .transform('babelify', {presets: ["es2015"]})
+        .require(file.path, { entry: true })
+        .bundle((err, res) => {
+          if (err) throw err;
+          next(null, new vinyl({
+            contents: res,
+            path: 'bundle.js'
+          }));
+        });
     }))
-    .pipe(gulp.dest('./app/assets/public'));
-})
+    .pipe(buffer())
+    .pipe(gulpif(!is_production(), sourcemaps.init({loadMaps: true})))
+    .pipe(gulpif(is_production(), uglify()))
+    .on('error', gutil.log)
+    .pipe(gulpif(!is_production(), sourcemaps.write('./')))
+    .pipe(gulp.dest('./app/assets/public/'));
+});
 
 gulp.task('templates', () => {
   var YOUR_LOCALS = {};
@@ -58,8 +86,9 @@ gulp.task('templates', () => {
     .pipe(gulp.dest('./app/assets/scripts/templates/'))
 });
 
-// gulp.task('scripts', () => {
+function is_production () {
+  return process.env.NODE_ENV && process.env.NODE_ENV == 'production';
+}
 
-// });
 gulp.task('compile_assets', ['templates', 'scripts', 'styles']);
 gulp.task('up', ['server', 'compile_assets', 'watch_styles', 'watch_templates', 'watch_scripts']);
