@@ -4,3 +4,25 @@
 body {
   padding-top: @navbar-height + @grid-gutter-width;
 }
+
+.expand-transition {
+  transition: all .3s ease;
+  max-height: 9999px;
+  opacity: 1;
+
+  &.expand-enter, &.expand-leave {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+  }
+}
+
+
+.fade-transition {
+  transition: all .2s linear;
+  opacity: 1;
+
+  &.fade-enter, &.fade-leave {
+    opacity: 0;
+  }
+}

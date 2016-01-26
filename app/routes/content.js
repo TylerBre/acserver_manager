@@ -8,15 +8,15 @@ var helpers = require('../helpers');
 
 // router.get('*', controllers.app.before);
 router.get('/', (req, res, next) => {
-  controllers.content.index().then((content) => res.render('content_raw', {content}));
+  controllers.content.index().then((content) => res.json(content));
 });
 
 router.get('/tracks', (req, res, next) => {
-  app.models.track.find().then((content) => res.render('content_raw', {content}));
+  app.models.track.find().then((content) => res.json(content));
 });
 
 router.get('/tracks/raw', (req, res, next) => {
-  helpers.content.tracks().then((content) => res.render('content_raw', {content}));
+  helpers.content.tracks().then((content) => res.json(content));
 });
 
 router.get('/tracks/update', (req, res, next) => {
@@ -33,11 +33,11 @@ router.get('/tracks/destroy', (req, res, next) => {
 });
 
 router.get('/cars', (req, res, next) => {
-  app.models.car.find().then((cars) => res.render('content_cars', {cars}));
+  app.models.car.find().then((cars) => res.json(cars));
 });
 
 router.get('/cars/raw', (req, res, next) => {
-  helpers.content.cars().then((content) => res.render('content_raw', {content}));
+  helpers.content.cars().then((content) => res.json(content));
 });
 
 router.get('/cars/update', (req, res, next) => {

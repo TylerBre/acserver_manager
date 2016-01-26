@@ -12,7 +12,7 @@ var less_src = './app/assets/styles/**/*.less';
 gulp.task('server', () => {
   return nodemon({
     script: './app.js',
-    ext: 'js json jade',
+    ext: 'js json',
     ignore: ['assets/**/*.js', 'templates/**/*.jade'],
     env: { 'NODE_ENV': 'development' }
   });
