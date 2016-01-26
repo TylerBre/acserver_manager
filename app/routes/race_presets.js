@@ -8,7 +8,9 @@ var helpers = require('../helpers');
 // router.get('*', controllers.app.before);
 
 router.get('/', (req, res, next) => {
-  app.models.race_preset.find().then((content) => res.render('content_raw', content));
+  app.models.race_preset.find().populate('track').then((content) => {
+    res.render('content_raw', {content});
+  });
 })
 
 router.get('/new', (req, res, next) => {

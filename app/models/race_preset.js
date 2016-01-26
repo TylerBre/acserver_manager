@@ -4,6 +4,10 @@ module.exports = Waterline.Collection.extend({
   connection: 'psql',
 
   attributes: {
+    name: {
+      type: 'string',
+      defaultsTo: 'Untitled'
+    },
     track: {
       model: 'track'
     },
@@ -76,8 +80,12 @@ module.exports = Waterline.Collection.extend({
       defaultsTo: 22
     },
     dynamic_track_session_transfer: {
-      type: 'boolean',
+      type: 'integer',
       defaultsTo: 20
+    },
+    practice_enabled: {
+      type: 'boolean',
+      defaultsTo: false
     },
     practice_length: {
       type: 'integer',
@@ -86,6 +94,10 @@ module.exports = Waterline.Collection.extend({
     practice_wait: {
       type: 'integer',
       defaultsTo: null
+    },
+    qualify_enabled: {
+      type: 'boolean',
+      defaultsTo: false
     },
     qualify_length: {
       type: 'integer',
@@ -99,13 +111,13 @@ module.exports = Waterline.Collection.extend({
       type: 'integer',
       defaultsTo: 10
     },
-    race_wait: {
-      type: 'integer',
-      defaultsTo: null
-    },
     race_over_timer: {
       type: 'integer',
       defaultsTo: 120
-    }
+    },
+    session_wait: {
+      type: 'integer',
+      defaultsTo: null
+    },
   }
 });

@@ -5,17 +5,16 @@ block content
   .row
     .col-lg-6
       .well
-        form.form-horizontal.create-server.js-create-server(data-route, method="POST", v-attr='action: "/instance/create"', action="/race_presets/new")
-          //- include forms/race_schedule
+        form.form-horizontal.create-server.js-create-server(data-route, method="POST", action="/race_presets/new")
+
           fieldset
             legend Title
             .form-group
               .col-lg-12
-                include forms/server_name
+                input.input-lg.form-control(type="text", min='5', name="name", value="Untitled", placeholder="")
           fieldset
             legend Content
             .form-group
-              //- input(type="hidden", name="raceSetting[configTrack]", v-attr='value: configTrack')
               label.col-lg-4(for="track") Track
               .col-lg-8
                 select.form-control(name="track", v-on="change: changeTrack")
@@ -30,33 +29,33 @@ block content
           fieldset
             legend Session Settings
             .form-group
-              label.col-lg-4(for="practice[length]") Practice
+              label.col-lg-4(for="practice_length") Practice
               .col-lg-8
                 .input-group
-                  input.form-control(type="number", min="1", name="practice[length]", value="3")
+                  input.form-control(type="number", min="1", name="practice_length", value="3")
                   .input-group-addon
-                    input.js-toggle-race-section(type="checkbox", name="practice[enabled]", checked)
+                    input.js-toggle-race-section(type="checkbox", name="practice_enabled", checked)
                     | Minutes
             .form-group
-              label.col-lg-4(for="qualify[length]") Qualify
+              label.col-lg-4(for="qualify_length") Qualify
               .col-lg-8
                 .input-group
-                  input.form-control(type="number", min="1", name="qualify[length]", value="3")
+                  input.form-control(type="number", min="1", name="qualify_length", value="3")
                   .input-group-addon
-                    input.js-toggle-race-section(type="checkbox", name="qualify[enabled]", checked)
+                    input.js-toggle-race-section(type="checkbox", name="qualify_enabled", checked)
                     | Minutes
 
             .form-group
-              label.col-lg-4(for="race[laps]") Race
+              label.col-lg-4(for="race_laps") Race
               .col-lg-8
                 .input-group
-                  input.form-control(type="number", min="1", name="race[laps]", value="3")
+                  input.form-control(type="number", min="1", name="race_laps", value="3")
                   .input-group-addon Laps
             .form-group
-              label.col-lg-4(for='race[raceOverTimer]') Race Over Timer
+              label.col-lg-4(for='race_race_over_timer') Race Over Timer
               .col-lg-8
                 .input-group
-                  input.form-control(type="number", min="0", step="10" name="race[raceOverTimer]", value="60")
+                  input.form-control(type="number", min="0", step="10" name="race_race_over_timer", value="60")
                   .input-group-addon Seconds
 
           hr
@@ -67,9 +66,9 @@ block content
             fieldset
               legend Rules
               .form-group
-                label.col-lg-4(for="raceSetting[allowedTiresOut]") Allowed tires out
+                label.col-lg-4(for="allowed_tires_out") Allowed tires out
                 .col-lg-8
-                  select.form-control(name="raceSetting[allowedTiresOut]")
+                  select.form-control(name="allowed_tires_out")
                     option(value="0") 0
                     option(value="1") 1
                     option(value="2") 2
@@ -79,86 +78,86 @@ block content
                 label.col-lg-4 Assists
                 .col-lg-8
                   label.checkbox-inline
-                    input(type='checkbox', name='raceSetting[abs]', checked)
+                    input(type='checkbox', name='abs', checked)
                     | ABS
                   label.checkbox-inline
-                    input(type='checkbox', name='raceSetting[tcs]', checked)
+                    input(type='checkbox', name='tcs', checked)
                     | TCS
                   label.checkbox-inline
-                    input(type='checkbox', name='raceSetting[stm]', checked)
+                    input(type='checkbox', name='stm', checked)
                     | STM
                   label.checkbox-inline
-                    input(type='checkbox', name='raceSetting[autoClutch]', checked)
+                    input(type='checkbox', name='auto_clutch', checked)
                     | Auto Clutch
 
             fieldset
               legend Realism
               .form-group
-                label.col-lg-4(for="raceSetting[tireWearRate]") Tire Wear Rate
+                label.col-lg-4(for="tire_wear_rate") Tire Wear Rate
                 .col-lg-8
                   .input-group
-                    input.form-control(type="number", min="0", max="200", name="raceSetting[tireWearRate]", value="100")
+                    input.form-control(type="number", min="0", max="400", name="tire_wear_rate", value="100")
                     .input-group-addon %
               .form-group
-                label.col-lg-4(for="raceSetting[fuelConsumptionRate]") Fuel Consumption Rate
+                label.col-lg-4(for="fuel_consumption_rate") Fuel Consumption Rate
                 .col-lg-8
                   .input-group
-                    input.form-control(type="number", min="0", max="200", name="raceSetting[fuelConsumptionRate]", value="100")
+                    input.form-control(type="number", min="0", max="400", name="fuel_consumption_rate", value="100")
                     .input-group-addon %
               .form-group
-                label.col-lg-4(for="raceSetting[damageMultiplier]") Damage
+                label.col-lg-4(for="damage_multiplier") Damage
                 .col-lg-8
                   .input-group
-                    input.form-control(type="number", min="0", max="200", name="raceSetting[damageMultiplier]", value="100")
+                    input.form-control(type="number", min="0", max="200", name="damage_multiplier", value="100")
                     .input-group-addon %
+              .form-group
+                label.col-lg-4(for="tyre_blankets_allowed") Tire Blankets
+                .col-lg-8
+                  .checkbox: label
+                    input(type='checkbox', name='tyre_blankets_allowed', checked)
+                    | Allow
 
             fieldset
               legend Sessions
               .form-group
-                label.col-lg-4(for='session[wait]') Wait Time (Between Events)
+                label.col-lg-4(for='session_wait') Wait Time (Between Events)
                 .col-lg-8
                   .input-group
-                    input.form-control(type="number", min="0", step="15" name="session[wait]", value="60")
+                    input.form-control(type="number", min="0", step="15" name="session_wait", value="60")
                     .input-group-addon Seconds
               .form-group
-                label.col-lg-4(for='raceSetting[votingQuorum]') Vote Quorum
+                label.col-lg-4(for='voting_quorum') Vote Quorum
                 .col-lg-8
                   .input-group
-                    input.form-control(type="number", min="0", max="100", step="1" name="raceSetting[votingQuorum]", value="66")
+                    input.form-control(type="number", min="0", max="100", step="1" name="voting_quorum", value="50")
                     .input-group-addon %
               .form-group
-                label.col-lg-4(for='raceSetting[kickQuorum]') Kick Quorum
+                label.col-lg-4(for='kick_quorum') Kick Quorum
                 .col-lg-8
                   .input-group
-                    input.form-control(type="number", min="0", max="100", step="1" name="raceSetting[kickQuorum]", value="66")
+                    input.form-control(type="number", min="0", max="100", step="1" name="kick_quorum", value="50")
                     .input-group-addon %
               .form-group
-                label.col-lg-4(for='raceSetting[voteDuration]') Vote Duration
+                label.col-lg-4(for='vote_duration') Vote Duration
                 .col-lg-8
                   .input-group
-                    input.form-control(type="number", min="0", step="15" name="raceSetting[voteDuration]", value="15")
+                    input.form-control(type="number", min="0", step="15" name="vote_duration", value="15")
                     .input-group-addon Seconds
 
             fieldset
               legend Dynamic Track
               .form-group
-                label.col-lg-4(for='raceSetting[dynamicTrackSessionStart]') Start Grip
+                label.col-lg-4(for='dynamic_track_session_start') Start Grip
                 .col-lg-8
                   .input-group
-                    input.form-control(type="number", min="0", max="100", step="1", name="raceSetting[dynamicTrackSessionStart]", value="99")
+                    input.form-control(type="number", min="0", max="100", step="1", name="dynamic_track_session_start", value="80")
                     .input-group-addon %
               .form-group
-                label.col-lg-4(for='raceSetting[dynamicTrackLapGain]') Lap Gain
+                label.col-lg-4(for='dynamic_track_lap_gain') Lap Gain
                 .col-lg-8
                   .input-group
-                    input.form-control(type="number", min="0", step="1", name="raceSetting[dynamicTrackLapGain]", value="22")
+                    input.form-control(type="number", min="0", step="1", name="dynamic_track_lap_gain", value="22")
                     .input-group-addon Laps
-              .form-group
-                label.col-lg-4(for="raceSetting[tyreBlanketsAllowed]") Tire Blankets
-                .col-lg-8
-                  .checkbox: label
-                    input(type='checkbox', name='raceSetting[tyreBlanketsAllowed]', checked)
-                    | Allow
           hr
           //- input(type='hidden', name="commissionerId", value=locals.user.id)
           div(data-js-form-button)
