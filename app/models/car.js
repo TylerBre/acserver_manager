@@ -8,14 +8,14 @@ module.exports = Waterline.Collection.extend({
     name: 'string',
     brand: 'string',
     description: 'text',
-    carClass: 'string',
+    car_class: 'string',
     power: 'string',
     torque: 'string',
     weight: 'string',
-    torqueCurve: 'array',
-    powerCurve: 'array',
+    torque_curve: 'array',
+    power_curve: 'array',
     official: 'boolean',
-    fileName: 'string'
+    file_name: 'string'
   },
 
   fromKunos: (content) => {
@@ -23,14 +23,14 @@ module.exports = Waterline.Collection.extend({
       name: content.data.name,
       brand: content.data.brand,
       description: content.data.description,
-      carClass: content.data.class,
+      car_class: content.data.class,
       power: content.data.specs.bhp,
       torque: content.data.specs.torque,
       weight: content.data.specs.weight,
-      torqueCurve: content.data.torqueCurve,
-      powerCurve: content.data.powerCurve,
+      torque_curve: content.data.torqueCurve,
+      power_curve: content.data.powerCurve,
       official: content.official,
-      fileName: content.fileName,
+      file_name: content.file_name,
     };
   }
 });

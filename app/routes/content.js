@@ -22,8 +22,8 @@ router.get('/tracks/raw', (req, res, next) => {
 router.get('/tracks/update', (req, res, next) => {
   controllers.content.update(helpers.content.tracks, app.models.track, (track) => {
     return {
-      fileName: track.fileName,
-      fileNameSecondary: track.fileNameSecondary
+      file_name: track.file_name,
+      file_name_secondary: track.file_name_secondary
     }
   }).then((updated) => res.json(updated));
 });
@@ -43,7 +43,7 @@ router.get('/cars/raw', (req, res, next) => {
 router.get('/cars/update', (req, res, next) => {
   controllers.content.update(helpers.content.cars, app.models.car, (car) => {
     return {
-      fileName: car.fileName
+      file_name: car.file_name
     };
 
   }).then((updated) => res.json(updated));

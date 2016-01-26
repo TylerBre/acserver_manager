@@ -25,7 +25,7 @@ Content.cars = (pwd) => {
       .reduce(fs_content.ui_data_only('ui_car.json', (item, data, configuration) => {
         data = fs_content.un_format_json(data);
         return {
-          'fileName': item.file_obj.directory_name,
+          'file_name': item.file_obj.directory_name,
           'official': item.file_obj.official_content,
           'data': data,
           'badge': path.join(item.file_obj.pwd, item.file_obj.directory_name, 'ui', 'badge.png')
@@ -61,7 +61,7 @@ Content.tracks = (pwd, no_validate) => {
     .reduce(fs_content.ui_data_only('ui_track.json', (item, data, configuration) => {
       var resource_path = path.join(item.file_obj.pwd, item.file_obj.directory_name, 'ui');
       return {
-        'fileName': item.file_obj.directory_name,
+        'file_name': item.file_obj.directory_name,
         'official': item.file_obj.official_content,
         'data': fs_content.un_format_json(data),
         'configuration': configuration,

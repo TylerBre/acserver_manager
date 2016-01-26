@@ -1,14 +1,14 @@
 extends ./layout
 block content
   .page-header
-    h1 Create a server
+    h1 New Race Preset
   .row
     .col-lg-6
       .well
-        form.form-horizontal.create-server.js-create-server(data-route, method="POST", v-attr='action: "/instance/create"')
+        form.form-horizontal.create-server.js-create-server(data-route, method="POST", v-attr='action: "/instance/create"', action="/race_presets/new")
           //- include forms/race_schedule
           fieldset
-            legend Race Title
+            legend Title
             .form-group
               .col-lg-12
                 include forms/server_name
@@ -20,11 +20,11 @@ block content
               .col-lg-8
                 select.form-control(name="track", v-on="change: changeTrack")
                   each track in tracks
-                    option(value=track.name)= track.name
+                    option(value=track.id)= track.name
             .form-group
               label.col-lg-4(for="cars") Cars
               .col-lg-8
-                select.form-control(name="cars", v-on="change: changeTrack")
+                select.form-control(name="cars", v-on="change: changeTrack", multiple)
                   each car in cars
                     option(value=car.name)= car.name
           fieldset
