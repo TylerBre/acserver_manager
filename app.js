@@ -27,7 +27,7 @@ _.forOwn(models, (model) => {
 // app.use(favicon(__dirname + '/public/img/favicon.ico'));
 app.use(require('compression')());
 app.use(require('response-time')());
-app.use('/assets', express.static(__dirname + '/app/assets/compiled'));
+app.use('/assets', express.static(__dirname + '/app/assets/public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: true

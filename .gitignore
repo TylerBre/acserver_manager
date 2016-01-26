@@ -24,7 +24,9 @@ node_modules
 # Frontend Ignores
 *.css
 *.map
-app/assets/compiled
+app/assets/public/style.css
+app/assets/public/bundle.js
+app/assets/public/templates
 
 # conf file ignores
 

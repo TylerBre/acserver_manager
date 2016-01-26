@@ -5,6 +5,7 @@ var browserify = require('gulp-browserify2');
 var less = require('gulp-less');
 var watch = require('gulp-watch');
 var minifyCSS = require('gulp-minify-css');
+var jade = require('gulp-jade');
 
 var less_src = './app/assets/styles/**/*.less';
 
@@ -26,7 +27,17 @@ gulp.task('styles', () => {
     .pipe(minifyCSS({
       keepSpecialComments: 0
     }))
-    .pipe(gulp.dest('./app/assets/compiled'));
+    .pipe(gulp.dest('./app/assets/public'));
+});
+
+gulp.task('templates', function() {
+  var YOUR_LOCALS = {};
+
+  gulp.src('./app/views/templates/**/*.jade')
+    .pipe(jade({
+      locals: YOUR_LOCALS
+    }))
+    .pipe(gulp.dest('./app/assets/public/templates/'))
 });
 
 // gulp.task('scripts', () => {
