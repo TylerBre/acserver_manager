@@ -16,8 +16,16 @@ var router = new VueRouter({
 });
 
 router.map({
-  '/test': {
-    component: require('./components/test.js')
+  '/': {
+    component: require('./components/dashboard.js')
+  },
+  '/content': {
+    name: 'content_index',
+    component: require('./components/content_index.js')
+  },
+  '/race_presets': {
+    name: 'race_presets_index',
+    component: require('./components/content_index.js')
   }
 });
 

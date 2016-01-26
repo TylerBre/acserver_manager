@@ -5,20 +5,17 @@ header.navbar.navbar-default.navbar-fixed-top
         span.icon-bar
         span.icon-bar
         span.icon-bar
-      a.navbar-brand(href="/")
+      a.navbar-brand(v-link="{ path: '/'}")
         img(src="/assets/images/ac_logo.jpg", style="height: 100%; display: inline;")
         | acServer Manager
     nav#acm-navbar.collapse.navbar-collapse
       ul.nav.navbar-nav
-        li: a(href="/content")
+        li: a(v-link="{ name: 'content_index'}")
           i.glyphicon.glyphicon-sunglasses
           | &nbsp;Content
-        li: a(href="/race_presets")
+        li: a(v-link="{ name: 'race_presets_index'}")
           i.glyphicon.glyphicon-sunglasses
           | &nbsp;Race Presets
-        li: a(v-link="{ path: '/test'}")
-          i.glyphicon.glyphicon-sunglasses
-          | &nbsp;Test Vue
       ul.nav.navbar-nav.navbar-right
         li: a(href="javascript:void(0)")
           i.glyphicon.glyphicon-user

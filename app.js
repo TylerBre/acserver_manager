@@ -45,8 +45,8 @@ app.set('view engine', 'jade');
 
 // routes
 // app.use('/auth', require('./app/routes/auth'));
-app.use('/race_presets', require('./app/routes/race_presets'));
-app.use('/content', require('./app/routes/content'));
+// app.use('/race_presets', require('./app/routes/race_presets'));
+// app.use('/content', require('./app/routes/content'));
 app.use('/', require('./app/routes/spa'));
 
 orm.initialize(ormConfig, (err, models) => {

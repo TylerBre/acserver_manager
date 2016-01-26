@@ -1,8 +1,10 @@
 doctype html
 html
-  include includes/head
+  include head
   body
     #app
-      router-view
+      include templates/includes/topbar
+      .container
+        router-view
 
-    include includes/scripts
+    include scripts
