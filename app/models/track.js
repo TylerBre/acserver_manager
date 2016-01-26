@@ -14,8 +14,8 @@ module.exports = Waterline.Collection.extend({
     direction: 'string',
     length: 'string',
     official: 'boolean',
-    file_name: 'string',
-    file_name_secondary: 'string'
+    fileName: 'string',
+    fileNameSecondary: 'string'
   },
 
   fromKunos: (content) => {
@@ -29,8 +29,8 @@ module.exports = Waterline.Collection.extend({
       direction: content.data.run,
       length: content.data.length,
       official: content.official,
-      file_name: content.file_name,
-      file_name_secondary: content.configuration,
+      fileName: content.fileName,
+      fileNameSecondary: content.configuration,
     };
   }
 });
