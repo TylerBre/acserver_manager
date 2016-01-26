@@ -16,8 +16,12 @@ header.navbar.navbar-default.navbar-fixed-top
         li: a(v-link="{ name: 'race_presets_index'}")
           i.glyphicon.glyphicon-sunglasses
           | &nbsp;Race Presets
+        li: a(v-link="{ name: 'race_presets_new'}")
+          i.glyphicon.glyphicon-plus
+          | &nbsp;Create Race Preset
       ul.nav.navbar-nav.navbar-right
         li: a(href="javascript:void(0)")
           i.glyphicon.glyphicon-user
           | &nbsp;Login
+        li(v-text="$root.server")
 
