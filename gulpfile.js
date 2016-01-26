@@ -13,6 +13,7 @@ gulp.task('server', () => {
   return nodemon({
     script: './app.js',
     ext: 'js json jade',
+    ignore: ['assets/**/*.js', 'templates/**/*.jade'],
     env: { 'NODE_ENV': 'development' }
   });
 });
@@ -22,7 +23,7 @@ gulp.task('watch_styles', () => {
 });
 
 gulp.task('watch_scripts', () => {
-  return gulp.watch('./app/assets/scripts/**/*.js', ['scripts'])
+  return gulp.watch('./app/assets/scripts/**/*', ['scripts'])
 });
 
 gulp.task('watch_templates', () => {
@@ -54,7 +55,7 @@ gulp.task('templates', () => {
     .pipe(jade({
       locals: YOUR_LOCALS
     }))
-    .pipe(gulp.dest('./app/assets/public/templates/'))
+    .pipe(gulp.dest('./app/assets/templates/'))
 });
 
 // gulp.task('scripts', () => {

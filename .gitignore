@@ -25,6 +25,7 @@ node_modules
 *.css
 *.map
 app/assets/public/style.css
+app/assets/templates/*
 app/assets/public/bundle.js
 app/assets/public/templates
 
