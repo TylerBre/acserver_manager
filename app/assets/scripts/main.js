@@ -24,12 +24,11 @@ var App = Vue.extend({
     return {server: 0}
   },
   ready () {
-    // var count = 0;
-    // var self = this;
-    // setInterval(() => {
-    //   count += 1;
-    //   self.$root.$data.server = count;
-    // }, 500);
+    var count = 0;
+    setInterval(() => {
+      count += 1;
+      this.$root.$data.server = count;
+    }, 500);
   }
 });
 
