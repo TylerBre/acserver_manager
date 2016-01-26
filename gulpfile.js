@@ -23,11 +23,11 @@ gulp.task('watch_styles', () => {
 });
 
 gulp.task('watch_scripts', () => {
-  return gulp.watch('./app/assets/scripts/**/*', ['scripts'])
+  return gulp.watch('./app/assets/scripts/**/*.js', ['scripts'])
 });
 
 gulp.task('watch_templates', () => {
-  return gulp.watch('./app/views/templates/**/*.jade', ['templates', 'scripts'])
+  return gulp.watch('./app/assets/templates/**/*.jade', ['templates', 'scripts'])
 });
 
 gulp.task('styles', () => {
@@ -51,11 +51,11 @@ gulp.task('scripts', () => {
 gulp.task('templates', () => {
   var YOUR_LOCALS = {};
 
-  gulp.src('./app/views/templates/**/*.jade')
+  gulp.src('./app/assets/templates/**/*.jade')
     .pipe(jade({
       locals: YOUR_LOCALS
     }))
-    .pipe(gulp.dest('./app/assets/templates/'))
+    .pipe(gulp.dest('./app/assets/scripts/templates/'))
 });
 
 // gulp.task('scripts', () => {

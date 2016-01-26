@@ -16,6 +16,6 @@ module.exports = Vue.extend({
       return JSON.stringify(this.$data, null, 2)
     }
   },
-  template: require('../../templates/content_raw.html')
+  template: require('../templates/content_raw.html')
 });
 

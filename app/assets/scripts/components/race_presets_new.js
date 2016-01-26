@@ -23,6 +23,6 @@ module.exports = Vue.extend({
       return JSON.stringify(this.$data, null, 2)
     }
   },
-  template: require('../../templates/race_preset_new.html')
+  template: require('../templates/race_preset_new.html')
 });
 
