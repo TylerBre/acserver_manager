@@ -1,6 +1,5 @@
 var gulp = require('gulp');
 var vinyl = require('vinyl');
-var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
 var gutil = require('gulp-util');
 var uglify = require('gulp-uglify');
@@ -12,7 +11,7 @@ var browserify = require('browserify');
 var through2 = require('through2');
 var less = require('gulp-less');
 var watch = require('gulp-watch');
-var minifyCSS = require('gulp-minify-css');
+var minifyCSS = require('gulp-cssnano');
 var jade = require('gulp-jade');
 
 var less_src = './app/assets/styles/**/*.less';
@@ -42,9 +41,7 @@ gulp.task('watch_templates', () => {
 gulp.task('styles', () => {
   return gulp.src('./app/assets/styles/style.less')
     .pipe(less())
-    .pipe(minifyCSS({
-      keepSpecialComments: 0
-    }))
+    .pipe(minifyCSS({discardComments: {removeAll: true}}))
     .pipe(gulp.dest('./app/assets/public'));
 });
 
