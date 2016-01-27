@@ -21,8 +21,7 @@ gulp.task('server', () => {
   return nodemon({
     script: './app.js',
     ext: 'js json',
-    ignore: ['assets/**/*.js', 'templates/**/*.jade'],
-    env: { 'NODE_ENV': 'development' }
+    ignore: ['assets/**/*.js', 'templates/**/*.jade']
   });
 });
 

@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "manage assetto corsa dedicated servers",
   "main": "app.js",
-  "browser": {},
+  "browser": {
+    "socket.io-client": "./node_modules/socket.io-client/socket.io.js"
+  },
   "browserify-shim": {},
   "dependencies": {
     "bluebird": "^3.1.1",
@@ -24,6 +26,8 @@
     "sails-postgresql": "^0.11.0",
     "serve-favicon": "^2.3.0",
     "skipper": "^0.5.9",
+    "socket.io": "^1.4.5",
+    "socket.io-client": "^1.4.5",
     "systeminformation": "^2.0.1",
     "vue": "^1.0.15",
     "vue-async-data": "^1.0.2",
@@ -53,7 +57,9 @@
     "vinyl-buffer": "^1.0.0"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"No tests... yet. Add Some!\" && exit 1",
+    "server": "export NODE_ENV=development && $(which node) $(pwd)/bin/digitalocean_metadata.js && gulp up",
+    "server:local": "export NODE_ENV=development && gulp up"
   },
   "repository": {
     "type": "git",

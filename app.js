@@ -8,6 +8,7 @@ var Waterline = require('waterline');
 
 // the app
 var app = module.exports = express();
+var server = require('http').createServer(app);
 var models = require('./app/models');
 var env = app.get('env');
 
@@ -19,9 +20,7 @@ var ormConfig = _.extend(config.get('waterline'), {
   }
 });
 
-_.forOwn(models, (model) => {
-  orm.loadCollection(model);
-});
+_.forOwn(models, (model) => orm.loadCollection(model));
 
 // middleware
 // app.use(favicon(__dirname + '/public/img/favicon.ico'));
@@ -29,9 +28,7 @@ app.use(require('compression')());
 app.use(require('response-time')());
 app.use('/assets', express.static(__dirname + '/app/assets/public'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({
-  extended: true
-}));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(require('method-override')());
 app.use(require('cookie-parser')());
 app.use(require('errorhandler')());
@@ -49,13 +46,17 @@ app.set('view engine', 'jade');
 app.use('/api/content', require('./app/routes/content'));
 app.use('/', require('./app/routes/spa'));
 
+// io routes
+app.io = require('socket.io')(server);
+require('./app/io/system_stats.js')();
+
 orm.initialize(ormConfig, (err, models) => {
   if (err) throw err;
 
   app.models = models.collections;
   app.connections = models.connections;
 
-  app.listen(config.get('app.port'), () => {
+  server.listen(config.get('app.port'), () => {
     console.log('Listening on port ' + config.get('app.port'));
   });
 });

@@ -19,7 +19,8 @@ results
 seed.js
 npm-debug.log
 node_modules
-
+config/*.json
+!config/default.json
 
 # Frontend Ignores
 *.css
