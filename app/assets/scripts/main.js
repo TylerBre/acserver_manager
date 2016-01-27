@@ -37,6 +37,8 @@ var App = Vue.extend({
   }
 });
 
+global.api = require('./api.js');
+
 var router = new VueRouter({
   hashbang: false,
   history: true,
@@ -45,22 +47,6 @@ var router = new VueRouter({
   transitionOnLoad: true
 });
 
-router.map({
-  '/': {
-    component: require('./components/dashboard.js')
-  },
-  '/content': {
-    name: 'content_index',
-    component: require('./components/content_index.js')
-  },
-  '/race_presets': {
-    name: 'race_presets_index',
-    component: require('./components/content_index.js')
-  },
-  '/race_presets/new': {
-    name: 'race_presets_new',
-    component: require('./components/race_presets_new.js')
-  }
-});
+router.map(require('./routes.js')(Vue));
 
 router.start(App, '#app');

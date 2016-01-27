@@ -36,11 +36,11 @@ gulp.task('watch_styles', () => {
 });
 
 gulp.task('watch_scripts', () => {
-  return gulp.watch('./app/assets/scripts/**/*.js', ['scripts'])
+  return gulp.watch('./app/assets/scripts/**/*.js', ['templates', 'scripts'])
 });
 
 gulp.task('watch_templates', () => {
-  return gulp.watch('./app/assets/templates/**/*.jade', ['templates', 'scripts'])
+  return gulp.watch('./app/assets/templates/*', ['templates', 'scripts'])
 });
 
 gulp.task('styles', () => {

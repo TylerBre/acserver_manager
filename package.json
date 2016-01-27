@@ -4,7 +4,9 @@
   "description": "manage assetto corsa dedicated servers",
   "main": "app.js",
   "browser": {
-    "socket.io-client": "./node_modules/socket.io-client/socket.io.js"
+    "socket.io-client": "./node_modules/socket.io-client/socket.io.js",
+    "api": "./app/assets/scripts/api.js",
+    "util/config": "./app/assets/scripts/util/config.js"
   },
   "browserify-shim": {},
   "dependencies": {
