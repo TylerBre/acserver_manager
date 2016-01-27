@@ -25,7 +25,6 @@ _.forOwn(models, (model) => orm.loadCollection(model));
 // middleware
 // app.use(favicon(__dirname + '/public/img/favicon.ico'));
 app.use(require('compression')());
-app.use(require('response-time')());
 app.use('/assets', express.static(__dirname + '/app/assets/public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -33,6 +32,7 @@ app.use(require('method-override')());
 app.use(require('cookie-parser')());
 app.use(require('errorhandler')());
 app.use(require('skipper')());
+app.use(require('response-time')());
 
 // env
 app.set('config', config.get('app'));
@@ -56,6 +56,6 @@ orm.initialize(ormConfig, (err, models) => {
   app.models = models.collections;
   app.connections = models.connections;
 
-  var success_text = '👉  ' + config.get('app.host');
+  var success_text = '👉  ' + config.get('app.host') + ':' + config.get('app.port');
   server.listen(config.get('app.port'), () => console.log(success_text));
 });

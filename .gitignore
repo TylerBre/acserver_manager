@@ -20,6 +20,7 @@ seed.js
 npm-debug.log
 node_modules
 config/*.json
+app/assets/scripts/config.json
 !config/default.json
 
 # Frontend Ignores

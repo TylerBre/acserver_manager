@@ -1,49 +1,30 @@
 var app = require('../../app.js');
+var sys = require('systeminformation');
+var EventEmitter = require('events');
 
-module.exports = function () {
+module.exports = () => {
 
-  app.io.on('connection', function (socket) {
-    socket.on('chat:join', function (lobbyID) {
-      socket.join(roomName(parseInt(lobbyID, 10)));
-    });
+  var system_poll = new EventEmitter();
 
-    socket.on('chat:message', function (data) {
-      var id = parseInt(data.lobbyID, 10);
-      var room = roomName(id);
-      var msg = message(data.user, data.message);
+  // because we're setting a callback within a timer, we risk memory issues by
+  // creating runaway callbacks
+  // the idea here is to never fire more that +1 callback
+  var interval_fired = callback_fired = 0;
 
-      db.cache.get({'lobby': id}).then(function (lobby) {
-        lobby.chat.push(msg);
-        return lobby;
-      }).then(function (lobby) {
-        return db.cache.set({'lobby': id}, lobby);
-      }).catch(console.log).finally(function () {
-        app.io.to(room).emit('message', msg);
+  setInterval(() => {
+    if ((interval_fired - callback_fired) <= 1){
+      interval_fired += 1
+
+      sys.getAllData((data) => {
+        callback_fired += 1;
+        if (callback_fired === 2) interval_fired = callback_fired = 0;
+
+        system_poll.emit('data', data);
       });
-    });
-
-    socket.on('chat:typing_done', function (data) {
-      var id = parseInt(data.lobbyID, 10);
-      var room = roomName(id);
-      app.io.to(room).emit('typing_done', data.user);
-    });
-
-    socket.on('chat:typing_start', function (data) {
-      var id = parseInt(data.lobbyID, 10);
-      var room = roomName(id);
-      app.io.to(room).emit('typing_start', data.user);
-    });
-  });
-
-  function roomName (id) {
-    return 'lobby-chat-' + id;
-  }
-
-  function message (user, message) {
-    return {
-      user: user,
-      message: message,
-      time: Date.now()
     }
-  }
+  }, 1500);
+
+  system_poll.on('data', (info) => {
+    app.io.emit('server_status', info);
+  });
 };

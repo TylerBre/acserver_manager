@@ -1,3 +1,5 @@
+var fs = require('fs');
+var config = require('config');
 var gulp = require('gulp');
 var vinyl = require('vinyl');
 var buffer = require('vinyl-buffer');
@@ -21,7 +23,11 @@ gulp.task('server', () => {
   return nodemon({
     script: './app.js',
     ext: 'js json',
-    ignore: ['assets/**/*.js', 'templates/**/*.jade']
+    ignore: [
+      'assets/*',
+      'node_modules/*',
+      'seed/*'
+    ]
   });
 });
 
@@ -44,7 +50,14 @@ gulp.task('styles', () => {
     .pipe(gulp.dest('./app/assets/public'));
 });
 
-gulp.task('scripts', () => {
+gulp.task('create-config', (cb) => {
+  fs.writeFile(path.join(__dirname, './app/assets/scripts/config.json'), JSON.stringify({
+    host: config.get('app.host'),
+    port: config.get('app.port')
+  }, null, 2), cb);
+});
+
+gulp.task('browserify', () => {
 
   var browserify_opts = {
     debug: true,
@@ -86,5 +99,6 @@ function is_production () {
   return process.env.NODE_ENV && process.env.NODE_ENV == 'production';
 }
 
+gulp.task('scripts', ['create-config', 'browserify']);
 gulp.task('compile_assets', ['templates', 'scripts', 'styles']);
 gulp.task('up', ['server', 'compile_assets', 'watch_styles', 'watch_templates', 'watch_scripts']);

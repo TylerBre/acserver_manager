@@ -54,7 +54,8 @@
     "partialify": "^3.1.5",
     "through2": "^2.0.0",
     "vinyl": "^1.1.1",
-    "vinyl-buffer": "^1.0.0"
+    "vinyl-buffer": "^1.0.0",
+    "yaml": "^0.2.3"
   },
   "scripts": {
     "test": "echo \"No tests... yet. Add Some!\" && exit 1",

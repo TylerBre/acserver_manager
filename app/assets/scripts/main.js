@@ -21,14 +21,19 @@ Vue.transition('fade', {
 
 var App = Vue.extend({
   data () {
-    return {server: 0}
+    return {
+      server: 0,
+      io: {}
+    }
   },
   ready () {
-    var count = 0;
-    setInterval(() => {
-      count += 1;
-      this.$root.$data.server = count;
-    }, 500);
+    this.$root.io.on('server_status', (data) => {
+      this.$root.server = data.currentLoad.currentload;
+    })
+    // this.$root.emit('system_stats:listening');
+  },
+  attached () {
+    this.$root.io = require('./util/io.js')();
   }
 });
 

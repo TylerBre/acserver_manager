@@ -40,9 +40,7 @@ function update_overlay (overlay, ipv4) {
   overlay.app.ipv4 = ipv4;
   overlay.app.host = [
     overlay.app.protocol || defaults.app.protocol,
-    overlay.app.ipv4 || defaults.app.ipv4,
-    ':',
-    overlay.app.port || defaults.app.port
+    overlay.app.ipv4 || defaults.app.ipv4
   ].join('');
 
   overlay._updated_from = 'bin/digitalocean_metadata.js';
