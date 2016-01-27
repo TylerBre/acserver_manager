@@ -1,7 +1,9 @@
 {
   "app": {
     "port": 3000,
-    "ipv4": "127.0.0.1"
+    "protocol": "http://",
+    "ipv4": "127.0.0.1",
+    "host": "http://localhost:3000"
   },
   "waterline": {
     "connections": {

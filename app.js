@@ -56,7 +56,6 @@ orm.initialize(ormConfig, (err, models) => {
   app.models = models.collections;
   app.connections = models.connections;
 
-  server.listen(config.get('app.port'), () => {
-    console.log('Listening on port ' + config.get('app.port'));
-  });
+  var success_text = '👉  ' + config.get('app.host');
+  server.listen(config.get('app.port'), () => console.log(success_text));
 });

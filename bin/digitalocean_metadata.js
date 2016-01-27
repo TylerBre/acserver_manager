@@ -9,6 +9,8 @@ var config_dir = path.resolve('./config');
 var overlay_file = env + '.json';
 var overlay_path = path.join(config_dir, overlay_file);
 var overlay_exists = fs.readdirSync(config_dir).indexOf(overlay_file) >= 0;
+var defaults = fs.readFileSync(path.join(config_dir, 'default.json'), 'utf8');
+defaults = JSON.parse(defaults);
 
 http.get({
   hostname: '169.254.169.254',
@@ -29,7 +31,6 @@ http.get({
     }
 
     update_overlay(overlay, ipv4);
-    console.log("server ipv4 address: " + ipv4);
     process.exit();
   });
 });
@@ -37,6 +38,13 @@ http.get({
 function update_overlay (overlay, ipv4) {
   overlay.app = overlay.app || {};
   overlay.app.ipv4 = ipv4;
+  overlay.app.host = [
+    overlay.app.protocol || defaults.app.protocol,
+    overlay.app.ipv4 || defaults.app.ipv4,
+    ':',
+    overlay.app.port || defaults.app.port
+  ].join('');
+
   overlay._updated_from = 'bin/digitalocean_metadata.js';
 
   fs.writeFileSync(overlay_path, JSON.stringify(overlay, null, 2));
