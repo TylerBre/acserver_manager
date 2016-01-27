@@ -51,10 +51,6 @@ module.exports = Waterline.Collection.extend({
       type: 'integer',
       defaultsTo: 45
     },
-    config_track: {
-      type: 'string',
-      defaultsTo: null
-    },
     kick_quorum: {
       type: 'integer',
       defaultsTo: 66

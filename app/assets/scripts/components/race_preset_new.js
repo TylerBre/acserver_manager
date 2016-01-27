@@ -1,5 +1,6 @@
 var Vue = require('vue');
 var api = require('api');
+var _ = require('lodash');
 
 module.exports = Vue.extend({
   route: {
@@ -13,6 +14,7 @@ module.exports = Vue.extend({
       car_list: [],
       cars: [],
       tracks: [],
+      track: 1,
       name: 'Untitled Race',
       practice_length: 20,
       practice_enabled: true,
@@ -45,8 +47,7 @@ module.exports = Vue.extend({
   },
   methods: {
     save () {
-      debugger;
-      api.race_preset.save(null, this).then((res) => {
+      api.race_preset.save(null, _.omit(this.$data, ['cars', 'tracks'])).then((res) => {
         debugger;
       }, (err) => {
         debugger;

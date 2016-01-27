@@ -42,7 +42,7 @@ app.set('view engine', 'jade');
 
 // routes
 // app.use('/auth', require('./app/routes/auth'));
-// app.use('/race_presets', require('./app/routes/race_presets'));
+app.use('/api/race_preset', require('./app/routes/race_preset'));
 app.use('/api/content', require('./app/routes/content'));
 app.use('/', require('./app/routes/spa'));
 
