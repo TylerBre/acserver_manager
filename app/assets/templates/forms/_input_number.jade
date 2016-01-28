@@ -4,4 +4,4 @@ mixin _input_number(type, model, validations)
   - if (locals._.has(validations, 'min')) attributes.min = validations.min;
   - if (locals._.has(validations, 'max')) attributes.max = validations.max;
   - attributes.number = true;
-  +_input('text', model)&attributes(attributes)
+  +_input('number', model)&attributes(attributes)

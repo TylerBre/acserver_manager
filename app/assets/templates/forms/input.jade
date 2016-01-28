@@ -1,7 +1,7 @@
 include _which_input
 
 mixin input(type, model, validations, control)
-  .validation-status(v-bind:class="{ 'has-error': $validation.#{model}.invalid }")
+  .validation-status(v-bind:class=(validations) ? "{ 'has-error': $validation.#{model}.invalid }" : "")
     if control && control.addon && type !== 'custom'
       .input-group
         +_which_input(type, model, validations, control)&attributes(attributes)
