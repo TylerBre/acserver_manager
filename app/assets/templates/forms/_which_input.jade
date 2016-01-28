@@ -14,8 +14,7 @@ mixin _which_input(type, model, validations, control)
     when 'select'
       +_select(type, model, validations, control)&attributes(attributes)
     when 'checkbox'
-      label
-        +_input(type, model)&attributes(attributes)
+      +_input(type, model)&attributes(attributes)
     when 'custom'
       block
     default

@@ -1,7 +1,7 @@
 include _which_input
 
 mixin input(type, model, validations, control)
-  div(v-bind:class="{ 'has-error': $validation.#{model}.invalid }")
+  .validation-status(v-bind:class="{ 'has-error': $validation.#{model}.invalid }")
     if control && control.addon && type !== 'custom'
       .input-group
         +_which_input(type, model, validations, control)&attributes(attributes)
@@ -18,5 +18,6 @@ mixin input(type, model, validations, control)
     //- validations
     if validations
       each value, key in validations
-        - var key = locals._.isArray(validations) ? value : key;
-        span.help-block(v-if="$validation." + model + "." + key)= locals.validations[key]
+        - var name = locals._.isArray(validations) ? value : key;
+        - var value = (locals._.isNumber(key)) ? '' : ' (' + key + ' ' + value + ')';
+        span.help-block(v-if="$validation." + model + "." + name)= locals.validations[name] + value
