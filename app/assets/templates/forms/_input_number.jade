@@ -3,5 +3,5 @@ include _input
 mixin _input_number(type, model, validations)
   - if (locals._.has(validations, 'min')) attributes.min = validations.min;
   - if (locals._.has(validations, 'max')) attributes.max = validations.max;
-  - if (locals._.has(validations, 'step')) attributes.step = validations.step;
-  +_input(type, model)&attributes(attributes)
+  - attributes.number = true;
+  +_input('text', model)&attributes(attributes)

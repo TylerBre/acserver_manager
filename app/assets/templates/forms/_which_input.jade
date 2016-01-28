@@ -4,6 +4,10 @@ include _input_checkbox
 include _select
 
 mixin _which_input(type, model, validations, control)
+  - if (validations) {
+  -   attributes['v-validate:' + model] = JSON.stringify(validations).replace(/"/gi, "'");
+  - }
+
   case type
     when 'number'
       +_input_number(type, model, validations)&attributes(attributes)

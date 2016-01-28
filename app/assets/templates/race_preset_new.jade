@@ -6,95 +6,98 @@ extends includes/loading
 block loaded
   .row
     .col-lg-6
-      form.form-horizontal(v-on:submit.prevent="save")
-        .form-group
-          .col-lg-12
-            input.input-lg.form-control(type="text", min='5', v-model="name", placeholder="My Fantastic Race")
-        fieldset
-          legend Content
-          +form_field_inline("Track", "select", "track", null, {collection: 'tracks', value: 'id', text: 'name'})
-          +form_field_inline("Cars", "select", "car_list", null, {collection: 'cars', value: 'id', text: 'name'})(multiple=true)
-
-        fieldset
-          legend Session Settings
-          +form_field_inline("Practice", "number", "practice_length", {min: 1}, {addon: true})
-            +input("checkbox", "practice_enabled")
-            | Minutes
-
-          +form_field_inline("Qualify", "number", "qualify_length", {min: 1}, {addon: true})
-            +input("checkbox", "qualify_enabled")
-            | Minutes
-
-          +form_field_inline("Race", "number", "race_laps", {min: 1}, {addon: true})
-            | Laps
-
-          +form_field_inline("Race Over Timer", "number", "race_race_over_timer", {min: 1}, {addon: true})(step="10")
-            | Seconds
-
-        hr
-        .form-group
-          .col-lg-12
-            a.btn.btn-link.center-block(href="#", @click.prevent="show_more_settings = !show_more_settings")
-              i.fa(v-bind:class="{ 'fa-minus-square-o': show_more_settings, 'fa-plus-square-o': !show_more_settings }")
-              | &nbsp;More Settings
-        .advanced-settings(v-show="show_more_settings", transition="expand")
+      validator(name='validation')
+        form.form-horizontal(novalidate, v-on:submit.prevent="save")
+          .form-group
+            .col-lg-12
+              +input('text', 'name', ['required'])(placeholder="My Fantastic Race", class="form-control input-lg")
+              //- input.input-lg.form-control(type="text", v-model="name", placeholder="My Fantastic Race", v-validate:name="{ minlength: 4 }")
+              //- span(v-if="$validation.name.minlength") Too short
           fieldset
-            legend Rules
-            +form_field_inline("Allowed tires out", "custom", "allowed_tires_out")
-              select.form-control(v-model="allowed_tires_out")
-                option 0
-                option 1
-                option 2
-                option 3
-                option 4
-
-            +form_field_inline("Assists", "custom")
-              label.checkbox-inline
-                input(type='checkbox', v-model="abs")
-                | ABS
-              label.checkbox-inline
-                input(type='checkbox', v-model="tcs")
-                | TCS
-              label.checkbox-inline
-                input(type='checkbox', v-model="stm")
-                | STM
-              label.checkbox-inline
-                input(type='checkbox', v-model="auto_clutch")
-                | Auto Clutch
+            legend Content
+            +form_field_inline("Track", "select", "track", null, {collection: 'tracks', value: 'id', text: 'name'})
+            +form_field_inline("Cars", "select", "car_list", null, {collection: 'cars', value: 'id', text: 'name'})(multiple=true)
 
           fieldset
-            legend Realism
-            +form_field_inline("Tire Wear Rate", "number", "tire_wear_rate", {min: 0, max: 400}, {addon: true})(step="10")
-              | %
-            +form_field_inline("Fuel Consumption Rate", "number", "fuel_consumption_rate", {min: 0, max: 400}, {addon: true})(step="10")
-              | %
-            +form_field_inline("Damage", "number", "damage_multiplier", {min: 0, max: 200 }, {addon: true})(step="1")
-              | %
+            legend Session Settings
+            +form_field_inline("Practice", "number", "practice_length", {min: 1}, {addon: true})
+              +input("checkbox", "practice_enabled")
+              | Minutes
 
-            +form_field_inline("Tire Blankets", "custom", "tyre_blankets_allowed")
-              .checkbox: label
-                input(type='checkbox', v-model="tyre_blankets_allowed")
-                | Allow
+            +form_field_inline("Qualify", "number", "qualify_length", {min: 1}, {addon: true})
+              +input("checkbox", "qualify_enabled")
+              | Minutes
 
-          fieldset
-            legend Sessions
-            +form_field_inline("Wait Time (Between Events)", "number", "session_wait", {min: 0 }, {addon: true})(step="15")
-              | Seconds
-            +form_field_inline("Vote Quorum", "number", "voting_quorum", {min: 0, max: 100 }, {addon: true})(step="1")
-              | %
-            +form_field_inline("Kick Quorum", "number", "kick_quorum", {min: 0, max: 100 }, {addon: true})(step="1")
-              | %
-            +form_field_inline("Vote Duration", "number", "vote_duration", {min: 0 }, {addon: true})(step="1")
-              | Seconds
-
-          fieldset
-            legend Dynamic Track
-            +form_field_inline("Start Grip", "number", "dynamic_track_session_start", {min: 0, max: 100 }, {addon: true})(step="1")
-              | %
-            +form_field_inline("Lap Gain", "number", "dynamic_track_lap_gain", {min: 0 }, {addon: true})(step="1")
+            +form_field_inline("Race", "number", "race_laps", {min: 1}, {addon: true})
               | Laps
 
-        hr
-        .form-group
-          .col-lg-12
-            input.btn.btn-primary(type="submit")
+            +form_field_inline("Race Over Timer", "number", "race_race_over_timer", {min: 1}, {addon: true})(step="10")
+              | Seconds
+
+          hr
+          .form-group
+            .col-lg-12
+              a.btn.btn-link.center-block(href="#", @click.prevent="show_more_settings = !show_more_settings")
+                i.fa(v-bind:class="{ 'fa-minus-square-o': show_more_settings, 'fa-plus-square-o': !show_more_settings }")
+                | &nbsp;More Settings
+          .advanced-settings(v-show="show_more_settings", transition="expand")
+            fieldset
+              legend Rules
+              +form_field_inline("Allowed tires out", "custom", "allowed_tires_out")
+                select.form-control(v-model="allowed_tires_out")
+                  option 0
+                  option 1
+                  option 2
+                  option 3
+                  option 4
+
+              +form_field_inline("Assists", "custom")
+                label.checkbox-inline
+                  input(type='checkbox', v-model="abs")
+                  | ABS
+                label.checkbox-inline
+                  input(type='checkbox', v-model="tcs")
+                  | TCS
+                label.checkbox-inline
+                  input(type='checkbox', v-model="stm")
+                  | STM
+                label.checkbox-inline
+                  input(type='checkbox', v-model="auto_clutch")
+                  | Auto Clutch
+
+            fieldset
+              legend Realism
+              +form_field_inline("Tire Wear Rate", "number", "tire_wear_rate", {min: 0, max: 400}, {addon: true})(step="10")
+                | %
+              +form_field_inline("Fuel Consumption Rate", "number", "fuel_consumption_rate", {min: 0, max: 400}, {addon: true})(step="10")
+                | %
+              +form_field_inline("Damage", "number", "damage_multiplier", {min: 0, max: 200 }, {addon: true})(step="1")
+                | %
+
+              +form_field_inline("Tire Blankets", "custom", "tyre_blankets_allowed")
+                .checkbox: label
+                  input(type='checkbox', v-model="tyre_blankets_allowed")
+                  | Allow
+
+            fieldset
+              legend Sessions
+              +form_field_inline("Wait Time (Between Events)", "number", "session_wait", {min: 0 }, {addon: true})(step="15")
+                | Seconds
+              +form_field_inline("Vote Quorum", "number", "voting_quorum", {min: 0, max: 100 }, {addon: true})(step="1")
+                | %
+              +form_field_inline("Kick Quorum", "number", "kick_quorum", {min: 0, max: 100 }, {addon: true})(step="1")
+                | %
+              +form_field_inline("Vote Duration", "number", "vote_duration", {min: 0 }, {addon: true})(step="1")
+                | Seconds
+
+            fieldset
+              legend Dynamic Track
+              +form_field_inline("Start Grip", "number", "dynamic_track_session_start", {min: 0, max: 100 }, {addon: true})(step="1")
+                | %
+              +form_field_inline("Lap Gain", "number", "dynamic_track_lap_gain", {min: 0 }, {addon: true})(step="1")
+                | Laps
+
+          hr
+          .form-group
+            .col-lg-12
+              input.btn.btn-primary(type="submit", v-if="$validation.valid")

@@ -1,7 +1,6 @@
 include label
 
 mixin form_field_inline(label, type, model, validations, control)
-  - if (!label) label = locals._.
   .form-group
     +label(label, model)(class='col-lg-4')
 
