@@ -20,4 +20,4 @@ mixin input(type, model, validations, control)
       each value, key in validations
         - var name = locals._.isArray(validations) ? value : key;
         - var value = (locals._.isNumber(key)) ? '' : ' (' + key + ' ' + value + ')';
-        span.help-block(v-if="$validation." + model + "." + name)= locals.validations[name] + value
+        span.help-block(v-if="$validation." + model + "." + name, transition="expand")= locals.validations[name] + value
