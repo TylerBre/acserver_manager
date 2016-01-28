@@ -1,7 +1,9 @@
+include forms/label
+include forms/input
+include forms/form_field_inline
+
 extends includes/loading
 block loaded
-  .page-header
-    h1 New Race Preset
   .row
     .col-lg-6
       form.form-horizontal(v-on:submit.prevent="save")
@@ -10,47 +12,24 @@ block loaded
             input.input-lg.form-control(type="text", min='5', v-model="name", placeholder="My Fantastic Race")
         fieldset
           legend Content
-          .form-group
-            label.col-lg-4(for="track") Track
-            .col-lg-8
-              select.form-control(v-model="track")
-                option(v-for="track in tracks", v-bind:value="track.id") {{ track.name }}
-          .form-group
-            label.col-lg-4(for="cars") Cars
-            .col-lg-8
-              select.form-control(v-model="car_list", multiple)
-                option(v-for="car in cars", v-bind:value="car.id") {{ car.name }}
+          +form_field_inline("Track", "select", "track", null, {collection: 'tracks', value: 'id', text: 'name'})
+          +form_field_inline("Cars", "select", "car_list", null, {collection: 'cars', value: 'id', text: 'name'})(multiple=true)
+
         fieldset
           legend Session Settings
-          .form-group
-            label.col-lg-4(for="practice_length") Practice
-            .col-lg-8
-              .input-group
-                input.form-control(type="number", min="1", v-model="practice_length")
-                .input-group-addon
-                  input.js-toggle-race-section(type="checkbox", v-model="practice_enabled")
-                  | Minutes
-          .form-group
-            label.col-lg-4(for="qualify_length") Qualify
-            .col-lg-8
-              .input-group
-                input.form-control(type="number", min="1", v-model="qualify_length")
-                .input-group-addon
-                  input.js-toggle-race-section(type="checkbox", v-model="qualify_enabled")
-                  | Minutes
+          +form_field_inline("Practice", "number", "practice_length", {min: 1}, {addon: true})
+            +input("checkbox", "practice_enabled")
+            | Minutes
 
-          .form-group
-            label.col-lg-4(for="race_laps") Race
-            .col-lg-8
-              .input-group
-                input.form-control(type="number", min="1", v-model="race_laps")
-                .input-group-addon Laps
-          .form-group
-            label.col-lg-4(for='race_race_over_timer') Race Over Timer
-            .col-lg-8
-              .input-group
-                input.form-control(type="number", min="0", step="10" v-model="race_race_over_timer")
-                .input-group-addon Seconds
+          +form_field_inline("Qualify", "number", "qualify_length", {min: 1}, {addon: true})
+            +input("checkbox", "qualify_enabled")
+            | Minutes
+
+          +form_field_inline("Race", "number", "race_laps", {min: 1}, {addon: true})
+            | Laps
+
+          +form_field_inline("Race Over Timer", "number", "race_race_over_timer", {min: 1}, {addon: true})(step="10")
+            | Seconds
 
         hr
         .form-group
@@ -61,99 +40,60 @@ block loaded
         .advanced-settings(v-show="show_more_settings", transition="expand")
           fieldset
             legend Rules
-            .form-group
-              label.col-lg-4(for="allowed_tires_out") Allowed tires out
-              .col-lg-8
-                select.form-control(v-model="allowed_tires_out")
-                  option 0
-                  option 1
-                  option 2
-                  option 3
-                  option 4
-            .form-group
-              label.col-lg-4 Assists
-              .col-lg-8
-                label.checkbox-inline
-                  input(type='checkbox', v-model="abs")
-                  | ABS
-                label.checkbox-inline
-                  input(type='checkbox', v-model="tcs")
-                  | TCS
-                label.checkbox-inline
-                  input(type='checkbox', v-model="stm")
-                  | STM
-                label.checkbox-inline
-                  input(type='checkbox', v-model="auto_clutch")
-                  | Auto Clutch
+            +form_field_inline("Allowed tires out", "custom", "allowed_tires_out")
+              select.form-control(v-model="allowed_tires_out")
+                option 0
+                option 1
+                option 2
+                option 3
+                option 4
+
+            +form_field_inline("Assists", "custom")
+              label.checkbox-inline
+                input(type='checkbox', v-model="abs")
+                | ABS
+              label.checkbox-inline
+                input(type='checkbox', v-model="tcs")
+                | TCS
+              label.checkbox-inline
+                input(type='checkbox', v-model="stm")
+                | STM
+              label.checkbox-inline
+                input(type='checkbox', v-model="auto_clutch")
+                | Auto Clutch
 
           fieldset
             legend Realism
-            .form-group
-              label.col-lg-4(for="tire_wear_rate") Tire Wear Rate
-              .col-lg-8
-                .input-group
-                  input.form-control(type="number", min="0", max="400", v-model="tire_wear_rate")
-                  .input-group-addon %
-            .form-group
-              label.col-lg-4(for="fuel_consumption_rate") Fuel Consumption Rate
-              .col-lg-8
-                .input-group
-                  input.form-control(type="number", min="0", max="400", v-model="fuel_consumption_rate")
-                  .input-group-addon %
-            .form-group
-              label.col-lg-4(for="damage_multiplier") Damage
-              .col-lg-8
-                .input-group
-                  input.form-control(type="number", min="0", max="200", v-model="damage_multiplier")
-                  .input-group-addon %
-            .form-group
-              label.col-lg-4(for="tyre_blankets_allowed") Tire Blankets
-              .col-lg-8
-                .checkbox: label
-                  input(type='checkbox', v-model="tyre_blankets_allowed")
-                  | Allow
+            +form_field_inline("Tire Wear Rate", "number", "tire_wear_rate", {min: 0, max: 400}, {addon: true})(step="10")
+              | %
+            +form_field_inline("Fuel Consumption Rate", "number", "fuel_consumption_rate", {min: 0, max: 400}, {addon: true})(step="10")
+              | %
+            +form_field_inline("Damage", "number", "damage_multiplier", {min: 0, max: 200 }, {addon: true})(step="1")
+              | %
+
+            +form_field_inline("Tire Blankets", "custom", "tyre_blankets_allowed")
+              .checkbox: label
+                input(type='checkbox', v-model="tyre_blankets_allowed")
+                | Allow
 
           fieldset
             legend Sessions
-            .form-group
-              label.col-lg-4(for='session_wait') Wait Time (Between Events)
-              .col-lg-8
-                .input-group
-                  input.form-control(type="number", min="0", step="15" v-model="session_wait")
-                  .input-group-addon Seconds
-            .form-group
-              label.col-lg-4(for='voting_quorum') Vote Quorum
-              .col-lg-8
-                .input-group
-                  input.form-control(type="number", min="0", max="100", step="1" v-model="voting_quorum")
-                  .input-group-addon %
-            .form-group
-              label.col-lg-4(for='kick_quorum') Kick Quorum
-              .col-lg-8
-                .input-group
-                  input.form-control(type="number", min="0", max="100", step="1" v-model="kick_quorum")
-                  .input-group-addon %
-            .form-group
-              label.col-lg-4(for='vote_duration') Vote Duration
-              .col-lg-8
-                .input-group
-                  input.form-control(type="number", min="0", step="15" v-model="vote_duration")
-                  .input-group-addon Seconds
+            +form_field_inline("Wait Time (Between Events)", "number", "session_wait", {min: 0 }, {addon: true})(step="15")
+              | Seconds
+            +form_field_inline("Vote Quorum", "number", "voting_quorum", {min: 0, max: 100 }, {addon: true})(step="1")
+              | %
+            +form_field_inline("Kick Quorum", "number", "kick_quorum", {min: 0, max: 100 }, {addon: true})(step="1")
+              | %
+            +form_field_inline("Vote Duration", "number", "vote_duration", {min: 0 }, {addon: true})(step="1")
+              | Seconds
 
           fieldset
             legend Dynamic Track
-            .form-group
-              label.col-lg-4(for='dynamic_track_session_start') Start Grip
-              .col-lg-8
-                .input-group
-                  input.form-control(type="number", min="0", max="100", step="1", v-model="dynamic_track_session_start")
-                  .input-group-addon %
-            .form-group
-              label.col-lg-4(for='dynamic_track_lap_gain') Lap Gain
-              .col-lg-8
-                .input-group
-                  input.form-control(type="number", min="0", step="1", v-model="dynamic_track_lap_gain")
-                  .input-group-addon Laps
+            +form_field_inline("Start Grip", "number", "dynamic_track_session_start", {min: 0, max: 100 }, {addon: true})(step="1")
+              | %
+            +form_field_inline("Lap Gain", "number", "dynamic_track_lap_gain", {min: 0 }, {addon: true})(step="1")
+              | Laps
+
         hr
         .form-group
           .col-lg-12

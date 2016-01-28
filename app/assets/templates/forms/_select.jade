@@ -1,0 +1,3 @@
+mixin _select(type, model, validations, control)
+  select(v-model=model)&attributes(attributes)
+    option(v-for="item in " + control.collection, v-bind:value="item." + control.value) {{ item.#{control.text} }}

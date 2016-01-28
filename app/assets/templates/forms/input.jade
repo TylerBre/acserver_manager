@@ -1,0 +1,21 @@
+include _which_input
+
+mixin input(type, model, validations, control)
+
+  if control && control.addon && type !== 'custom'
+    .input-group
+      +_which_input(type, model, validations, control)&attributes(attributes)
+
+      if block
+        //- input group addons
+        .input-group-addon
+          block
+  else
+    +_which_input(type, model, validations, control)&attributes(attributes)
+      if block
+        block
+  //- validations
+  if validations
+    div
+      each value, rule in validations
+        span(v-show="validation." + model + "." + rule)= locals.validations[rule]

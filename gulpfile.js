@@ -15,6 +15,7 @@ var less = require('gulp-less');
 var watch = require('gulp-watch');
 var minifyCSS = require('gulp-cssnano');
 var jade = require('gulp-jade');
+var _ = require('lodash');
 
 var less_src = './app/assets/styles/**/*.less';
 
@@ -86,12 +87,9 @@ gulp.task('browserify', () => {
 });
 
 gulp.task('templates', () => {
-  var YOUR_LOCALS = {};
-
+  var validations = JSON.parse(fs.readFileSync(path.join(__dirname, './config/validations.json')));
   gulp.src('./app/assets/templates/**/*.jade')
-    .pipe(jade({
-      locals: YOUR_LOCALS
-    }))
+    .pipe(jade({data: { _, validations }}))
     .pipe(gulp.dest('./app/assets/scripts/templates/'))
 });
 

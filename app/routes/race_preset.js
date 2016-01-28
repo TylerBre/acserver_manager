@@ -8,7 +8,8 @@ var helpers = require('../helpers');
 // router.get('*', controllers.app.before);
 
 router.get('/', (req, res, next) => {
-  app.models.race_preset.find().populate('track')
+  app.models.race_preset.find()
+    .populate('track')
     .then((data) => res.json(data));
 })
 

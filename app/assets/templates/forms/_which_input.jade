@@ -1,0 +1,18 @@
+include _input
+include _input_number
+include _input_checkbox
+include _select
+
+mixin _which_input(type, model, validations, control)
+  case type
+    when 'number'
+      +_input_number(type, model, validations)&attributes(attributes)
+    when 'select'
+      +_select(type, model, validations, control)&attributes(attributes)
+    when 'checkbox'
+      label
+        +_input(type, model)&attributes(attributes)
+    when 'custom'
+      block
+    default
+      +_input(type, model)&attributes(attributes)
