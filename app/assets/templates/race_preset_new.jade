@@ -108,7 +108,9 @@ block loaded
           hr
           .form-group
             .col-lg-12
-              input.btn.btn-primary(type="submit", v-if="$validation.valid", transition="expand")
+              .pull-right
+                a.btn.btn-link.text-lowercase(v-on:click.prevent="show_cfg_preview = !show_cfg_preview") Preview Config
+                input.btn.btn-primary(type="submit", v-bind:class="{'disabled': $validation.valid}", transition="expand")
     div(v-bind:class="{'col-lg-6': show_cfg_preview}", v-show="show_cfg_preview", transition="fade")
       div.code-container
         a.btn.btn-default.btn-xs.inner-context.inner-context-topright.deeper(v-on:click.prevent="show_all_settings = !show_all_settings")
