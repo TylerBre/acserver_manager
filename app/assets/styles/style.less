@@ -42,14 +42,41 @@ body {
 
 .inner-context {
   position: absolute;
+  @inner-context-offset-vertical: (@grid-gutter-width / 4);
+  @inner-context-offset-horizontal: (@grid-gutter-width / 2);
+
+  top: @inner-context-offset-vertical;
+  left: @inner-context-offset-horizontal;
+  right: @inner-context-offset-horizontal;
+
+  &.deeper {
+    top: (@inner-context-offset-vertical * 2);
+    left: (@inner-context-offset-horizontal * 2);
+    right: (@inner-context-offset-horizontal * 2);
+  }
 
   &.inner-context-topright {
-    top: (@grid-gutter-width / 2);
-    right: @grid-gutter-width;
+    bottom: auto;
+    left: auto;
   }
 
   &.inner-context-topleft {
-    top: (@grid-gutter-width / 2);
-    left: @grid-gutter-width;
+    bottom: auto;
+    right: auto;
   }
+}
+
+// overrides
+.input-group-addon {
+  border-bottom: 0px solid transparent;
+  box-shadow: inset 0 -1px 0 #ddd;
+  .transition(all 0.2s);
+}
+
+.form-control:focus+.input-group-addon {
+  box-shadow: inset 0 -2px 0 @brand-primary;
+}
+
+.has-error .form-control+.input-group-addon {
+  box-shadow: inset 0 -2px 0 @brand-danger;
 }

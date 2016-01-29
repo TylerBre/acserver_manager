@@ -5,14 +5,21 @@ include forms/form_field_inline
 extends includes/loading
 block loaded
   .row
-    .col-lg-6
+    div(v-bind:class="{'col-lg-6': show_cfg_preview, 'col-lg-8': !show_cfg_preview, 'col-lg-offset-2': !show_cfg_preview}", transition="expand")
       validator(name='validation')
-        form.form-horizontal.well(novalidate, v-on:submit.prevent="save")
-          .form-group
-            .col-lg-12
-              +input('text', 'name', ['required'])(placeholder="My Fantastic Race", class="form-control input-lg")
-              //- input.input-lg.form-control(type="text", v-model="name", placeholder="My Fantastic Race", v-validate:name="{ minlength: 4 }")
-              //- span(v-if="$validation.name.minlength") Too short
+        form.form-horizontal(novalidate, v-on:submit.prevent="save")
+          fieldset
+            legend New Race Preset
+            a.btn.btn-link.btn-xs.inner-context.inner-context-topright(v-on:click.prevent="show_cfg_preview = !show_cfg_preview", v-bind:class="{'active': show_cfg_preview}")
+              i.fa.fa-file-code-o
+              small
+                | &nbsp;
+                code.text-lowercase cfg/server_config.ini
+            .form-group
+              .col-lg-12
+                +input('text', 'name', ['required'])(placeholder="My Fantastic Race", class="form-control input-lg")
+                //- input.input-lg.form-control(type="text", v-model="name", placeholder="My Fantastic Race", v-validate:name="{ minlength: 4 }")
+                //- span(v-if="$validation.name.minlength") Too short
           fieldset
             legend Content
             +form_field_inline("Track", "select", "track", null, {collection: 'tracks', value: 'id', text: 'name'})
@@ -102,9 +109,9 @@ block loaded
           .form-group
             .col-lg-12
               input.btn.btn-primary(type="submit", v-if="$validation.valid", transition="expand")
-    .col-lg-6
+    div(v-bind:class="{'col-lg-6': show_cfg_preview}", v-show="show_cfg_preview", transition="fade")
       div.code-container
-        a.btn.btn-default.btn-xs.inner-context.inner-context-topright(type="button", v-on:click.prevent="show_all_settings = !show_all_settings")
+        a.btn.btn-default.btn-xs.inner-context.inner-context-topright.deeper(v-on:click.prevent="show_all_settings = !show_all_settings")
           i.fa(v-bind:class="{'fa-eye': !show_all_settings, 'fa-eye-slash': show_all_settings}")
           small &nbsp;All settings
         div(v-html="server_cfg_preview | syntax_highlight 'ini'")

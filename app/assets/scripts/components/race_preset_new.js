@@ -42,6 +42,7 @@ module.exports = Vue.extend({
       dynamic_track_lap_gain: 22,
       show_more_settings: false,
       server_cfg_template: _.template(server_cfg_template),
+      show_cfg_preview: true,
       show_all_settings: false
     };
   },
