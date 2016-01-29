@@ -75,9 +75,9 @@ block loaded
               +form_field_inline("Damage", "number", "damage_multiplier", {min: 0, max: 200 }, {addon: true})(step="1")
                 | %
 
-              +form_field_inline("Tire Blankets", "custom", "tyre_blankets_allowed")
+              +form_field_inline("Tire Blankets", "custom", "tire_blankets_allowed")
                 .checkbox: label
-                  input(type='checkbox', v-model="tyre_blankets_allowed")
+                  input(type='checkbox', v-model="tire_blankets_allowed")
                   | Allow
 
             fieldset
@@ -102,3 +102,9 @@ block loaded
           .form-group
             .col-lg-12
               input.btn.btn-primary(type="submit", v-if="$validation.valid", transition="expand")
+    .col-lg-6
+      div.code-container
+        a.btn.btn-default.btn-xs.inner-context.inner-context-topright(type="button", v-on:click.prevent="show_all_settings = !show_all_settings")
+          i.fa(v-bind:class="{'fa-eye': !show_all_settings, 'fa-eye-slash': show_all_settings}")
+          small &nbsp;All settings
+        div(v-html="server_cfg_preview | syntax_highlight 'ini'")

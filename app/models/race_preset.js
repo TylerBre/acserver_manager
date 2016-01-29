@@ -59,7 +59,7 @@ module.exports = Waterline.Collection.extend({
       type: 'string',
       defaultsTo: null
     },
-    tyre_blankets_allowed: {
+    tire_blankets_allowed: {
       type: 'boolean',
       defaultsTo: 0
     },

@@ -1,3 +1,7 @@
+var fs = require('fs');
+var path = require('path');
+
+var server_cfg_template = fs.readFileSync(path.resolve(__dirname, '../templates/server_cfg.ini'), 'utf-8');
 var Vue = require('vue');
 var api = require('api');
 var _ = require('lodash');
@@ -10,7 +14,6 @@ module.exports = Vue.extend({
   },
   data () {
     return {
-      track: null,
       car_list: [],
       cars: [],
       tracks: [],
@@ -30,29 +33,34 @@ module.exports = Vue.extend({
       tire_wear_rate: 100,
       fuel_consumption_rate: 100,
       damage_multiplier: 100,
-      tyre_blankets_allowed: true,
+      tire_blankets_allowed: true,
       session_wait: 60,
       voting_quorum: 50,
       kick_quorum: 50,
       vote_duration: 15,
       dynamic_track_session_start: 80,
       dynamic_track_lap_gain: 22,
-      show_more_settings: false
+      show_more_settings: false,
+      server_cfg_template: _.template(server_cfg_template),
+      show_all_settings: false
     };
   },
   computed: {
-    stringified_data () {
-      return JSON.stringify(this.$data, null, 2);
+    server_cfg_preview () {
+      return this.server_cfg_template(this);
+    },
+    track_obj () {
+      return _.find(this.tracks, {id: this.track});
+    },
+    config_track () {
+      return this.track_obj.file_name_secondary;
     }
   },
   methods: {
     save () {
-      debugger;
       api.race_preset.save(null, _.omit(this.$data, ['cars', 'tracks'])).then((res) => {
         debugger;
-      }, (err) => {
-        debugger;
-      })
+      }).catch(err => console.log(err));
     }
   },
   template: require('../templates/race_preset_new.html')

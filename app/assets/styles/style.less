@@ -39,3 +39,17 @@ body {
 .input-group-addon > .validation-status {
   display: inline-block;
 }
+
+.inner-context {
+  position: absolute;
+
+  &.inner-context-topright {
+    top: (@grid-gutter-width / 2);
+    right: @grid-gutter-width;
+  }
+
+  &.inner-context-topleft {
+    top: (@grid-gutter-width / 2);
+    left: @grid-gutter-width;
+  }
+}

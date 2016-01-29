@@ -3,6 +3,8 @@ var VueRouter = require('vue-router');
 var _ = require('lodash');
 var hljs = require('highlight.js');
 
+Vue.config.debug = true;
+
 Vue.use(VueRouter);
 Vue.use(require('vue-resource'));
 Vue.use(require('vue-validator'));
