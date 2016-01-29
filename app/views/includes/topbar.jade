@@ -7,7 +7,7 @@ header.navbar.navbar-default.navbar-fixed-top
         span.icon-bar
       a.navbar-brand(v-link="{ path: '/'}")
         img(src="/assets/images/ac_logo.jpg", style="height: 100%; display: inline;")
-        | acServer Manager
+        //- | acServer Manager
     nav#acm-navbar.collapse.navbar-collapse
       ul.nav.navbar-nav
         li: a(v-link="{ name: 'content_index'}")
@@ -20,8 +20,16 @@ header.navbar.navbar-default.navbar-fixed-top
           i.glyphicon.glyphicon-plus
           | &nbsp;Create Race Preset
       ul.nav.navbar-nav.navbar-right
+        li.system_monitor
+          div(style="width: 100px")
+            .progress
+              .progress-bar(v-bind:style="{width: $root.system_stats.cpu_percent + '%'}")
+            .progress
+              .progress-bar(v-bind:style="{width: $root.ram_active_percent + '%'}")
+              .progress-bar.progress-bar-warning(v-bind:style="{width: $root.ram_used_percent + '%'}")
+
+
         li: a(href="javascript:void(0)")
           i.glyphicon.glyphicon-user
           | &nbsp;Login
-        li(v-text="$root.server")
 
