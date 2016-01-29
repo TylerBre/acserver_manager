@@ -20,13 +20,35 @@ header.navbar.navbar-default.navbar-fixed-top
           i.glyphicon.glyphicon-plus
           | &nbsp;Create Race Preset
       ul.nav.navbar-nav.navbar-right
-        li.system_monitor
-          div(style="width: 100px")
-            .progress
-              .progress-bar(v-bind:style="{width: $root.system_stats.cpu_percent + '%'}")
-            .progress
-              .progress-bar(v-bind:style="{width: $root.ram_active_percent + '%'}")
-              .progress-bar.progress-bar-warning(v-bind:style="{width: $root.ram_used_percent + '%'}")
+        li(v-show="$root.ready", transition="fade", style="display:none")
+          .system-monitor.mini
+            .status-item
+              .title
+                span &nbsp;CPU
+              .progress
+                .progress-bar(v-bind:style="{width: $root.system_stats.cpu_percent + '%'}")
+              .value
+                span(v-text="parseFloat($root.system_stats.cpu_percent).toFixed(1) + '%'")
+            .status-item
+              .title
+                span &nbsp;RAM
+              .progress
+                .progress-bar.progress-bar-bg(v-bind:style="{width: $root.ram_used_percent + '%'}")
+                .progress-bar(v-bind:style="{width: $root.ram_active_percent + '%'}")
+              .value
+                span(v-text="$root.mem_active_size")
+                | /
+                span(v-text="$root.mem_total_size")
+
+            .status-item
+              .title
+                span Disk
+              .progress
+                .progress-bar(v-bind:style="{width: $root.storage_used_percent + '%'}")
+              .value
+                span(v-text="$root.storage_used_size")
+                | /
+                span(v-text="$root.storage_total_size")
 
 
         li: a(href="javascript:void(0)")

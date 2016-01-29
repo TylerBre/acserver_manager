@@ -23,7 +23,7 @@ module.exports = () => {
         system_poll.emit('data', data);
       });
     }
-  }, 50);
+  }, 1500);
 
   system_poll.on('data', (info) => {
     app.io.emit('server_status', info);

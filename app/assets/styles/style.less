@@ -66,6 +66,33 @@ body {
   }
 }
 
+.system-monitor.mini {
+  padding: 12px (@grid-gutter-width / 2);
+
+  .status-item {
+    line-height: 1;
+  }
+
+  .title, .progress, .value {
+    display: inline-block;
+    font-family: monospace;
+    font-size: 90%;
+    text-align: right;
+    letter-spacing: -0.1px;
+  }
+
+  .progress {
+    width: 80px;
+    margin-right: (@grid-gutter-width / 4);
+    margin-left: (@grid-gutter-width / 4);
+    margin-bottom: 1px; // for spacing
+  }
+
+  .progress-bar-bg {
+    background-color: lighten(@brand-primary, 25%);
+  }
+}
+
 // overrides
 .input-group-addon {
   border-bottom: 0px solid transparent;
@@ -79,4 +106,36 @@ body {
 
 .has-error .form-control + .input-group-addon {
   box-shadow: inset 0 -2px 0 @brand-danger;
+}
+
+.progress &-bar {
+   &:last-child {
+    border-radius: 0;
+     &:before {
+       background-color: transparent;
+     }
+   }
+
+   &-success:last-child.progress-bar:before {
+     background-color: transparent;
+   }
+
+   &-info:last-child.progress-bar:before {
+     background-color: transparent;
+   }
+   &-warning:last-child.progress-bar:before {
+     background-color: transparent;
+   }
+
+   &-danger:last-child.progress-bar:before {
+     background-color: transparent;
+   }
+}
+
+.progress-bar {
+  position: absolute;
+
+  &:last-child {
+    border-radius: 0;
+  }
 }

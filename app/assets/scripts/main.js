@@ -33,6 +33,7 @@ Vue.transition('fade', {
 var App = Vue.extend({
   data () {
     return {
+      ready: false,
       io: {},
       system_stats: {
         uptime: 0,
@@ -73,6 +74,15 @@ var App = Vue.extend({
     mem_total_size () {
       return this.convert_bytes(this.system_stats.ram.total);
     },
+    storage_used_percent () {
+      return this.to_percent(this.system_stats.storage.total)(this.system_stats.storage.used);
+    },
+    storage_used_size () {
+      return this.convert_bytes(this.system_stats.storage.used);
+    },
+    storage_total_size () {
+      return this.convert_bytes(this.system_stats.storage.total);
+    },
     swap_used_percent () {
       return this.to_percent(this.system_stats.swap.total)(this.system_stats.swap.used);
     },
@@ -86,7 +96,7 @@ var App = Vue.extend({
   methods: {
     to_percent (a) {
       return (b) => {
-        return (a / b) * 100;
+        return (b / a) * 100;
       };
     },
     convert_bytes (bytes=0, show_extension=true, decimal=0) {
@@ -102,7 +112,7 @@ var App = Vue.extend({
         out = (bytes / 1048576.1).toFixed(decimal);
         extension = "MB";
       } else {
-        (bytes / 1073741824).toFixed(decimal);
+        out = (bytes / 1073741824).toFixed(decimal);
         extension = "GB";
       }
 
@@ -124,6 +134,7 @@ var App = Vue.extend({
       this.$root.system_stats.storage.used = data.fsSize[0].used;
       this.$root.system_stats.network.in = data.networkStats.rx_sec;
       this.$root.system_stats.network.out = data.networkStats.tx_sec;
+      this.$root.ready = true;
     });
   },
   attached () {
