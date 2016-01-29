@@ -14,8 +14,7 @@ Vue.http.options.root = '/api';
 // filters
 Vue.filter('syntax_highlight', (code, syntax='markdown') => {
   var output = hljs.highlight(syntax, code, true);
-  return `<pre class="hljs"><code class="${syntax}">${output.value}</span></pre>`;
-
+  return `<pre class="hljs"><code class="${syntax}">${output.value}</code></pre>`;
 });
 
 // transitions
