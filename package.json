@@ -19,6 +19,7 @@
     "express": "^4.13.4",
     "express-session": "^1.13.0",
     "fs-extra": "^0.26.4",
+    "highlight.js": "^9.1.0",
     "jade": "^1.11.0",
     "json-parse-helpfulerror": "^1.0.3",
     "lodash": "^4.0.0",
@@ -41,6 +42,7 @@
   "devDependencies": {
     "babel-preset-es2015": "^6.3.13",
     "babelify": "^7.2.0",
+    "brfs": "^1.4.3",
     "browserify": "^13.0.0",
     "browserify-shim": "^3.8.12",
     "gulp": "^3.9.0",
@@ -61,8 +63,8 @@
   },
   "scripts": {
     "test": "echo \"No tests... yet. Add Some!\" && exit 1",
-    "server": "export NODE_ENV=development && $(which node) $(pwd)/bin/digitalocean_metadata.js && gulp up",
-    "server:local": "export NODE_ENV=development && gulp up"
+    "start": "export NODE_ENV=development && $(which node) $(pwd)/bin/digitalocean_metadata.js && gulp up",
+    "start:local": "export NODE_ENV=development && gulp up"
   },
   "repository": {
     "type": "git",

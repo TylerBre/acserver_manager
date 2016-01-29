@@ -7,7 +7,7 @@ block loaded
   .row
     .col-lg-6
       validator(name='validation')
-        form.form-horizontal(novalidate, v-on:submit.prevent="save")
+        form.form-horizontal.well(novalidate, v-on:submit.prevent="save")
           .form-group
             .col-lg-12
               +input('text', 'name', ['required'])(placeholder="My Fantastic Race", class="form-control input-lg")
@@ -33,6 +33,7 @@ block loaded
 
             +form_field_inline("Race Over Timer", "number", "race_race_over_timer", {min: 1}, {addon: true})(step="10")
               | Seconds
+              div.foo
 
           hr
           .form-group

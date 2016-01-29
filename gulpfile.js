@@ -33,15 +33,15 @@ gulp.task('server', () => {
 });
 
 gulp.task('watch_styles', () => {
-  return gulp.watch(less_src, ['styles'])
+  return gulp.watch(less_src, ['styles']);
 });
 
 gulp.task('watch_scripts', () => {
-  return gulp.watch('./app/assets/scripts/**/*.js', ['templates', 'scripts'])
+  return gulp.watch('./app/assets/scripts/**/*.js', ['templates', 'scripts']);
 });
 
 gulp.task('watch_templates', () => {
-  return gulp.watch('./app/assets/templates/*', ['templates', 'scripts'])
+  return gulp.watch('./app/assets/templates/*', ['templates', 'scripts']);
 });
 
 gulp.task('styles', () => {
@@ -62,7 +62,7 @@ gulp.task('browserify', () => {
 
   var browserify_opts = {
     debug: true,
-    transform: ['partialify', 'browserify-shim']
+    transform: ['partialify', 'brfs', 'browserify-shim']
   };
 
   return gulp.src('./app/assets/scripts/main.js')
