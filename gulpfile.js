@@ -41,7 +41,7 @@ gulp.task('watch_scripts', () => {
 });
 
 gulp.task('watch_templates', () => {
-  return gulp.watch('./app/assets/templates/*', ['templates', 'scripts']);
+  return gulp.watch('./app/assets/templates/**/*.jade', ['templates', 'scripts']);
 });
 
 gulp.task('styles', () => {
