@@ -28,8 +28,9 @@ app/assets/scripts/config.json
 *.map
 app/assets/public/style.css
 app/assets/scripts/templates
+!app/assets/scripts/templates/*.ini
+
 app/assets/public/bundle.js
-app/assets/public/templates
 
 # conf file ignores
 
