@@ -16,6 +16,8 @@ var watch = require('gulp-watch');
 var minifyCSS = require('gulp-cssnano');
 var jade = require('gulp-jade');
 var _ = require('lodash');
+var vueify = require('vueify');
+var babelify = require('babelify');
 
 var less_src = './app/assets/styles/**/*.less';
 
@@ -41,7 +43,7 @@ gulp.task('watch_scripts', () => {
 });
 
 gulp.task('watch_templates', () => {
-  return gulp.watch('./app/assets/templates/**/*.jade', ['templates', 'scripts']);
+  return gulp.watch('./app/assets/templates/*', ['templates', 'scripts']);
 });
 
 gulp.task('styles', () => {
@@ -68,7 +70,9 @@ gulp.task('browserify', () => {
   return gulp.src('./app/assets/scripts/main.js')
     .pipe(through2.obj((file, enc, next) => {
       browserify(browserify_opts)
-        .transform('babelify', {presets: ["es2015"]})
+        .transform("babelify", {
+          presets: ["es2015"],
+        })
         .require(file.path, { entry: true })
         .bundle((err, res) => {
           if (err) throw err;
@@ -90,7 +94,7 @@ gulp.task('templates', () => {
   var validations = JSON.parse(fs.readFileSync(path.join(__dirname, './config/validations.json')));
   gulp.src('./app/assets/templates/**/*.jade')
     .pipe(jade({data: { _, validations }}))
-    .pipe(gulp.dest('./app/assets/scripts/templates/'))
+    .pipe(gulp.dest('./app/assets/scripts/templates/'));
 });
 
 function is_production () {

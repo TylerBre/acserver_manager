@@ -15,7 +15,7 @@ FS.readDir = (dir) => {
       resolve(data);
     });
   });
-}
+};
 
 FS.readFile = (dir) => {
   return new promise((resolve, reject) => {
@@ -25,7 +25,7 @@ FS.readFile = (dir) => {
       resolve(data);
     });
   });
-}
+};
 
 FS.writeFile = (file_path, data) => {
   return new promise((resolve, reject) => {
@@ -35,7 +35,7 @@ FS.writeFile = (file_path, data) => {
       resolve();
     });
   });
-}
+};
 
 FS.writeJSON = (file_path, data) => {
   return new promise((resolve, reject) => {
@@ -45,7 +45,7 @@ FS.writeJSON = (file_path, data) => {
       resolve(data);
     });
   });
-}
+};
 
 FS.copyFile = (src, dest) => {
   return new promise((resolve, reject) => {
@@ -55,7 +55,7 @@ FS.copyFile = (src, dest) => {
       resolve();
     });
   });
-}
+};
 
 FS.mkDir = (dir) => {
   return new promise((resolve, reject) => {
@@ -65,24 +65,24 @@ FS.mkDir = (dir) => {
       resolve();
     });
   });
-}
+};
 
 
 FS.is_directory = (dir) => {
   return new promise((resolve, reject) => {
     fs.stat(dir, (err, data) => {
-      if (err || !data.isDirectory()) reject(err || new Error("Not a directory."))
+      if (err || !data.isDirectory()) reject(err || new Error("Not a directory."));
 
       resolve();
     });
   });
-}
+};
 
 FS.exists = (dir) => {
   return new promise((resolve, reject) => {
     fs.exists(dir, (exists) => exists ? resolve() : reject());
   });
-}
+};
 
 FS.directories_only = (pwd) => {
   return (total, file_name) => {
@@ -93,8 +93,8 @@ FS.directories_only = (pwd) => {
       console.log(e);
       return total;
     });
-  }
-}
+  };
+};
 
 FS.ui_directories_only = (total, file_obj) => {
   return FS.readDir(path.join(file_obj.pwd, file_obj.directory_name)).then((data) => {
@@ -104,7 +104,7 @@ FS.ui_directories_only = (total, file_obj) => {
     console.log(e);
     return total;
   });
-}
+};
 
 FS.ui_data_only = (ui_filename, formatter) => {
   return (total, item) => {
@@ -138,8 +138,8 @@ FS.ui_data_only = (ui_filename, formatter) => {
         });
       }, total);
     });
-  }
-}
+  };
+};
 
 FS.un_format_json = (data) => {
 
@@ -157,4 +157,4 @@ FS.un_format_json = (data) => {
 
 
   return JSON.parse(data);
-}
+};

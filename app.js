@@ -49,6 +49,7 @@ app.use('/', require('./app/routes/spa'));
 // io routes
 app.io = require('socket.io')(server);
 require('./app/io/system_stats.js')();
+require('./app/io/install_content.js')();
 
 orm.initialize(ormConfig, (err, models) => {
   if (err) throw err;

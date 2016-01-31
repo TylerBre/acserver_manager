@@ -78,10 +78,10 @@ var App = Vue.extend({
       return this.to_percent(this.system_stats.storage.total)(this.system_stats.storage.used);
     },
     storage_used_size () {
-      return this.convert_bytes(this.system_stats.storage.used);
+      return this.convert_bytes(this.system_stats.storage.used, 2);
     },
     storage_total_size () {
-      return this.convert_bytes(this.system_stats.storage.total);
+      return this.convert_bytes(this.system_stats.storage.total, 2);
     },
     swap_used_percent () {
       return this.to_percent(this.system_stats.swap.total)(this.system_stats.swap.used);
@@ -99,7 +99,7 @@ var App = Vue.extend({
         return (b / a) * 100;
       };
     },
-    convert_bytes (bytes=0, show_extension=true, decimal=0) {
+    convert_bytes (bytes=0, decimal=0, show_extension=true) {
       var out, extension;
 
       if (bytes < 1024) {

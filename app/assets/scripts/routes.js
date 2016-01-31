@@ -4,8 +4,19 @@ module.exports = (Vue) => {
       component: require('./components/dashboard.js')
     },
     '/content': {
-      name: 'content_index',
-      component: require('./components/content_index.js')
+      component: {
+        template: require('./templates/content_index.html')
+      },
+      subRoutes: {
+        '/': {
+          name: 'content_index',
+          component: require('./components/content_index.js')
+        },
+        '/new': {
+          name: 'content_new',
+          component: require('./components/content_new.js')
+        }
+      }
     },
     '/race_preset': {
       name: 'race_preset_index',
@@ -15,5 +26,5 @@ module.exports = (Vue) => {
       name: 'race_preset_new',
       component: require('./components/race_preset_new.js')
     }
-  }
-}
+  };
+};

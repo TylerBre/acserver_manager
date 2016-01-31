@@ -1,0 +1,9 @@
+h1 Content new
+.install_content_block(v-for="(index, item) in install_fields")
+  install_content(v-bind:index="index")
+br
+.col-lg-12
+  .pull-right
+    a.btn.btn-sm.btn-default(@click.prevent="add_row")
+      i.fa.fa-plus
+      | &nbsp;Add Row

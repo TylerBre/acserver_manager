@@ -19,6 +19,7 @@ results
 seed.js
 npm-debug.log
 node_modules
+tmp
 config/*.json
 app/assets/scripts/config.json
 !config/default.json

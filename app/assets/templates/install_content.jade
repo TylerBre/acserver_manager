@@ -1,0 +1,14 @@
+.install_content_row
+  .input-group(v-if='!installing')
+    input.form-control.input-lg(v-model='url', placeholder="http://www.racedepartment.com/downloads/mosport-2012.7766/download?version=12630")
+    .input-group-addon
+      .btn-group
+        a.btn.btn-xs.btn-success(style="float: none", @click.prevent="install", v-if="is_list", )
+          i.fa.fa-download
+          | &nbsp;Install
+        a.btn.btn-xs.btn-danger(style="float: none", @click.prevent="remove_row(index)")
+          i.fa.fa-trash
+          | &nbsp;Cancel
+  .console-output(v-if='installing', style="font-family: monospace; height: 60px; overflow: scroll;")
+    .console-wrapper(v-for="msg in console_buffer", track-by="$index")
+      .console-line {{ msg }}

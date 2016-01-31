@@ -10,15 +10,9 @@ header.navbar.navbar-default.navbar-fixed-top
         //- | acServer Manager
     nav#acm-navbar.collapse.navbar-collapse
       ul.nav.navbar-nav
-        li: a(v-link="{ name: 'content_index'}")
-          i.glyphicon.glyphicon-sunglasses
-          | &nbsp;Content
-        li: a(v-link="{ name: 'race_preset_index'}")
-          i.glyphicon.glyphicon-sunglasses
-          | &nbsp;Race Presets
-        li: a(v-link="{ name: 'race_preset_new'}")
-          i.glyphicon.glyphicon-plus
-          | &nbsp;Create Race Preset
+        li: a(v-link="{ name: 'content_index'}") Content
+        li: a(v-link="{ name: 'race_preset_index'}") Race Presets
+        li: a(v-link="{ name: 'race_preset_new'}") Create Race Preset
       ul.nav.navbar-nav.navbar-right
         li(v-show="$root.ready", transition="fade", style="display:none")
           .system-monitor.mini

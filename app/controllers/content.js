@@ -13,7 +13,7 @@ ContentController.index = () => {
   ]).spread((cars, tracks) => {
     return {cars, tracks};
   });
-}
+};
 
 // ContentController.update_all = () => {
 
@@ -49,9 +49,8 @@ ContentController.update = (content_scraper, model, find_criterea) => {
           });
         }
 
-
         // must be new data, or unchanged existing data
         return updated;
-      })
+      });
   }, []).all();
-}
+};

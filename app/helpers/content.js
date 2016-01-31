@@ -13,7 +13,7 @@ Content.cars = (pwd) => {
     .then((directories) => {
       return fs_content.readFile(path.join(seed_content, 'official_car_list.json')).then((official_car_list) => {
         return _.map(directories, (directory_name) => {
-          var official_content = official_car_list.indexOf(directory_name) >= 0
+          var official_content = official_car_list.indexOf(directory_name) >= 0;
           return {
             pwd: (!official_content) ? pwd : path.join(seed_content, 'cars'),
             directory_name,
@@ -30,7 +30,7 @@ Content.cars = (pwd) => {
           'data': data,
           'badge': path.join(item.file_obj.pwd, item.file_obj.directory_name, 'ui', 'badge.png')
         };
-      }), []).catch({code: 'ENOTDIR'}, () => {})
+      }), []).catch({code: 'ENOTDIR'}, () => {});
     });
 };
 
@@ -43,19 +43,19 @@ Content.tracks = (pwd, no_validate) => {
       if (no_validate) {
         return _.map(directories, (directory_name) => {
           return { pwd, directory_name };
-        })
+        });
       }
 
       return fs_content.readFile(path.join(seed_content, 'official_track_list.json')).then((official_track_list) => {
         return _.map(directories, (directory_name) => {
-          var official_content = official_track_list.indexOf(directory_name) >= 0
+          var official_content = official_track_list.indexOf(directory_name) >= 0;
           return {
             pwd: (!official_content) ? pwd : path.join(seed_content, 'tracks'),
             directory_name,
             official_content
           };
-        })
-      })
+        });
+      });
     })
     .reduce(fs_content.ui_directories_only, [])
     .reduce(fs_content.ui_data_only('ui_track.json', (item, data, configuration) => {
