@@ -1,0 +1,4 @@
+.console(v-bind:style="{ height: height + 'px'}")
+  .console-frame
+    .console-wrapper
+      .console-line(v-for="msg in dom_buffer", track-by="$index") {{ msg }}

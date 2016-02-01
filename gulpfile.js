@@ -16,8 +16,6 @@ var watch = require('gulp-watch');
 var minifyCSS = require('gulp-cssnano');
 var jade = require('gulp-jade');
 var _ = require('lodash');
-var vueify = require('vueify');
-var babelify = require('babelify');
 
 var less_src = './app/assets/styles/**/*.less';
 
@@ -29,7 +27,8 @@ gulp.task('server', () => {
     ignore: [
       'assets/*',
       'node_modules/*',
-      'seed/*'
+      'seed/*',
+      'tmp/*'
     ]
   });
 });

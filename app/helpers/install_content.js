@@ -28,6 +28,9 @@ module.exports = {
       .then(() => this.clean_tmp())
       .catch(console.log);
   },
+  clean (path) {
+    return sh.rm('-rf', path);
+  },
   clean_tmp () {
     return sh.rm('-rf', path.join(dest_pwd, 'extracted*'), path.join(dest_pwd, 'download*'));
   },

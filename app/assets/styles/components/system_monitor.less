@@ -1,0 +1,25 @@
+.system-monitor.mini {
+  padding: 12px (@grid-gutter-width / 2);
+
+  .status-item {
+    line-height: 1;
+  }
+
+  .title, .progress, .value {
+    display: inline-block;
+    font-family: @font-family-monospace;
+    font-size: 65%;
+    text-align: right;
+  }
+
+  .progress {
+    width: 80px;
+    margin-right: (@grid-gutter-width / 4);
+    margin-left: (@grid-gutter-width / 4);
+    margin-bottom: 0; // for spacing
+  }
+
+  .progress-bar-bg {
+    background-color: lighten(@brand-primary, 25%);
+  }
+}

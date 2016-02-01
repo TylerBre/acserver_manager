@@ -37,6 +37,7 @@
     "socket.io": "^1.4.5",
     "socket.io-client": "^1.4.5",
     "systeminformation": "^2.0.1",
+    "url-validator": "^2.0.3",
     "vue": "^1.0.15",
     "vue-async-data": "^1.0.2",
     "vue-resource": "^0.7.0",

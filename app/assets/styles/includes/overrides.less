@@ -1,0 +1,66 @@
+
+// fix input group addons to add an extending border
+.input-group-addon > .form-control {
+  display: inline-block;
+  border: none;
+  &, &:focus {
+    box-shadow: none;
+  }
+}
+
+.input-group-addon > .validation-status {
+  display: inline-block;
+}
+
+.input-group-addon {
+  border-bottom: 0px solid transparent;
+  border-radius: 0;
+  border-right: 0;
+  border-top: 0;
+  box-shadow: inset 0 -1px 0 #ddd;
+  padding-left: @grid-gutter-width / 2;
+  padding-right: @grid-gutter-width / 2;
+  .transition(all 0.2s);
+}
+
+.form-control:focus + .input-group-addon {
+  box-shadow: inset 0 -2px 0 @brand-primary;
+}
+
+.has-error .form-control + .input-group-addon {
+  box-shadow: inset 0 -2px 0 @brand-danger;
+}
+
+
+// change progress bar styles
+.progress &-bar {
+   &:last-child {
+    border-radius: 0;
+     &:before {
+       background-color: transparent;
+     }
+   }
+
+   &-success:last-child.progress-bar:before {
+     background-color: transparent;
+   }
+
+   &-info:last-child.progress-bar:before {
+     background-color: transparent;
+   }
+   &-warning:last-child.progress-bar:before {
+     background-color: transparent;
+   }
+
+   &-danger:last-child.progress-bar:before {
+     background-color: transparent;
+   }
+}
+
+.progress-bar {
+  position: absolute;
+
+  &:last-child {
+    border-radius: 0;
+  }
+}

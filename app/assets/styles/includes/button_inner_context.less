@@ -1,0 +1,26 @@
+
+.inner-context {
+  position: absolute;
+  @inner-context-offset-vertical: (@grid-gutter-width / 4);
+  @inner-context-offset-horizontal: (@grid-gutter-width / 2);
+
+  top: @inner-context-offset-vertical;
+  left: @inner-context-offset-horizontal;
+  right: @inner-context-offset-horizontal;
+
+  &.deeper {
+    top: (@inner-context-offset-vertical * 2);
+    left: (@inner-context-offset-horizontal * 2);
+    right: (@inner-context-offset-horizontal * 2);
+  }
+
+  &.inner-context-topright {
+    bottom: auto;
+    left: auto;
+  }
+
+  &.inner-context-topleft {
+    bottom: auto;
+    right: auto;
+  }
+}

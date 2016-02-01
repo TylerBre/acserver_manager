@@ -24,7 +24,7 @@ router.get('/tracks/update', (req, res, next) => {
     return {
       file_name: track.file_name,
       file_name_secondary: track.file_name_secondary
-    }
+    };
   }).then((updated) => res.json(updated));
 });
 

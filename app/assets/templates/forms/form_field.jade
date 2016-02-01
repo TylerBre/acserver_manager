@@ -1,0 +1,5 @@
+include input
+
+mixin form_field(label, type, model, validations, control)
+  +input(type, model, validations, control)(class='form-control', placeholder=label)
+    block

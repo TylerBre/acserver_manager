@@ -1,15 +1,22 @@
 var wget = require('wget-improved');
 var path = require('path');
+var valid_url = require('url-validator');
 var promise = require('bluebird');
 var convert_bytes = require('./convert_bytes.js');
 var EventEmitter = require('events');
 
 module.exports = (url, dest, timeout) => {
+  var status = new EventEmitter();
+
+  if (!valid_url(url)) {
+    status.emit('error', new Error('Invalid URL'));
+    return status;
+  }
+
   dest = dest || path.resolve(__dirname, '../../tmp');
   dest = path.join(dest, ('download_' + Date.now()));
   timeout = timeout || 5000;
 
-  var status = new EventEmitter();
   var dl = wget.download(url, dest);
 
   dl.on('error', (err) => status.emit('error', err));
