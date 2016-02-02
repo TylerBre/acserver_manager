@@ -1,4 +1,5 @@
 var Waterline = require('waterline');
+var _ = require('lodash');
 
 module.exports = Waterline.Collection.extend({
   identity: 'car',
@@ -19,6 +20,9 @@ module.exports = Waterline.Collection.extend({
   },
 
   fromKunos: (content) => {
+
+    content.data.specs = content.data.specs || {};
+
     return {
       name: content.data.name,
       brand: content.data.brand,

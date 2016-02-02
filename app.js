@@ -59,6 +59,8 @@ orm.initialize(ormConfig, (err, models) => {
   app.controllers = require('./app/controllers');
   app.helpers = require('./app/helpers');
 
-  var success_text = '👉  ' + config.get('app.host') + ':' + config.get('app.port');
-  server.listen(config.get('app.port'), () => console.log(success_text));
+  app.controllers.content.update_all().then(() => {
+    var success_text = '👉  ' + config.get('app.host') + ':' + config.get('app.port');
+    server.listen(config.get('app.port'), () => console.log(success_text));
+  });
 });

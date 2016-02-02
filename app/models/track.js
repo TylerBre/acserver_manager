@@ -1,4 +1,5 @@
 var Waterline = require('waterline');
+var _ = require('lodash');
 
 module.exports = Waterline.Collection.extend({
   identity: 'track',
@@ -19,6 +20,22 @@ module.exports = Waterline.Collection.extend({
   },
 
   fromKunos: (content) => {
+    // content = _.defaultsDeep({
+    //   data: {
+    //     name: null,
+    //     description: null,
+    //     geotags: [],
+    //     country: null,
+    //     city: null,
+    //     pitboxes: 24,
+    //     run: null,
+    //     length: null
+    //   },
+    //   official: null,
+    //   file_name: null,
+    //   configuration: null
+    // }, content);
+
     return {
       name: content.data.name,
       description: content.data.description,

@@ -111,7 +111,6 @@ FS.ui_data_only = (formatter) => {
 
     var ui_path = path.join(item.file_obj.pwd, item.file_obj.directory_name, 'ui');
     return FS.readDir(ui_path).then((data) => {
-      console.log(data);
       var ui_filename = get_ui_filename(data);
       if (ui_filename) {
         return FS.readFile(path.join(ui_path, ui_filename)).then((data) => {
