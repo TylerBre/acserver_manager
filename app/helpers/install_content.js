@@ -8,7 +8,7 @@ var sh = require('shelljs');
 var download = require('./download.js');
 var uncompress = require('./uncompress.js');
 var acserver_content_dir = '/home/acserver/acserver/content';
-var dest_pwd = path.resolve(__dirname, '../../tmp');
+var dest_pwd = path.resolve(process.cwd(), '../../tmp');
 
 module.exports = {
   clean (path) {

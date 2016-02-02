@@ -2,10 +2,10 @@ var path = require('path');
 var promise = require('bluebird');
 
 var app = require('../../app.js');
-var download = require('../helpers/download.js');
-var uncompress = require('../helpers/uncompress.js');
-var install_content = require('../helpers/install_content.js');
-var dest_pwd = path.resolve(__dirname, '../../tmp');
+var download = app.helpers.download;
+var uncompress = app.helpers.uncompress;
+var install_content = app.helpers.install_content;
+var dest_pwd = path.resolve(process.cwd(), '../../tmp');
 
 module.exports = () => {
   app.io.on('connection', (socket) => {

@@ -1,7 +1,7 @@
 var fs = require('fs');
 
 fs
-  .readdirSync(__dirname)
+  .readdirSync(process.cwd())
   .filter(function (file) {
     return (file.indexOf('.') !== 0) && (file !== 'index.js');
   })

@@ -13,7 +13,7 @@ module.exports = (url, dest, timeout) => {
     return status;
   }
 
-  dest = dest || path.resolve(__dirname, '../../tmp');
+  dest = dest || path.resolve(process.cwd(), '../../tmp');
   dest = path.join(dest, ('download_' + Date.now()));
   timeout = timeout || 5000;
 

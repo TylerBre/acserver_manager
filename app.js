@@ -23,9 +23,9 @@ var ormConfig = _.extend(config.get('waterline'), {
 _.forOwn(models, (model) => orm.loadCollection(model));
 
 // middleware
-// app.use(favicon(__dirname + '/public/img/favicon.ico'));
+// app.use(favicon(process.cwd() + '/public/img/favicon.ico'));
 app.use(require('compression')());
-app.use('/assets', express.static(__dirname + '/app/assets/public'));
+app.use('/assets', express.static(process.cwd() + '/app/assets/public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(require('method-override')());
@@ -36,8 +36,8 @@ app.use(require('response-time')());
 
 // env
 app.set('config', config.get('app'));
-app.set('views', path.join(__dirname, 'app/views'));
-app.set('root', __dirname);
+app.set('views', path.join(process.cwd(), 'app/views'));
+app.set('root', process.cwd());
 app.set('view engine', 'jade');
 
 // routes
