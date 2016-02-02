@@ -1,3 +1,104 @@
 .install-content {
+  @bubble-width: 10px;
   margin-bottom: @grid-gutter-width / 2;
+
+  .console {
+    margin-top: @grid-gutter-width / 2;
+  }
+
+  .install-extra {
+    .clearfix();
+  }
+
+  .install-extra-addon:extend(.pull-right) {
+    padding-left: @grid-gutter-width / 2;
+    padding-right: @grid-gutter-width / 2;
+  }
+
+  .installation-status {
+    text-align: center;
+    vertical-align: middle;
+  }
+
+  .installation-status .step {
+    position: relative;
+    width: 33.33333%;
+    display: inline-block;
+  }
+
+  .installation-status .progress {
+    width: 100%;
+    display: inline-block;
+    margin: 0;
+    top: -3px;
+  }
+
+  .installation-status .step-name {
+    position: absolute;
+    z-index: 9;
+    width: 100%;
+    text-align: center;
+    font-size: 75%;
+    font-weight: bold;
+    color: @gray-light;
+    left: (@bubble-width / 2) * -1;
+    top: 12px;
+  }
+
+  .installation-status .bubble {
+    position: absolute;
+    width: 0; height: 0;
+    right: (@bubble-width / 2) * -1; top: 0;
+    border: @bubble-width solid @progress-bg;
+    border-radius: 50%;
+    z-index: 2;
+
+    &.done {
+      border-color: @brand-primary;
+
+      .inner-icon {
+        color: #fff;
+      }
+    }
+
+    .inner-icon {
+      position: absolute;
+      line-height: 0;
+      left: (@bubble-width / 2) * -1;
+      width: 0;
+      top: 1px;
+      color: @gray-light;
+
+      &.fa-check {
+        margin-left: -1px;
+      }
+
+      &.fa-exclamation {
+        margin-left: 2.5px;
+      }
+    }
+  }
+
+  .installation-status.error {
+    .bubble.done {
+      border-color: @brand-danger;
+    }
+
+    .progress-bar {
+      background-color: @brand-danger;
+    }
+  }
+}
+
+.install-content.installing {
+  padding-bottom: @grid-gutter-width / 2;
+  border-bottom: 1px solid @gray-lighter;
+
+  .source-input .form-control, .source-input .input-group-addon {
+    border: none;
+  }
+
+  .source-input .input-group-addon {
+    visibility: hidden;
+  }
 }

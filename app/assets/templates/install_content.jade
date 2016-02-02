@@ -1,18 +1,44 @@
 include forms/form_field
 
-.install-content
+.install-content(v-bind:class="{'installing': installing}")
   form(novalidate, v-on:submit.prevent="install")
     .validation-status(v-bind:class="{'has-error': has_error}")
-      .input-group
-        input.form-control.input-lg(v-model="url", type="text", placeholder='http://www.racedepartment.com/downloads/mosport')
+      .input-group.source-input
+        input.form-control.input-lg(v-model="url", v-bind:class="{'disabled': !editable}", v-bind:disabled="!editable", type="text", placeholder='http://www.racedepartment.com/downloads/mosport')
         .input-group-addon
-          button.btn.btn-xs.btn-success(v-if="url.length > 0", type="submit")
-            i.fa.fa-download
-            | &nbsp;Install
-          a.btn.btn-xs.btn-default(@click.prevent="remove_row(index)", v-if="url.length < 1")
-            i.fa.fa-trash
-            | &nbsp;Clear Row
+          div(v-if="editable", transition="fade")
+            button.btn.btn-xs.btn-success(v-if="url.length > 0", type="submit")
+              i.fa.fa-download
+              | &nbsp;Install
+            a.btn.btn-xs.btn-default(@click.prevent="remove_row(index)", v-if="url.length < 1")
+              i.fa.fa-trash
+              | &nbsp;Clear Row
+
       span.help-block(v-if="has_error", transition="expand") {{ error_msg }}
-  .install_info(v-if='installing', transition="fade")
-    .progress: .progress-bar(v-bind:style="{width: downloading_progress }")
-    console(v-bind:buffer="console_buffer")
+  .install-extra: .row
+    .col-md-6
+      .installation-status(v-show="!editable", transition="expand", v-bind:class="{'error': has_error}")
+        .step
+          .progress
+            .progress-bar(v-bind:style="{'width': (downloading || downloading_done) ? '100%' : '0'}")
+          span.step-name.text-uppercase Downloading
+          .bubble(v-bind:class="{'done': downloading_done || (downloading && has_error)}")
+            i.inner-icon.fa(v-bind:class="{'fa-check': downloading_done, 'fa-minus': !has_error, 'fa-exclamation': (downloading && has_error)}")
+        .step
+          .progress
+            .progress-bar(v-bind:style="{'width': (extracting || extracting_done) ? '100%' : '0'}")
+          span.step-name.text-uppercase Extracting
+          .bubble(v-bind:class="{'done': extracting_done || (extracting && has_error)}")
+            i.inner-icon.fa(v-bind:class="{'fa-check': extracting_done, 'fa-minus': !has_error, 'fa-exclamation': (extracting && has_error)}")
+        .step
+          .progress
+            .progress-bar(v-bind:style="{'width': (registering || completed) ? '100%' : '0'}")
+          span.step-name.text-uppercase Installing
+          .bubble(v-bind:class="{'done': registering_done || (registering && has_error)}")
+            i.inner-icon.fa(v-bind:class="{'fa-check': completed, 'fa-minus': !has_error, 'fa-exclamation': (registering && has_error)}")
+    .col-md-6
+      .install-extra-addon
+        a.btn.btn-xs.btn-default(@click.prevent="show_console = !show_console", v-if="installing || has_error")
+          i.fa.fa-terminal
+          | &nbsp;Installation Logs
+  console(v-bind:buffer="console_buffer", v-bind:class="{'hidden': !display_console}", transition="expand")

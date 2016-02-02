@@ -13,13 +13,14 @@ module.exports = Vue.extend({
     return {
       url: '',
       console_buffer: [],
-      downloading: false,
       downloading_progress: "0%",
+      downloading: false,
       downloading_done: false,
       extracting: false,
       extracting_done: false,
       registering: false,
       registering_done: false,
+      show_console: false,
       error_msg: '',
       has_error: false
     };
@@ -36,6 +37,12 @@ module.exports = Vue.extend({
     },
     installing () {
       return this.in_progress && !this.completed;
+    },
+    editable () {
+      return !this.installing && !this.completed;
+    },
+    display_console () {
+      return (this.editable) ? false : this.show_console;
     }
   },
   methods: {
@@ -64,15 +71,22 @@ module.exports = Vue.extend({
 
     io.on('install:update:extraction', (msg) => filter_update_msg(msg, (msg) => {
       this.extracting = true;
-      // this.downloading_progress = msg;
+      this.downloading_done = true;
+      this.downloading = false;
     }));
 
     io.on('install:update:registration', (msg) => filter_update_msg(msg, (msg) => {
-      this.extracting = true;
+      this.registering = true;
+      this.extracting_done = true;
+      this.extracting = false;
+    }));
+
+    io.on('install:done', (msg) => filter_update_msg(msg, (msg) => {
+      this.registering_done = true;
+      this.registering = false;
     }));
 
     io.on('install:update:error', (msg) => filter_update_msg(msg, (msg) => {
-      console.log(msg);
       this.has_error = true;
       this.error_msg = msg;
     }));
