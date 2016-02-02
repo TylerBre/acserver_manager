@@ -14,7 +14,9 @@ include forms/form_field
               i.fa.fa-trash
               | &nbsp;Clear Row
 
-      span.help-block(v-if="has_error", transition="expand") {{ error_msg }}
+      span.help-block(v-if="has_error", transition="expand")
+        span.label.label-danger Error
+        | &nbsp;{{ error_msg }}
   .install-extra: .row
     .col-md-6
       .installation-status(v-show="!editable", transition="expand", v-bind:class="{'error': has_error}")
