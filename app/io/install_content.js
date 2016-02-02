@@ -45,7 +45,7 @@ module.exports = () => {
                 .then(() => file_path);
             })
             .then((file_path) => {
-              var open = uncompress('rar', file_path, dest_pwd);
+              var open = uncompress('detect', file_path, dest_pwd);
               logs.push('Extracting content, this will take a moment.');
               app.io.to(name).emit('install:update:extraction', message(msg.id, logs[logs.length - 1]));
               open.on('output', (data) => {

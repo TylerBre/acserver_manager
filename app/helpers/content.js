@@ -29,7 +29,7 @@ Content.car = (directory_names, pwd) => {
     });
   })
   .reduce(fs_content.ui_directories_only, [])
-  .reduce(fs_content.ui_data_only('ui_car.json', (item, data, configuration) => {
+  .reduce(fs_content.ui_data_only((item, data, configuration) => {
     data = fs_content.un_format_json(data);
     return {
       'file_name': item.file_obj.directory_name,
@@ -70,7 +70,7 @@ Content.track = (directory_names, pwd, no_validate) => {
       }).then(resolve).catch(reject);
   })
   .reduce(fs_content.ui_directories_only, [])
-  .reduce(fs_content.ui_data_only('ui_track.json', (item, data, configuration) => {
+  .reduce(fs_content.ui_data_only((item, data, configuration) => {
     var resource_path = path.join(item.file_obj.pwd, item.file_obj.directory_name, 'ui');
     return {
       'file_name': item.file_obj.directory_name,

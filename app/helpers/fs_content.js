@@ -106,13 +106,14 @@ FS.ui_directories_only = (total, file_obj) => {
   });
 };
 
-FS.ui_data_only = (ui_filename, formatter) => {
+FS.ui_data_only = (formatter) => {
   return (total, item) => {
 
     var ui_path = path.join(item.file_obj.pwd, item.file_obj.directory_name, 'ui');
     return FS.readDir(ui_path).then((data) => {
-
-      if (data.indexOf(ui_filename) >= 0) {
+      console.log(data);
+      var ui_filename = get_ui_filename(data);
+      if (ui_filename) {
         return FS.readFile(path.join(ui_path, ui_filename)).then((data) => {
           total.push(formatter(item, data, null));
           return total;
@@ -123,22 +124,32 @@ FS.ui_data_only = (ui_filename, formatter) => {
         var configuration_path = path.join(ui_path, file_name);
         return FS.is_directory(configuration_path).then(() => {
           return FS.readDir(configuration_path).then((data) => {
-            data.file_name = file_name;
-            data.configuration_path = configuration_path;
-            _total.push(data);
+            var out = {};
+            out.file_name = file_name;
+            out.configuration_path = configuration_path;
+            out.ui_filename = get_ui_filename(data);
+            _total.push(out);
             return _total;
           });
         }).catch(() => {
           return _total;
         });
       }, []).reduce((_total, data) => {
-        return FS.readFile(path.join(data.configuration_path, ui_filename)).then((_data) => {
+        if (!data.ui_filename) throw "No ui json file. Cannot save data";
+        return FS.readFile(path.join(data.configuration_path, data.ui_filename)).then((_data) => {
           _total.push(formatter(item, _data, data.file_name));
           return _total;
         });
       }, total);
     });
   };
+
+  function get_ui_filename (file_list) {
+    var file_index = _.findIndex(file_list, file => /(.*ui_.*.json)/gi.test(file));
+    var ui_filename = null;
+    if (file_index >= 0) ui_filename = file_list[file_index];
+    return ui_filename;
+  }
 };
 
 FS.un_format_json = (data) => {

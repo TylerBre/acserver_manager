@@ -1,6 +1,6 @@
 include forms/form_field
 
-.install-content(v-bind:class="{'installing': installing}")
+.install-content(v-bind:class="{'installing': !editable}")
   form(novalidate, v-on:submit.prevent="install")
     .validation-status(v-bind:class="{'has-error': has_error}")
       .input-group.source-input
@@ -25,22 +25,22 @@ include forms/form_field
             .progress-bar(v-bind:style="{'width': (downloading || downloading_done) ? '100%' : '0'}")
           span.step-name.text-uppercase Downloading
           .bubble(v-bind:class="{'done': downloading_done || (downloading && has_error)}")
-            i.inner-icon.fa(v-bind:class="{'fa-check': downloading_done, 'fa-minus': !has_error, 'fa-exclamation': (downloading && has_error)}")
+            i.inner-icon.fa(v-bind:class="{'fa-check': downloading_done, 'fa-minus': (!has_error && !downloading_done), 'fa-exclamation': (downloading && has_error)}")
         .step
           .progress
             .progress-bar(v-bind:style="{'width': (extracting || extracting_done) ? '100%' : '0'}")
           span.step-name.text-uppercase Extracting
           .bubble(v-bind:class="{'done': extracting_done || (extracting && has_error)}")
-            i.inner-icon.fa(v-bind:class="{'fa-check': extracting_done, 'fa-minus': !has_error, 'fa-exclamation': (extracting && has_error)}")
+            i.inner-icon.fa(v-bind:class="{'fa-check': extracting_done, 'fa-minus': (!has_error && !extracting_done), 'fa-exclamation': (extracting && has_error)}")
         .step
           .progress
             .progress-bar(v-bind:style="{'width': (registering || completed) ? '100%' : '0'}")
           span.step-name.text-uppercase Installing
           .bubble(v-bind:class="{'done': registering_done || (registering && has_error)}")
-            i.inner-icon.fa(v-bind:class="{'fa-check': completed, 'fa-minus': !has_error, 'fa-exclamation': (registering && has_error)}")
+            i.inner-icon.fa(v-bind:class="{'fa-check': completed, 'fa-minus': (!has_error && !completed), 'fa-exclamation': (registering && has_error)}")
     .col-md-6
       .install-extra-addon
-        a.btn.btn-xs.btn-default(@click.prevent="show_console = !show_console", v-if="installing || has_error")
+        a.btn.btn-xs.btn-default(@click.prevent="show_console = !show_console", v-if="!editable")
           i.fa.fa-terminal
           | &nbsp;Installation Logs
   console(v-bind:buffer="console_buffer", v-bind:class="{'hidden': !display_console}", transition="expand")

@@ -11,23 +11,6 @@ var acserver_content_dir = '/home/acserver/acserver/content';
 var dest_pwd = path.resolve(__dirname, '../../tmp');
 
 module.exports = {
-  from_url (url) {
-    var dl = download(url, dest_pwd);
-    dl.on('output', (data) => console.log(`${data.progress} (${data.sizes})`));
-
-    return streamToPromise(dl)
-      .then((file_path) => {
-        var open = uncompress('rar', file_path, dest_pwd);
-        console.log('Extracting content, this will take a moment.');
-        open.on('output', (data) => console.log(data));
-        return streamToPromise(open);
-      })
-      .then((extraction_path) => this.find_extracted_content(extraction_path))
-      .map((content) => this.move_to_acserver(content))
-      .map((content) => console.log(`Installed: ${content.install_pwd}`))
-      .then(() => this.clean_tmp())
-      .catch(console.log);
-  },
   clean (path) {
     return sh.rm('-rf', path);
   },
@@ -35,12 +18,12 @@ module.exports = {
     return sh.rm('-rf', path.join(dest_pwd, 'extracted*'), path.join(dest_pwd, 'download*'));
   },
   move_to_acserver (content) {
-    var pwd_ary = content.pwd.split(path.sep);
-    content.install_pwd = path.join(acserver_content_dir, content.content_type, pwd_ary[pwd_ary.length - 1]);
+    console.log("move_to_acserver (content) {");
+    console.log(content);
+    content.install_pwd = path.join(acserver_content_dir, content.content_type, content.root_name);
     console.log(`Moving: ${content.pwd} to ${content.install_pwd}`);
     sh.rm('-rf', content.install_pwd); // refactor when we add support for uploading skins
     sh.mv('-f', content.pwd, content.install_pwd);
-    content.install_pwd = content.install_pwd;
     return content;
   },
   // find all of content json files in extracted directory,
@@ -48,20 +31,20 @@ module.exports = {
     return new promise((resolve, reject) => {
       readdirp({
         root: dir_path,
-        fileFilter: ['ui_car.json', 'ui_track.json']
+        fileFilter: ['*ui_car.json', '*ui_track.json']
       }, (errors, data) => {
         if (errors) reject(errors);
         try {
-          console.log(data.files);
+          // console.log(data.files);
           var content_directories = _.reduce(data.files, (total, file) => {
             var content = this.resolve_content_root(file);
             if (_.isEmpty(content.pwd)) return total; // sometimes pwd will be ''
             if (!_.find(total, {pwd: content.pwd})) total.push(content);
             return total;
           }, []);
-          console.log(content_directories);
           resolve(content_directories);
         } catch (e) {
+          console.log("REJECTION: find_extracted_content (dir_path) {");
           reject(e);
         }
       });
@@ -72,7 +55,7 @@ module.exports = {
   resolve_content_root (readdirp_output) {
     var iterator = content_path(readdirp_output.fullParentDir.split(path.sep));
     var out = {
-      content_type: (readdirp_output.name == 'ui_track.json') ? 'tracks' : 'cars'
+      content_type: (/(.*track.*)/gi.test(readdirp_output.name)) ? 'tracks' : 'cars'
     };
 
     out.pwd = _.reduce(_.range(2), (pwd, iteration) => {
