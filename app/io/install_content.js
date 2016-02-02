@@ -10,16 +10,25 @@ var dest_pwd = path.resolve(__dirname, '../../tmp');
 module.exports = () => {
   app.io.on('connection', (socket) => {
     socket.on('install:connect_socket', (id) => {
-      var name = socket_name(id);
-      console.log(`Connected to ${name}`);
-      socket.join(name);
-      app.io.to(name).emit('install:message', message(id, 'Connected successfully'));
+      app.models.dlc.findOne({socket_id: id, status: 'processing'}).then((dlc) => {
+        var name = socket_name(id);
+        socket.join(name);
+        console.log(`Connected to ${name}`);
+        app.io.to(name).emit('install:message', message(id, 'Connected successfully'));
+
+        if (dlc) app.io.to(name).emit('install:continue', message(id, dlc));
+      }).catch((e) => {
+        console.log(e);
+        var name = socket_name(id);
+        socket.join(name);
+        app.io.to(name).emit('install:message', message(id, e.message));
+      });
     });
 
     socket.on('install:from_url', (msg) => {
       var name = socket_name(msg.id);
 
-      app.models.dlc.create({url: msg.url}).then((dlc) => {
+      app.models.dlc.create({url: msg.url, socket_id: msg.id}).then((dlc) => {
         var logs = [];
         return new promise((resolve, reject) => {
           var dl = download(msg.url, dest_pwd);
@@ -76,13 +85,32 @@ module.exports = () => {
               return app.models.dlc.update(dlc.id, {lifecycle: 'registering'})
                 .then(() => content);
             })
+            .map((content) => {
+              var model = (content.content_type == 'cars') ? 'car' : 'track';
+              return app.controllers.content.update(() => {
+                return app.helpers.content[model](content.root_name);
+              }, app.models[model], (item) => {
+                var critera = { file_name: item.file_name };
+                if (model == 'track') critera.file_name_secondary = item.file_name_secondary;
+                return critera;
+              }).then(() => content.pwd);
+            })
+            .map((content) => {
+              logs.push(`Registered: ${content}`);
+              app.io.to(name).emit('install:update:registration', message(msg.id, logs[logs.length - 1]));
+              return content;
+            })
+            .then(() => { // lifecycle event
+              logs.push(`Done!`);
+              return app.models.dlc.update(dlc.id, {lifecycle: 'done', status: 'installed'});
+            })
             .then(resolve).catch(reject);
         })
-        // .then(() => {
-        //   app.models.dlc.update(dlc.id, {install_log: logs, status: 'errored'}).then(() => {
-        //     app.io.to(name).emit('install:done', message(msg.id, "Done!"));
-        //   });
-        // })
+        .then(() => { // lifecycle event
+          app.models.dlc.update(dlc.id, {install_log: logs}).then(() => {
+            app.io.to(name).emit('install:done', message(msg.id, logs[logs.length - 1]));
+          });
+        })
         .catch((e) => {
           logs.push(e.message);
           app.models.dlc.update(dlc.id, {install_log: logs, status: 'errored'}).then(() => generic(e));

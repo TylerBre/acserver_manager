@@ -11,6 +11,13 @@ router.get('/', (req, res, next) => {
   controllers.content.index().then((content) => res.json(content));
 });
 
+router.get('/installing', (req, res, next) => {
+  app.models.dlc.find({
+    status: 'processing',
+    socket_id: { '!': null }
+  }).then((data) => res.json(data));
+});
+
 router.get('/tracks', (req, res, next) => {
   app.models.track.find().then((content) => res.json(content));
 });

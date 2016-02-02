@@ -67,10 +67,18 @@ module.exports = Vue.extend({
       // this.downloading_progress = msg;
     }));
 
+    io.on('install:update:registration', (msg) => filter_update_msg(msg, (msg) => {
+      this.extracting = true;
+    }));
+
     io.on('install:update:error', (msg) => filter_update_msg(msg, (msg) => {
       console.log(msg);
       this.has_error = true;
       this.error_msg = msg;
+    }));
+
+    io.on('install:continue', (msg) => filter_update_msg(msg, (msg) => {
+      console.log(msg);
     }));
 
     function filter_update_msg (msg, fn) {

@@ -19,6 +19,10 @@ ContentController.index = () => {
 
 // };
 
+ContentController.update_one = (content_scraper, model, find_criterea) => {
+
+};
+
 ContentController.update = (content_scraper, model, find_criterea) => {
   return content_scraper().then((content) => {
     // console.log(content);

@@ -38,7 +38,7 @@ module.exports = {
     var pwd_ary = content.pwd.split(path.sep);
     content.install_pwd = path.join(acserver_content_dir, content.content_type, pwd_ary[pwd_ary.length - 1]);
     console.log(`Moving: ${content.pwd} to ${content.install_pwd}`);
-    sh.rm('-rf', content.install_pwd);
+    sh.rm('-rf', content.install_pwd); // refactor when we add support for uploading skins
     sh.mv('-f', content.pwd, content.install_pwd);
     content.install_pwd = content.install_pwd;
     return content;
@@ -48,15 +48,18 @@ module.exports = {
     return new promise((resolve, reject) => {
       readdirp({
         root: dir_path,
-        fileFilter: 'ui_*.json'
+        fileFilter: ['ui_car.json', 'ui_track.json']
       }, (errors, data) => {
         if (errors) reject(errors);
         try {
+          console.log(data.files);
           var content_directories = _.reduce(data.files, (total, file) => {
             var content = this.resolve_content_root(file);
+            if (_.isEmpty(content.pwd)) return total; // sometimes pwd will be ''
             if (!_.find(total, {pwd: content.pwd})) total.push(content);
             return total;
           }, []);
+          console.log(content_directories);
           resolve(content_directories);
         } catch (e) {
           reject(e);
@@ -77,6 +80,8 @@ module.exports = {
       if (out.dir_name == 'ui') pwd = out.pwd;
       return pwd;
     }, '');
+
+    out.root_name = out.pwd.split(path.sep)[out.pwd.split(path.sep).length - 1];
 
     return out;
   }

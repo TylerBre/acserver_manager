@@ -29,7 +29,10 @@ function _extract (file_path, dest_pwd) {
       }, 5000);
 
       child.stdout.on('data', data => status.emit('output', data));
-      child.stderr.on('data', err => status.emit('err', err));
+      child.stderr.on('data', err => {
+        console.log('Error!');
+        status.emit('error', new Error(err));
+      });
       child.on('close', () => {
         clearInterval(cat_fact_interval);
         status.emit('end', extract_path);

@@ -19,7 +19,7 @@ module.exports = (url, dest, timeout) => {
 
   var dl = wget.download(url, dest);
 
-  dl.on('error', (err) => status.emit('error', err));
+  dl.on('error', (err) => status.emit('error', new Error(err)));
   dl.on('end', () => status.emit('end', dest));
   dl.on('start', (file_size) => {
     total_size = convert_bytes(file_size, true, 2);
