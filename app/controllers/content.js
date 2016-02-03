@@ -16,11 +16,7 @@ ContentController.index = () => {
 
 ContentController.update_all = () => {
 
-  var update_cars = this._update(app.helpers.content.cars, app.models.car, (car) => {
-    return { file_name: car.file_name };
-  });
-
-  return promise.all([this.update_tracks(), update_cars]);
+  return promise.all([this.update_tracks(), this.update_cars()]);
 };
 
 ContentController.update_tracks = () => {
@@ -35,8 +31,6 @@ ContentController.update_tracks = () => {
         .populate('outline')
         .then(data => {
           if (data) {
-            // console.log(data.preview.tmp);
-            // console.log(content.preview.tmp);
             return promise.all([
               app.models.track.update(data.id, _.omit(content, 'preview', 'outline')),
               app.models.attachment.update(data.preview.id, content.preview),
@@ -48,6 +42,33 @@ ContentController.update_tracks = () => {
           }
 
           return app.models.track.create(content).then((data) => {
+            updated.push(data);
+            return updated;
+          });
+        });
+    }, []);
+};
+
+ContentController.update_cars = () => {
+  return app.helpers.content.cars()
+    .reduce((updated, content) => {
+      content = app.models.car.fromKunos(content);
+      return app.models.car.findOne({file_name: content.file_name})
+        .populate('badge')
+        .populate('logo')
+        .then(data => {
+          if (data) {
+            return promise.all([
+              app.models.car.update(data.id, _.omit(content, 'badge', 'logo')),
+              app.models.attachment.update(data.badge.id, content.badge),
+              app.models.attachment.update(data.logo.id, content.logo)
+            ]).spread((data) => {
+              updated.push(data);
+              return updated;
+            });
+          }
+
+          return app.models.car.create(content).then((data) => {
             updated.push(data);
             return updated;
           });

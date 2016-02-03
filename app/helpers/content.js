@@ -31,13 +31,23 @@ Content.car = (directory_names, pwd) => {
   .reduce(fs_content.ui_directories_only, [])
   .reduce(fs_content.ui_data_only((item, data, configuration) => {
     data = fs_content.un_format_json(data);
+    var resource_path = path.join(item.file_obj.pwd, item.file_obj.directory_name);
     return {
       'file_name': item.file_obj.directory_name,
       'official': item.file_obj.official_content,
-      'data': data,
-      'badge': path.join(item.file_obj.pwd, item.file_obj.directory_name, 'ui', 'badge.png')
+      data, resource_path
     };
-  }), []).catch({code: 'ENOTDIR'}, () => {});
+  }), [])
+  .map((car) => {
+    return promise.all([
+      fs_content.readDirP(car.resource_path, '*badge.*'),
+      fs_content.readDirP(car.resource_path, '*logo.*')
+    ]).spread((badge, logo) => {
+      car.badge = (badge.files[0]) ? badge.files[0].fullPath : '';
+      car.logo  = (logo.files[0]) ? logo.files[0].fullPath : '';
+      return car;
+    });
+  }).catch({code: 'ENOTDIR'}, () => {});
 };
 
 Content.tracks = (pwd, no_validate) => {

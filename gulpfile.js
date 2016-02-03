@@ -25,7 +25,7 @@ gulp.task('server', () => {
     script: './app.js',
     ext: 'js json',
     ignore: [
-      'assets/*',
+      'app/assets/*',
       'node_modules/*',
       'seed/*',
       'tmp/*'

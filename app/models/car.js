@@ -1,5 +1,6 @@
 var Waterline = require('waterline');
 var _ = require('lodash');
+var path = require('path');
 
 module.exports = Waterline.Collection.extend({
   identity: 'car',
@@ -16,7 +17,13 @@ module.exports = Waterline.Collection.extend({
     torque_curve: 'array',
     power_curve: 'array',
     official: 'boolean',
-    file_name: 'string'
+    file_name: 'string',
+    badge: {
+      model: 'attachment'
+    },
+    logo: {
+      model: 'attachment'
+    }
   },
 
   fromKunos: (content) => {
@@ -35,6 +42,14 @@ module.exports = Waterline.Collection.extend({
       power_curve: content.data.powerCurve,
       official: content.official,
       file_name: content.file_name,
+      badge: {
+        file_name: content.badge.split(path.sep)[content.badge.split(path.sep).length - 1],
+        tmp: content.badge
+      },
+      logo: {
+        file_name: content.logo.split(path.sep)[content.logo.split(path.sep).length - 1],
+        tmp: content.logo
+      }
     };
   }
 });
