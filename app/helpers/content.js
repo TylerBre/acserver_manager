@@ -1,26 +1,26 @@
 var fs_content = require('./fs_content.js');
-var app = require('../../app');
 var path = require('path');
 var _ = require('lodash');
 var promise = require('bluebird');
-var seed_content = path.join(app.get('root'), 'seed/content');
+var seed_content = path.resolve('../../', 'seed/content');
 
 var Content = module.exports;
 
-Content.cars = (pwd) => {
+Content.cars = (pwd, ignore_seed_data) => {
   pwd = pwd || '/home/acserver/acserver/content/cars';
   return fs_content.readDir(pwd)
     .reduce(fs_content.directories_only(pwd), [])
-    .then((directories) => this.car(directories, pwd));
+    .then((directories) => this.car(directories, pwd, ignore_seed_data));
 };
 
-Content.car = (directory_names, pwd) => {
+Content.car = (directory_names, pwd, ignore_seed_data) => {
   if (!_.isArray(directory_names)) directory_names = [directory_names];
   pwd = pwd || '/home/acserver/acserver/content/cars';
 
   return fs_content.readFile(path.join(seed_content, 'official_car_list.json')).then((official_car_list) => {
     return _.map(directory_names, (directory_name) => {
       var official_content = official_car_list.indexOf(directory_name) >= 0;
+      if (ignore_seed_data) official_content = false;
       return {
         pwd: (!official_content) ? pwd : path.join(seed_content, 'cars'),
         directory_name,
