@@ -1,3 +1,4 @@
+var path = require('path');
 var Waterline = require('waterline');
 var _ = require('lodash');
 
@@ -16,26 +17,16 @@ module.exports = Waterline.Collection.extend({
     length: 'string',
     official: 'boolean',
     file_name: 'string',
-    file_name_secondary: 'string'
+    file_name_secondary: 'string',
+    outline: {
+      model: 'attachment'
+    },
+    preview: {
+      model: 'attachment'
+    }
   },
 
-  fromKunos: (content) => {
-    // content = _.defaultsDeep({
-    //   data: {
-    //     name: null,
-    //     description: null,
-    //     geotags: [],
-    //     country: null,
-    //     city: null,
-    //     pitboxes: 24,
-    //     run: null,
-    //     length: null
-    //   },
-    //   official: null,
-    //   file_name: null,
-    //   configuration: null
-    // }, content);
-
+  fromKunos (content) {
     return {
       name: content.data.name,
       description: content.data.description,
@@ -48,6 +39,14 @@ module.exports = Waterline.Collection.extend({
       official: content.official,
       file_name: content.file_name,
       file_name_secondary: content.configuration,
+      outline: {
+        file_name: content.outline.split(path.sep)[content.outline.split(path.sep).length - 1],
+        tmp: content.outline
+      },
+      preview: {
+        file_name: content.preview.split(path.sep)[content.preview.split(path.sep).length - 1],
+        tmp: content.preview
+      }
     };
   }
 });

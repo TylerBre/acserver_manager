@@ -73,13 +73,24 @@ Content.track = (directory_names, pwd, no_validate) => {
   .reduce(fs_content.ui_data_only((item, data, configuration) => {
     var resource_path = path.join(item.file_obj.pwd, item.file_obj.directory_name, 'ui');
     return {
+      configuration, resource_path,
       'file_name': item.file_obj.directory_name,
       'official': item.file_obj.official_content,
-      'data': fs_content.un_format_json(data),
-      'configuration': configuration,
-      // this might be the worst code I've ever written...
-      'outline': path.join(resource_path, ((configuration) ? path.join(configuration, 'outline.png') : 'outline.png')),
-      'preview': path.join(resource_path, ((configuration) ? path.join(configuration, 'preview.png') : 'preview.png'))
+      'data': fs_content.un_format_json(data)
     };
-  }), []);
+  }), [])
+  .map((track) => {
+    var pwd = (track.configuration) ?  path.join(track.resource_path, track.configuration) : track.resource_path;
+    return promise.all([
+      fs_content.readDirP(pwd, '*outline.*'),
+      fs_content.readDirP(pwd, '*preview.*'),
+      fs_content.readDirP(track.resource_path, 'map.png')
+    ]).spread((outline, preview, map) => {
+      track.outline = (outline.files[0]) ? outline.files[0].fullPath : '';
+      track.preview = (preview.files[0]) ? preview.files[0].fullPath : '';
+      track.map     = (map.files[0]) ? map.files[0].fullPath : '';
+      return track;
+    });
+  });
 };
+

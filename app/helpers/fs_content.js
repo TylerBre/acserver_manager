@@ -1,6 +1,7 @@
 var fs = require('fs');
 var fs_extra = require('fs-extra');
 var promise = require('bluebird');
+var readdirp = require('readdirp');
 var path = require('path');
 var _ = require('lodash');
 var JSON = require('json-parse-helpfulerror');
@@ -12,6 +13,15 @@ FS.readDir = (dir) => {
     fs.readdir(dir, (err, data) => {
       if (err) reject(err);
 
+      resolve(data);
+    });
+  });
+};
+
+FS.readDirP = (root, fileFilter) => {
+  return new promise((resolve, reject) => {
+    readdirp({root, fileFilter}, (errors, data) => {
+      if (errors) reject(errors);
       resolve(data);
     });
   });

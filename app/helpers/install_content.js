@@ -5,6 +5,7 @@ var path = require('path');
 var promise = require('bluebird');
 var _ = require('lodash');
 var sh = require('shelljs');
+var fs_content = require('./fs_content');
 var download = require('./download.js');
 var uncompress = require('./uncompress.js');
 var acserver_content_dir = '/home/acserver/acserver/content';
@@ -28,27 +29,17 @@ module.exports = {
   },
   // find all of content json files in extracted directory,
   find_extracted_content (dir_path) {
-    return new promise((resolve, reject) => {
-      readdirp({
-        root: dir_path,
-        fileFilter: ['*ui_car.json', '*ui_track.json']
-      }, (errors, data) => {
-        if (errors) reject(errors);
-        try {
-          // console.log(data.files);
-          var content_directories = _.reduce(data.files, (total, file) => {
-            var content = this.resolve_content_root(file);
-            if (_.isEmpty(content.pwd)) return total; // sometimes pwd will be ''
-            if (!_.find(total, {pwd: content.pwd})) total.push(content);
-            return total;
-          }, []);
-          resolve(content_directories);
-        } catch (e) {
-          console.log("REJECTION: find_extracted_content (dir_path) {");
-          reject(e);
-        }
-      });
-    });
+    return fs_content.readDirP(dir_path, ['*ui_car.json', '*ui_track.json'])
+      .then(data => {
+        // console.log(data.files);
+        var content_directories = _.reduce(data.files, (total, file) => {
+          var content = this.resolve_content_root(file);
+          if (_.isEmpty(content.pwd)) return total; // sometimes pwd will be ''
+          if (!_.find(total, {pwd: content.pwd})) total.push(content);
+          return total;
+        }, []);
+        return content_directories;
+      }).catch(console.log);
   },
   // reduce readdirp output to an object of root content path and return the
   // install path

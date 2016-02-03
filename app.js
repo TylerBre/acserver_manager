@@ -32,13 +32,16 @@ app.use(require('method-override')());
 app.use(require('cookie-parser')());
 app.use(require('errorhandler')());
 app.use(require('skipper')());
-app.use(require('response-time')());
+app.use(require('morgan')('dev'));
 
 // env
 app.set('config', config.get('app'));
 app.set('views', path.join(__dirname, 'app/views'));
 app.set('root', __dirname);
 app.set('view engine', 'jade');
+app.set('images', path.join(__dirname, 'app/assets/public/images'));
+app.set('url', `${config.get('app.host')}:${config.get('app.port')}`);
+app.set('url_images_root', `${app.get('url')}/assets/images`);
 
 // routes
 // app.use('/auth', require('./app/routes/auth'));
@@ -60,7 +63,6 @@ orm.initialize(ormConfig, (err, models) => {
   app.helpers = require('./app/helpers');
 
   app.controllers.content.update_all().then(() => {
-    var success_text = '👉  ' + config.get('app.host') + ':' + config.get('app.port');
-    server.listen(config.get('app.port'), () => console.log(success_text));
+    server.listen(config.get('app.port'), () => console.log(`👉  ${app.get('url')}`));
   });
 });
