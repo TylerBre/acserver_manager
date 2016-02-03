@@ -7,8 +7,8 @@ var ContentController = module.exports;
 
 ContentController.index = () => {
   return promise.all([
-    app.models.car.find(),
-    app.models.track.find()
+    app.models.car.find().populate('badge').populate('logo'),
+    app.models.track.find().populate('preview').populate('outline')
   ]).spread((cars, tracks) => {
     return {cars, tracks};
   });

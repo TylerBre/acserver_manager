@@ -9,9 +9,17 @@ module.exports = Waterline.Collection.extend({
 
   attributes: {
     file_name: 'string',
-    tmp: 'string'
+    tmp: 'string',
+    url () {
+      return `${app.get('url_images_root')}/attachments/${this.id}/${this.file_name}`;
+    },
+    toJSON: function () {
+      var obj = this.toObject();
+      obj.url = this.url();
+      delete obj.tmp;
+      return obj;
+    }
   },
-  url: () => `${app.get('url_images_root')}/attachments/${this.id}/${this.file_name}`,
   afterCreate (attachment, next) {
     create(attachment);
     next();
