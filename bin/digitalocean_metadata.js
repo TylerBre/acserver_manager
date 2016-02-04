@@ -3,8 +3,8 @@ var fs = require('fs');
 var path = require('path');
 
 var out = '';
-var NODE_ENV = process.env.NODE_ENV
-var env = (!NODE_ENV || NODE_ENV == '') ? 'development' : NODE_ENV;
+var NODE_ENV = process.env.NODE_ENV;
+var env = (!NODE_ENV || (NODE_ENV == '')) ? 'development' : NODE_ENV;
 var config_dir = path.resolve('./config');
 var overlay_file = env + '.json';
 var overlay_path = path.join(config_dir, overlay_file);

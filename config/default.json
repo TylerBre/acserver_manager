@@ -25,5 +25,28 @@
     "defaults": {
       "migrate": "alter"
     }
+  },
+  "stracker": {
+    "db": {
+      "host": "localhost",
+      "user": "postgres",
+      "password": "postgres",
+      "database": "stracker"
+    },
+    "http": {
+      "admin_username": "",
+      "admin_password": "",
+      "bullshit": false
+    },
+    "messages": {
+      "best_lap_time_broadcast_threshold": 105,
+      "car_to_car_collision_msg": "True",
+      "message_types_to_send_over_chat": "best_lap+welcome+race_finished"
+    },
+    "welcome_msg": {
+      "line_1": "Welcome to stracker %(version)s",
+      "line_2": "",
+      "line_3": ""
+    }
   }
 }

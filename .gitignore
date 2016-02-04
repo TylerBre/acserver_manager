@@ -24,6 +24,7 @@ config/*.json
 app/assets/scripts/config.json
 !config/default.json
 lib/acserver
+lib/stracker/stracker.ini
 
 # Frontend Ignores
 *.css
