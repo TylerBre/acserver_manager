@@ -4,7 +4,7 @@ var path = require('path');
 
 var out = '';
 var NODE_ENV = process.env.NODE_ENV;
-var env = (!NODE_ENV || (NODE_ENV == '')) ? 'development' : NODE_ENV;
+var env = (!NODE_ENV || NODE_ENV === '') ? 'development' : NODE_ENV;
 var config_dir = path.resolve('./config');
 var overlay_file = env + '.json';
 var overlay_path = path.join(config_dir, overlay_file);
@@ -16,7 +16,7 @@ http.get({
   hostname: '169.254.169.254',
   port: 80,
   path: '/metadata/v1.json',
-  agent: false  // create a new agent just for this one request
+  agent: false
 }, (res) => {
   res.on('data', (data) => {
       out += data.toString();

@@ -1,0 +1,5 @@
+{
+  "required": "Required",
+  "min": "Value is too low",
+  "max": "Value is too high"
+}

@@ -23,6 +23,7 @@ tmp
 config/*.json
 app/assets/scripts/config.json
 !config/default.json
+!config/validations.json
 lib/acserver
 lib/stracker/stracker.ini
 
