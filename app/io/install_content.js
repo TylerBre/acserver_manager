@@ -87,7 +87,8 @@ module.exports = () => {
             })
             .map((content) => {
               var model = (content.content_type == 'cars') ? 'car' : 'track';
-              return app.controllers.content.update(() => {
+              var method = (content.content_type == 'cars') ? 'update_cars' : 'update_tracks';
+              return app.controllers.content[method](() => {
                 return app.helpers.content[model](content.root_name);
               }, app.models[model], (item) => {
                 var critera = { file_name: item.file_name };

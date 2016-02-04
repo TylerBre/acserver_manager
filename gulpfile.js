@@ -34,7 +34,8 @@ gulp.task('server', () => {
       'app/assets/*',
       'node_modules/*',
       'seed/*',
-      'tmp/*'
+      'tmp/*',
+      'lib/*'
     ]
   });
 });

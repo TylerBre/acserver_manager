@@ -19,8 +19,6 @@ module.exports = {
     return sh.rm('-rf', path.join(dest_pwd, 'extracted*'), path.join(dest_pwd, 'download*'));
   },
   move_to_acserver (content) {
-    console.log("move_to_acserver (content) {");
-    console.log(content);
     content.install_pwd = path.join(acserver_content_dir, content.content_type, content.root_name);
     console.log(`Moving: ${content.pwd} to ${content.install_pwd}`);
     sh.rm('-rf', content.install_pwd); // refactor when we add support for uploading skins
