@@ -70,6 +70,7 @@
     "yaml": "^0.2.3"
   },
   "scripts": {
+    "postinstall": "$(which node) $(pwd)/bin/acserver_update.js",
     "test": "echo \"No tests... yet. Add Some!\" && exit 1",
     "start": "export NODE_ENV=development && $(which node) $(pwd)/bin/digitalocean_metadata.js && gulp up",
     "start:local": "export NODE_ENV=development && gulp up"
