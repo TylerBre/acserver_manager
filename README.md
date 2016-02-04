@@ -80,14 +80,14 @@ $ cd acserver_manager
 ```
 Install local dependencies. Note, this will also run steamcmd for the first time and will prompt you for your steam credentials and a steam guard key
 ```
-~ npm install
+$ npm install
 ```
 Finally, copy ```config/default.json``` to ```config/development.json``` and update your database password with what you set earlier.
 
 # Usage
 From the project directory
 ```
-# npm run start
+$ npm run start
 ```
 
 
