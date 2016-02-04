@@ -15,10 +15,16 @@ var less = require('gulp-less');
 var watch = require('gulp-watch');
 var minifyCSS = require('gulp-cssnano');
 var jade = require('gulp-jade');
+var mocha = require('gulp-mocha');
 var _ = require('lodash');
 
 var less_src = './app/assets/styles/**/*.less';
 
+
+gulp.task('test', () => {
+  return gulp.src('./spec/**/*.js', {read: false})
+    .pipe(mocha({reporter: 'progress'}));
+});
 
 gulp.task('server', () => {
   return nodemon({
