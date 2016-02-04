@@ -23,6 +23,7 @@ tmp
 config/*.json
 app/assets/scripts/config.json
 !config/default.json
+lib/acserver
 
 # Frontend Ignores
 *.css
