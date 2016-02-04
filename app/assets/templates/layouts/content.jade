@@ -1,0 +1,24 @@
+extends ../includes/loading
+block loaded
+  .row
+    .col-lg-8
+      router-view
+    .col-lg-4
+      nav.affix
+        small.text-uppercase
+          i.fa.fa-download
+          | &nbsp;Add Content
+        ul.nav.nav-pills.nav-stacked
+          li: a(v-link="{ name: 'content_new'}")
+            | Install Cars &amp; Tracks
+        hr
+        small.text-uppercase
+          i.fa.fa-filter
+          | &nbsp;Filter
+        ul.nav.nav-pills.nav-stacked
+          li: a(v-link="{ name: 'content_index'}") All Content
+          li: a(href="#") Cars
+          li: a(href="#") Tracks
+          li: a(href="#") Skins
+
+

@@ -23,11 +23,14 @@ module.exports = Waterline.Collection.extend({
     },
     logo: {
       model: 'attachment'
+    },
+    liveries: {
+      collection: 'livery',
+      via: 'for_car'
     }
   },
 
-  fromKunos: (content) => {
-
+  fromKunos: function (content) {
     content.data.specs = content.data.specs || {};
 
     return {

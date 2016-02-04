@@ -53,6 +53,7 @@ ContentController.update_cars = () => {
   return app.helpers.content.cars()
     .reduce((updated, content) => {
       content = app.models.car.fromKunos(content);
+      console.log(content);
       return app.models.car.findOne({file_name: content.file_name})
         .populate('badge')
         .populate('logo')

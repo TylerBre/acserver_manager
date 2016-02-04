@@ -141,6 +141,7 @@ FS.ui_data_only = (formatter) => {
             return _total;
           });
         }).catch(() => {
+          console.log(data);
           return _total;
         });
       }, []).reduce((_total, data) => {

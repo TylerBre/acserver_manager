@@ -3,11 +3,15 @@ var path = require('path');
 var _ = require('lodash');
 var promise = require('bluebird');
 var seed_content = path.resolve(__dirname, '../../seed/content');
+var content_dir = path.resolve(__dirname, '../../lib/acserver/content');
+var cars_dir = path.join(content_dir, 'cars');
+var tracks_dir = path.join(content_dir, 'tracks');
+var official_car_list = path.join(seed_content, 'official_car_list.json');
 
 var Content = module.exports;
 
 Content.cars = (pwd, ignore_seed_data) => {
-  pwd = pwd || '/home/acserver/acserver/content/cars';
+  pwd = pwd || cars_dir;
   return fs_content.readDir(pwd)
     .reduce(fs_content.directories_only(pwd), [])
     .then((directories) => this.car(directories, pwd, ignore_seed_data));
@@ -15,9 +19,9 @@ Content.cars = (pwd, ignore_seed_data) => {
 
 Content.car = (directory_names, pwd, ignore_seed_data) => {
   if (!_.isArray(directory_names)) directory_names = [directory_names];
-  pwd = pwd || '/home/acserver/acserver/content/cars';
+  pwd = pwd || cars_dir;
 
-  return fs_content.readFile(path.join(seed_content, 'official_car_list.json')).then((official_car_list) => {
+  return fs_content.readFile(official_car_list).then((official_car_list) => {
     return _.map(directory_names, (directory_name) => {
       var official_content = official_car_list.indexOf(directory_name) >= 0;
       if (ignore_seed_data) official_content = false;
@@ -39,6 +43,7 @@ Content.car = (directory_names, pwd, ignore_seed_data) => {
     };
   }), [])
   .map((car) => {
+    // console.log(car)
     return promise.all([
       fs_content.readDirP(car.resource_path, '*badge.*'),
       fs_content.readDirP(car.resource_path, '*logo.*')
@@ -51,7 +56,7 @@ Content.car = (directory_names, pwd, ignore_seed_data) => {
 };
 
 Content.tracks = (pwd, no_validate) => {
-  pwd = pwd || '/home/acserver/acserver/content/tracks';
+  pwd = pwd || tracks_dir;
   return fs_content.readDir(pwd)
     .reduce(fs_content.directories_only(pwd), [])
     .then((directories) => this.track(directories, pwd, no_validate));
@@ -59,7 +64,7 @@ Content.tracks = (pwd, no_validate) => {
 
 Content.track = (directory_names, pwd, no_validate) => {
   if (!_.isArray(directory_names)) directory_names = [directory_names];
-  pwd = pwd || '/home/acserver/acserver/content/tracks';
+  pwd = pwd || tracks_dir;
   return new promise((resolve, reject) => {
     if (no_validate) {
       _.map(directory_names, (directory_name) => {
