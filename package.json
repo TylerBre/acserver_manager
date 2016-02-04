@@ -1,6 +1,6 @@
 {
   "name": "acserver_manager",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "manage assetto corsa dedicated servers",
   "main": "app.js",
   "browser": {
@@ -73,7 +73,7 @@
   },
   "scripts": {
     "postinstall": "$(which node) $(pwd)/bin/acserver_update.js",
-    "test": "echo \"No tests... yet. Add Some!\" && exit 1",
+    "test": "gulp test",
     "start": "export NODE_ENV=development && $(which node) $(pwd)/bin/digitalocean_metadata.js && gulp up",
     "start:local": "export NODE_ENV=development && gulp up"
   },
