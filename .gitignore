@@ -25,6 +25,8 @@ app/assets/scripts/config.json
 !config/default.json
 !config/validations.json
 lib/acserver
+!lib/acserver/content/tracks/**/surfaces.ini
+!lib/acserver/content/cars/**/data.acd
 lib/stracker/stracker.ini
 
 # Frontend Ignores
