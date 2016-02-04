@@ -20,7 +20,7 @@ As well as to add new features entirely:
 - Race-specific content bundles
 - ... and more!
 
-The app is designed to run on incredibly affordable ($5/mo) [https://www.digitalocean.com/](Digital Ocean) boxes, and launched from a pre-built image. This will also grant users the ability to launch a dedicated server worldwide, minimizing ping. It is possible to install and run this app locally on your home computer.
+The app is designed to run on incredibly affordable ($5/mo) [Digital Ocean](https://www.digitalocean.com/) boxes, and launched from a pre-built image. This will also grant users the ability to launch a dedicated server worldwide, minimizing ping. It is possible to install and run this app locally on your home computer.
 
 ### Disclaimer
 This app is very much in a development state at the moment, but please feel free to try it out, make some pull requests and contribute to the code!
