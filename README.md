@@ -12,7 +12,7 @@ It aims to provide elegant interfaces and automation for:
 - Managing 3rd-party apps such as stracker
 - Starting and Stopping the server
 
-As well as add new features entirely:
+As well as to add new features entirely:
 - Rotate server setup on race end
 - Automated driverlists
 - Series presets
@@ -20,20 +20,45 @@ As well as add new features entirely:
 - Race-specific content bundles
 - ... and more!
 
-The app is designed to run on incredibly affordable ($5/mo) digital ocean boxes, which also grants users the ability to launch a dedicated server worldwide, ideally being from a pre-built image, but it is possible to install and run this app locally on your home computer.
+The app is designed to run on incredibly affordable ($5/mo) [https://www.digitalocean.com/](Digital Ocean) boxes, and launched from a pre-built image. This will also grant users the ability to launch a dedicated server worldwide, minimizing ping. It is possible to install and run this app locally on your home computer.
 
 ### Disclaimer
-This app is very much a development state, but please feel free to try it out, make some pull requests and contribute to the code :)
+This app is very much in a development state at the moment, but please feel free to try it out, make some pull requests and contribute to the code!
+
+Happy hacking! 
 
 # Installation
-In order to use this app to its full potential, you must have a few programs installed.
 
-- postgresql
-- node.js (latest)
-- p7zip-full + p7zip-rar
-- npm packages
-  - gulp
-  - pm2
+Though Acserver Manager will be bundled inside of a VM image for easy installation, in the meantime, you'll need to run it in a standolone environment.
 
-These must all be installed and available in your PATH. If you're on ubuntu, you must enable multiverse in order to download p7zip-rar
+As this is being developed for deployment to a 32-bit Ubuntu 15 installation, I recommend you do the same, either with Digital Ocean, or a local environment. However, if you have your own Linux installation and are comfortable with some googling when things go wrong, the installation procedure should be pretty similar.
+
+### Requirements
+
+
+<strong>postgresql</strong>
+```
+sudo apt-get install postgresql postgresql-contrib
+```
+<strong>node.js</strong>
+
+You can find links to the latest builds here: [https://nodejs.org/dist/latest/](https://nodejs.org/dist/latest/)
+```
+wget http://nodejs.org/dist/latest/node-v5.5.0-linux-x86.tar.gz
+sudo tar -C /usr/local --strip-components 1 -xzf node-v5.5.0-linux-x86.tar.gz
+rm node-v5.5.0-linux-x86.tar.gz
+```
+<strong>p7zip-full + p7zip-rar</strong>
+
+Enable multiverse by uncommenting lines in ```/etc/apt/sources.list```, more info here [https://help.ubuntu.com/community/Repositories/CommandLine#Adding_Repositories](https://help.ubuntu.com/community/Repositories/CommandLine#Adding_Repositories)
+```
+sudo apt-get update
+sudo apt-get install p7zip-full p7zip-rar -y
+```
+
+<strong>gulp</strong>
+```
+sudo npm install -g gulp
+```
+
 
