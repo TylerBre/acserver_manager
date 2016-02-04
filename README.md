@@ -35,30 +35,59 @@ As this is being developed for deployment to a 32-bit Ubuntu 15 installation, I 
 
 ### Requirements
 
-
 <strong>postgresql</strong>
 ```
-sudo apt-get install postgresql postgresql-contrib
+$ sudo apt-get install postgresql postgresql-contrib
 ```
 <strong>node.js</strong>
 
 You can find links to the latest builds here: [https://nodejs.org/dist/latest/](https://nodejs.org/dist/latest/)
 ```
-wget http://nodejs.org/dist/latest/node-v5.5.0-linux-x86.tar.gz
-sudo tar -C /usr/local --strip-components 1 -xzf node-v5.5.0-linux-x86.tar.gz
-rm node-v5.5.0-linux-x86.tar.gz
+$ wget http://nodejs.org/dist/latest/node-v5.5.0-linux-x86.tar.gz
+$ sudo tar -C /usr/local --strip-components 1 -xzf node-v5.5.0-linux-x86.tar.gz
+$ rm node-v5.5.0-linux-x86.tar.gz
 ```
 <strong>p7zip-full + p7zip-rar</strong>
 
 Enable multiverse by uncommenting lines in ```/etc/apt/sources.list```, more info here [https://help.ubuntu.com/community/Repositories/CommandLine#Adding_Repositories](https://help.ubuntu.com/community/Repositories/CommandLine#Adding_Repositories)
 ```
-sudo apt-get update
-sudo apt-get install p7zip-full p7zip-rar -y
+$ sudo apt-get update
+$ sudo apt-get install p7zip-full p7zip-rar -y
 ```
 
 <strong>gulp</strong>
 ```
-sudo npm install -g gulp
+$ sudo npm install -g gulp
+```
+
+### Setup
+
+Login to the postgres user and enter the psql cli
+```
+$ sudo -u postgres psql postgres
+```
+Update the postgres user password and create the databases
+```
+postgres=# \password postgres
+postgres=# create database acserver_manager;
+postgres=# create database stracker;
+```
+Clone this repo and cd into it
+```
+$ cd ~
+$ git clone git@github.com:TylerBre/acserver_manager.git
+$ cd acserver_manager
+```
+Install local dependencies. Note, this will also run steamcmd for the first time and will prompt you for your steam credentials and a steam guard key
+```
+~ npm install
+```
+Finally, copy ```config/default.json``` to ```config/development.json``` and update your database password with what you set earlier.
+
+# Usage
+From the project directory
+```
+# npm run start
 ```
 
 
