@@ -2,7 +2,7 @@ var fs_content = require('./fs_content.js');
 var path = require('path');
 var _ = require('lodash');
 var promise = require('bluebird');
-var seed_content = path.resolve('../../', 'seed/content');
+var seed_content = path.resolve(__dirname, '../../seed/content');
 
 var Content = module.exports;
 
