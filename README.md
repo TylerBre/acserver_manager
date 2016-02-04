@@ -60,7 +60,7 @@ $ sudo apt-get install p7zip-full p7zip-rar -y
 $ sudo npm install -g gulp
 ```
 
-### Setup
+# Setup
 
 Login to the postgres user and enter the psql cli
 ```
