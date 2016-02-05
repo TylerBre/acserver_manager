@@ -1,12 +1,29 @@
-var assert = require('should');
-var _ = require('lodash');
-
-var archive = require('../../app/helpers/content.js');
+var should = require('should');
+var content = require('../../app/helpers/content.js');
 
 describe('content helper', () => {
   describe('car', () => {
-    it('should find metadata for a car installed on the server');
-    it('and the data should match a pre-determined format');
+    var name = 'abarth500';
+    var car = content.car(name);
+
+    it('should return an array containing the car data', () => {
+      return car.should.eventually.be.instanceOf(Array).and.have.lengthOf(1);
+    });
+
+    it('should find the correct car', () => {
+      return car.then(data => data[0])
+        .should.eventually.have.property('file_name').eql(name);
+    });
+
+    it('should find metadata for a car installed on the server', () => {
+      return car.then(data => data[0].data)
+        .should.eventually.have.properties('name', 'brand', 'description');
+    });
+
+    it('and the data should match a pre-determined format', () => {
+      return car.then(data => data[0])
+        .should.eventually.have.properties('file_name', 'data', 'badge', 'logo', 'official', 'resource_path');
+    });
   });
 
   describe('track', () => {

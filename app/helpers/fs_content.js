@@ -4,7 +4,7 @@ var promise = require('bluebird');
 var readdirp = require('readdirp');
 var path = require('path');
 var _ = require('lodash');
-var JSON = require('json-parse-helpfulerror');
+// var JSON = require('json-parse-helpfulerror');
 
 var FS = module.exports;
 
@@ -81,9 +81,9 @@ FS.mkDir = (dir) => {
 FS.is_directory = (dir) => {
   return new promise((resolve, reject) => {
     fs.stat(dir, (err, data) => {
-      if (err || !data.isDirectory()) reject(err || new Error("Not a directory."));
-
-      resolve();
+      if (err) reject(err);
+      if (!data.isDirectory()) reject(`Not a directory, skipping:\n${dir}`);
+      if (data.isDirectory()) resolve();
     });
   });
 };
