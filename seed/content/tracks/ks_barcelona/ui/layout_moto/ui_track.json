@@ -1,4 +1,5 @@
 {
+  "url": "http://store.steampowered.com/dlc/244210",
   "name": "Barcelona Moto",
   "description": "Circuit de Barcelona",
   "tags": [
@@ -13,7 +14,7 @@
   ],
   "country": "Spain",
   "city": "Montmelo'",
-  "length": "4727m",
+  "length": "4655m",
   "width": "11m",
   "pitboxes": "24",
   "run": "clockwise"
