@@ -1,5 +1,5 @@
 # [<img title="ac-logo" src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/302550/6531e1aa4c9afb455b32a2323ab4ee57985fc93b.jpg" width="184px" alt="Assetto Corsa logo"/>](https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/302550/6531e1aa4c9afb455b32a2323ab4ee57985fc93b.jpg)
-
+[![Build Status](https://travis-ci.org/TylerBre/acserver_manager.svg?branch=master)](https://travis-ci.org/TylerBre/acserver_manager)
 [![Dependency Status](https://gemnasium.com/TylerBre/acserver_manager.svg)](https://gemnasium.com/TylerBre/acserver_manager)
 
 Acserver Manager is designed to be the only solution you will need to manage a dedicated server for Assetto Corsa.
