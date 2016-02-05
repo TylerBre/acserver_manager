@@ -53,6 +53,30 @@ Content.car = (directory_names, pwd, ignore_seed_data) => {
       car.logo  = (logo.files[0]) ? logo.files[0].fullPath : '';
       return car;
     });
+  })
+  .map((car) => {
+
+    return fs_content.readFile(official_car_liveries_list)
+      .then((liveries_list) => {
+        liveries_list = JSON.parse(liveries_list);
+        var promises;
+        if (liveries_list[car.file_name]) {
+          promises = _.map(liveries_list[car.file_name], (livery_name) => {
+            return this.livery(car.file_name, livery_name, cars_dir);
+          });
+        } else {
+          promises = fs_content.readDir(path.join(car.pwd, 'skins'))
+            .reduce(fs_content.directories_only(path.join(car.pwd, 'skins')), [])
+            .map((livery_name) => {
+              return this.livery(car.file_name, livery_name, cars_dir);
+            });
+        }
+        return promise.all(promises);
+      })
+      .then((liveries) => {
+        car.liveries = liveries;
+        return car;
+      });
   }).catch({code: 'ENOTDIR'}, () => {});
 };
 
@@ -62,6 +86,7 @@ Content.livery = (car_directory_name, directory_name, pwd, ignore_seed_data) => 
 
   return fs_content.readFile(official_car_liveries_list)
     .then((official_car_liveries_list) => {
+      official_car_liveries_list = JSON.parse(official_car_liveries_list);
       var official_content = official_car_liveries_list[car_directory_name] && official_car_liveries_list[car_directory_name].indexOf(directory_name) >= 0;
       if (ignore_seed_data) official_content = false;
       return {
@@ -85,6 +110,10 @@ Content.livery = (car_directory_name, directory_name, pwd, ignore_seed_data) => 
           return info;
         });
       });
+    })
+    .catch((e) => {
+      console.log(e);
+      console.log(path.join(pwd, directory_name));
     });
 };
 

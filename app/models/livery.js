@@ -23,6 +23,7 @@ module.exports = Waterline.Collection.extend({
     toJSON () {
       var obj = this.toObject();
       obj.name = this.name();
+      obj.car_id = this.for_car;
       return obj;
     },
     for_car: {
@@ -31,26 +32,19 @@ module.exports = Waterline.Collection.extend({
   },
 
   fromKunos: (content) => {
-    // return {
-    //   name: content.data.name,
-    //   brand: content.data.brand,
-    //   description: content.data.description,
-    //   car_class: content.data.class,
-    //   power: content.data.specs.bhp,
-    //   torque: content.data.specs.torque,
-    //   weight: content.data.specs.weight,
-    //   torque_curve: content.data.torqueCurve,
-    //   power_curve: content.data.powerCurve,
-    //   official: content.official,
-    //   file_name: content.file_name,
-    //   badge: {
-    //     file_name: content.badge.split(path.sep)[content.badge.split(path.sep).length - 1],
-    //     tmp: content.badge
-    //   },
-    //   logo: {
-    //     file_name: content.logo.split(path.sep)[content.logo.split(path.sep).length - 1],
-    //     tmp: content.logo
-    //   }
-    // };
+    return {
+      livery_name: content.data.skinname,
+      car_number: content.data.number,
+      official: content.official_content,
+      file_name: content.directory_name,
+      thumbnail: {
+        file_name: content.thumbnail.split(path.sep)[content.thumbnail.split(path.sep).length - 1],
+        tmp: content.thumbnail
+      },
+      preview: {
+        file_name: content.preview.split(path.sep)[content.preview.split(path.sep).length - 1],
+        tmp: content.preview
+      }
+    };
   }
 });

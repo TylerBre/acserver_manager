@@ -62,7 +62,7 @@ orm.initialize(ormConfig, (err, models) => {
   app.controllers = require('./app/controllers');
   app.helpers = require('./app/helpers');
 
-  app.controllers.content.update_all().then(() => {
+  // app.controllers.content.update_all().then(() => {
     server.listen(config.get('app.port'), () => console.log(`👉  ${app.get('url')}`));
-  });
+  // });
 });

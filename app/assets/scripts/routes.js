@@ -5,7 +5,7 @@ module.exports = (Vue) => {
     },
     '/content': {
       component: {
-        template: require('./templates/content_index.html')
+        template: require('./templates/layouts/content.html')
       },
       subRoutes: {
         '/': {

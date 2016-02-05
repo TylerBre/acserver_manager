@@ -1,24 +1,18 @@
 extends includes/loading
 block loaded
-  .row
-    .col-lg-8
-      router-view
-    .col-lg-4
-      nav.affix
-        small.text-uppercase
-          i.fa.fa-download
-          | &nbsp;Add Content
-        ul.nav.nav-pills.nav-stacked
-          li: a(v-link="{ name: 'content_new'}")
-            | Install Cars &amp; Tracks
-        hr
-        small.text-uppercase
-          i.fa.fa-filter
-          | &nbsp;Filter
-        ul.nav.nav-pills.nav-stacked
-          li: a(v-link="{ name: 'content_index'}") All Content
-          li: a(href="#") Cars
-          li: a(href="#") Tracks
-          li: a(href="#") Skins
-
-
+  .row: .col-sm-12: .page-header
+    h1 Installed Content
+  .row(v-for="(brand, cars) in grouped_cars")
+    .col-md-12
+      h4
+        img(v-bind:src="cars[0].logo.url", height="50")
+        |&nbsp;&nbsp;
+        span(v-text="brand")
+      hr
+    .col-md-4(v-for="car in cars")
+      .panel.panel-default
+        .panel-body
+          .thumbnail
+            img(v-bind:src="'/assets/images/attachments/' + car.skins[0].preview.id + '/' + car.skins[0].preview.file_name")
+          .caption
+            p(v-text="car.name")

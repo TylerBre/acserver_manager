@@ -18,9 +18,6 @@ module.exports = Waterline.Collection.extend({
     power_curve: 'array',
     official: 'boolean',
     file_name: 'string',
-    badge: {
-      model: 'attachment'
-    },
     logo: {
       model: 'attachment'
     },
@@ -45,10 +42,6 @@ module.exports = Waterline.Collection.extend({
       power_curve: content.data.powerCurve,
       official: content.official,
       file_name: content.file_name,
-      badge: {
-        file_name: content.badge.split(path.sep)[content.badge.split(path.sep).length - 1],
-        tmp: content.badge
-      },
       logo: {
         file_name: content.logo.split(path.sep)[content.logo.split(path.sep).length - 1],
         tmp: content.logo

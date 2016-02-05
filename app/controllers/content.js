@@ -7,9 +7,16 @@ var ContentController = module.exports;
 
 ContentController.index = () => {
   return promise.all([
-    app.models.car.find().populate('badge').populate('logo'),
+    app.models.car.find().populate('logo'),
+    app.models.livery.find().populate('preview').populate('thumbnail'),
     app.models.track.find().populate('preview').populate('outline')
-  ]).spread((cars, tracks) => {
+  ]).spread((cars, liveries, tracks) => {
+    liveries = _.groupBy(liveries, 'for_car');
+    cars = _.reduce(cars, (total, car) => {
+      car.skins = liveries[car.id];
+      total.push(car);
+      return total;
+    }, []);
     return {cars, tracks};
   });
 };
@@ -52,7 +59,10 @@ ContentController.update_tracks = () => {
 ContentController.update_cars = () => {
   return app.helpers.content.cars()
     .reduce((updated, content) => {
+
+      var liveries = content.liveries;
       content = app.models.car.fromKunos(content);
+
       return app.models.car.findOne({file_name: content.file_name})
         .populate('badge')
         .populate('logo')
@@ -68,13 +78,20 @@ ContentController.update_cars = () => {
             });
           }
 
-          return app.models.car.create(content).then((data) => {
-            updated.push(data);
+          return app.models.car.create(content).then((car) => {
+            return promise.all(_.map(liveries, (livery) => {
+              livery = app.models.livery.fromKunos(livery);
+              livery.for_car = car.id;
+              return app.models.livery.create(livery);
+            })).then(() => app.models.car.findOne(car.id));
+          }).then(car => {
+            updated.push(car);
             return updated;
           });
         });
     }, []);
 };
+
 
 ContentController._update = (content_scraper, model, find_criterea) => {
   return content_scraper().reduce((updated, content) => {
