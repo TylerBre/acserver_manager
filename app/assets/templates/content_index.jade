@@ -13,6 +13,6 @@ block loaded
       .panel.panel-default
         .panel-body
           .thumbnail
-            img(v-bind:src="'/assets/images/attachments/' + car.skins[0].preview.id + '/' + car.skins[0].preview.file_name")
+            img(v-bind:src="car.liveries[0].preview.url")
           .caption
             p(v-text="car.name")

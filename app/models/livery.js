@@ -9,7 +9,9 @@ module.exports = (sequelize, DataTypes) => {
     file_name: DataTypes.STRING,
     name: {
       type: DataTypes.VIRTUAL(DataTypes.STRING),
-      get: () => (_.isEmpty(this.get('livery_name'))) ? this.get('file_name') : this.get('livery_name')
+      get () {
+        return (_.isEmpty(this.livery_name)) ? this.file_name : this.livery_name;
+      }
     }
   }, {
     classMethods: {

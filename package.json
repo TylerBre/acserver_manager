@@ -2,7 +2,7 @@
   "name": "acserver_manager",
   "version": "0.0.0",
   "description": "manage assetto corsa dedicated servers",
-  "main": "app.js",
+  "main": "server.js",
   "browser": {
     "vue-strap": "vue-strap/dist/vue-strap.min.js",
     "socket.io-client": "./node_modules/socket.io-client/socket.io.js",
@@ -56,6 +56,7 @@
     "browserify-shim": "^3.8.12",
     "gulp": "^3.9.0",
     "gulp-cssnano": "^2.1.0",
+    "gulp-exit": "0.0.2",
     "gulp-if": "^2.0.0",
     "gulp-jade": "^1.1.0",
     "gulp-less": "^3.0.5",

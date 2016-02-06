@@ -1,29 +1,24 @@
 var _ = require('lodash');
 var promise = require('bluebird');
 
-var app = require('../../app.js');
+var app = require('../../app');
 
 var ContentController = module.exports;
 
 ContentController.index = () => {
   return promise.all([
-    app.models.car.find().populate('logo'),
-    app.models.livery.find().populate('preview').populate('thumbnail'),
-    app.models.track.find().populate('preview').populate('outline')
-  ]).spread((cars, liveries, tracks) => {
-    liveries = _.groupBy(liveries, 'for_car');
-    cars = _.reduce(cars, (total, car) => {
-      car.skins = liveries[car.id];
-      total.push(car);
-      return total;
-    }, []);
+    app.models.car.findAll({include: [{all: true, nested: true}]}),
+    app.models.track.findAll({include: [{all: true, nested: true}]})
+  ]).spread((cars, tracks) => {
     return {cars, tracks};
   });
 };
 
 ContentController.update_all = () => {
-
-  return promise.all([this.update_tracks(), this.update_cars()]);
+  return promise.all([
+    this.update_tracks().then(() => console.log('Updated tracks')),
+    this.update_cars().then(() => console.log('Updated cars + liveries'))
+  ]);
 };
 
 ContentController.update_tracks = () => {
@@ -31,28 +26,40 @@ ContentController.update_tracks = () => {
     .reduce((updated, content) => {
       content = app.models.track.fromKunos(content);
       return app.models.track.findOne({
+        where: {
           file_name: content.file_name,
           file_name_secondary: content.file_name_secondary
-        })
-        .populate('preview')
-        .populate('outline')
-        .then(data => {
-          if (data) {
-            return promise.all([
-              app.models.track.update(data.id, _.omit(content, 'preview', 'outline')),
-              app.models.attachment.update(data.preview.id, content.preview),
-              app.models.attachment.update(data.outline.id, content.outline)
-            ]).spread((data) => {
-              updated.push(data);
-              return updated;
-            });
-          }
-
-          return app.models.track.create(content).then((data) => {
+        },
+        include: [
+          {model: app.models.attachment, as: 'outline'},
+          {model: app.models.attachment, as: 'preview'}
+        ]
+      })
+      .then(data => {
+        if (data) {
+          return app.models.track.update(content, {
+            where: {id: data.id},
+            include: [
+              {model: app.models.attachment, as: 'outline'},
+              {model: app.models.attachment, as: 'preview'}
+            ]
+          })
+          .then((data) => {
             updated.push(data);
             return updated;
           });
+        }
+
+        return app.models.track.create(content, {
+          include: [
+            {model: app.models.attachment, as: 'outline'},
+            {model: app.models.attachment, as: 'preview'}
+          ]
+        }).then((data) => {
+          updated.push(data);
+          return updated;
         });
+      });
     }, []);
 };
 
@@ -60,35 +67,58 @@ ContentController.update_cars = () => {
   return app.helpers.content.cars()
     .reduce((updated, content) => {
 
-      var liveries = content.liveries;
+      var liveries = _.map(content.liveries, (livery) => app.models.livery.fromKunos(livery));
       content = app.models.car.fromKunos(content);
+      content.liveries = liveries;
 
-      return app.models.car.findOne({file_name: content.file_name})
-        .populate('badge')
-        .populate('logo')
-        .then(data => {
-          if (data) {
-            return promise.all([
-              app.models.car.update(data.id, _.omit(content, 'badge', 'logo')),
-              app.models.attachment.update(data.badge.id, content.badge),
-              app.models.attachment.update(data.logo.id, content.logo)
-            ]).spread((data) => {
-              updated.push(data);
-              return updated;
-            });
+      return app.models.car.findOne({
+        where: {file_name: content.file_name},
+        include: [
+          {model: app.models.attachment, as: 'logo'},
+          {model: app.models.livery, as: 'liveries',
+            include: [
+              {model: app.models.attachment, as: 'thumbnail'},
+              {model: app.models.attachment, as: 'preview'}
+            ]
           }
-
-          return app.models.car.create(content).then((car) => {
-            return promise.all(_.map(liveries, (livery) => {
-              livery = app.models.livery.fromKunos(livery);
-              livery.for_car = car.id;
-              return app.models.livery.create(livery);
-            })).then(() => app.models.car.findOne(car.id));
-          }).then(car => {
-            updated.push(car);
+        ]
+      })
+      .then(data => {
+        if (data) {
+          return app.models.car.update(content, {
+            where: {id: data.id},
+            include: [
+              {model: app.models.attachment, as: 'logo'},
+              {model: app.models.livery, as: 'liveries',
+                include: [
+                  {model: app.models.attachment, as: 'thumbnail'},
+                  {model: app.models.attachment, as: 'preview'}
+                ]
+              }
+            ]
+          }).then(data => {
+            updated.push(data);
             return updated;
           });
+        }
+
+        // console.log(content);
+        return app.models.car.create(content, {
+          include: [
+            {model: app.models.attachment, as: 'logo'},
+            {model: app.models.livery, as: 'liveries',
+              include: [
+                {model: app.models.attachment, as: 'thumbnail'},
+                {model: app.models.attachment, as: 'preview'}
+              ]
+            }
+          ]
+        })
+        .then(car => {
+          updated.push(car);
+          return updated;
         });
+      });
     }, []);
 };
 
@@ -99,7 +129,7 @@ ContentController._update = (content_scraper, model, find_criterea) => {
     return model.findOne(find_criterea(content))
       .then(data => {
         if (data) {
-          return model.update(data.id, content).then((data) => {
+          return model.update(content, data.id).then((data) => {
             updated.push(data);
             return updated;
           });

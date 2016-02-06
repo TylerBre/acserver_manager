@@ -1,7 +1,7 @@
 var path = require('path');
 var promise = require('bluebird');
 
-var app = require('../../app.js');
+var app = require('../../app');
 var download = require('../helpers/download.js');
 var uncompress = require('../helpers/uncompress.js');
 var install_content = require('../helpers/install_content.js');

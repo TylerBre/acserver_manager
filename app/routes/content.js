@@ -1,6 +1,6 @@
 var promise = require('bluebird');
 var _ = require('lodash');
-var app = require('../../app.js');
+var app = require('../../app');
 var router = require('express').Router();
 var controllers = require('../controllers');
 var helpers = require('../helpers');
