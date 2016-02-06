@@ -36,12 +36,18 @@ prompt.get({
 
   var cmd = `${path.join(steamcmd_dir, 'steamcmd.sh')} +login ${result.uname} ${result.pass} +force_install_dir ${install_dir} +@sSteamCmdForcePlatformType windows +app_update 302550 validate +quit`;
   var cmd_sanitized = cmd.replace(result.pass, '****');
-  install_steam(cmd, cmd_sanitized);
+  install_steam(cmd, cmd_sanitized, result.pass);
 });
 
-function install_steam (cmd, cmd_sanitized) {
+function install_steam (cmd, cmd_sanitized, password) {
   cmd_sanitized = cmd_sanitized || cmd;
   console.log(`Running: ${cmd_sanitized}`);
-  exec(cmd, {stdio: 'inherit'});
+  try {
+    exec(cmd, {stdio: [0, 'pipe', 'pipe']});
+  } catch (e) {
+    console.log(`\n${e.message.replace(password, '****')}`);
+    process.exit(1);
+  }
+
   console.log('Finished updating Assetto Corsa Dedicated Server\n');
 }
