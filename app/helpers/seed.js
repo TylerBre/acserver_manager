@@ -155,7 +155,7 @@ function Seed (content_dir) {
         return track;
       })
       .catch({code: 'EEXIST'}, (e) => {
-        console.log(e);
+        console.error(e);
         return track;
       });
   };
@@ -180,7 +180,7 @@ function Seed (content_dir) {
       .then(() => {
         return car;
       }).catch({code: 'EEXIST'}, (e) => {
-        console.log(e);
+        console.error(e);
         return car;
       });
   };
@@ -205,7 +205,7 @@ function Seed (content_dir) {
       })
       .then(() => livery)
       .catch({code: 'EEXIST'}, (e) => {
-        console.log(e);
+        console.error(e);
         return livery;
       });
     });

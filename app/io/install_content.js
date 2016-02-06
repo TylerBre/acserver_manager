@@ -6,6 +6,7 @@ var download = require('../helpers/download.js');
 var uncompress = require('../helpers/uncompress.js');
 var install_content = require('../helpers/install_content.js');
 var dest_pwd = path.resolve(__dirname, '../../tmp');
+var _ = require('lodash');
 
 module.exports = () => {
   app.io.on('connection', (socket) => {
@@ -18,7 +19,7 @@ module.exports = () => {
 
         if (dlc) app.io.to(name).emit('install:continue', message(id, dlc));
       }).catch((e) => {
-        console.log(e);
+        console.error(e);
         var name = socket_name(id);
         socket.join(name);
         app.io.to(name).emit('install:message', message(id, e.message));
@@ -41,7 +42,7 @@ module.exports = () => {
 
           streamToPromise(dl)
             .then((file_path) => { // lifecycle event
-              return app.models.dlc.update(dlc.id, {lifecycle: 'extracting'})
+              return app.models.dlc.update({lifecycle: 'extracting'}, {where: {id: dlc.id}})
                 .then(() => file_path);
             })
             .then((file_path) => {
@@ -61,7 +62,7 @@ module.exports = () => {
               });
             })
             .then((extraction_path) => { // lifecycle event
-              return app.models.dlc.update(dlc.id, {lifecycle: 'installing'})
+              return app.models.dlc.update({lifecycle: 'installing'}, {where: {id: dlc.id}})
                 .then(() => extraction_path);
             })
             .then((extraction_path) => {
@@ -82,19 +83,21 @@ module.exports = () => {
               return content;
             })
             .then((content) => { // lifecycle event
-              return app.models.dlc.update(dlc.id, {lifecycle: 'registering'})
+              return app.models.dlc.update({lifecycle: 'registering'}, {where: {id: dlc.id}})
                 .then(() => content);
             })
             .map((content) => {
               var model = (content.content_type == 'cars') ? 'car' : 'track';
-              var method = (content.content_type == 'cars') ? 'update_cars' : 'update_tracks';
-              return app.controllers.content[method](() => {
-                return app.helpers.content[model](content.root_name);
-              }, app.models[model], (item) => {
-                var critera = { file_name: item.file_name };
-                if (model == 'track') critera.file_name_secondary = item.file_name_secondary;
-                return critera;
-              }).then(() => content.pwd);
+              var method = (content.content_type == 'cars') ? 'update_car' : 'update_track';
+              var pwd = content.pwd;
+
+              return app.helpers.content[model](content.root_name).then(data => {
+                return promise.all(_.map(data, _content => {
+                  return app.controllers.content[method](_content).then(_content => {
+                    return _content.setDlc(dlc);
+                  });
+                }));
+              }).then(() => pwd);
             })
             .map((content) => {
               logs.push(`Registered: ${content}`);
@@ -103,23 +106,24 @@ module.exports = () => {
             })
             .then(() => { // lifecycle event
               logs.push(`Done!`);
-              return app.models.dlc.update(dlc.id, {lifecycle: 'done', status: 'installed'});
+              return app.models.dlc.update({lifecycle: 'done', status: 'installed'}, {where: {id: dlc.id}});
             })
             .then(resolve).catch(reject);
         })
         .then(() => { // lifecycle event
-          app.models.dlc.update(dlc.id, {install_log: logs}).then(() => {
+          app.models.dlc.update({install_log: logs}, {where: {id: dlc.id}}).then(() => {
             app.io.to(name).emit('install:done', message(msg.id, logs[logs.length - 1]));
           });
         })
         .catch((e) => {
           logs.push(e.message);
-          app.models.dlc.update(dlc.id, {install_log: logs, status: 'errored'}).then(() => generic(e));
+          generic(e);
+          app.models.dlc.update({install_log: logs, status: 'errored'}, {where: {id: dlc.id}}).then(() => generic(e));
         });
       });
 
       function generic (e) {
-        console.log(e);
+        console.error(e);
         app.io.to(name).emit('install:update:error', message(msg.id, e.message));
       }
     });

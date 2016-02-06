@@ -33,7 +33,7 @@ http.get({
     update_overlay(overlay, ipv4);
     process.exit();
   });
-}).on('error', (e) => console.log(e.message));
+}).on('error', (e) => console.error(e));
 
 function update_overlay (overlay, ipv4) {
   overlay.app = overlay.app || {};
