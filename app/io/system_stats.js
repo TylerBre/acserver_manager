@@ -1,4 +1,4 @@
-var app = require('../../app.js');
+var app = require('../../app');
 var sys = require('systeminformation');
 var EventEmitter = require('events');
 

@@ -46,16 +46,13 @@ Content.car = (directory_names, pwd, ignore_seed_data) => {
   }), [])
   .map((car) => {
     return promise.all([
-      fs_content.readDirP(car.resource_path, '*badge.*'),
       fs_content.readDirP(car.resource_path, '*logo.*')
-    ]).spread((badge, logo) => {
-      car.badge = (badge.files[0]) ? badge.files[0].fullPath : '';
+    ]).spread((logo) => {
       car.logo  = (logo.files[0]) ? logo.files[0].fullPath : '';
       return car;
     });
   })
   .map((car) => {
-
     return fs_content.readFile(official_car_liveries_list)
       .then((liveries_list) => {
         liveries_list = JSON.parse(liveries_list);
@@ -65,11 +62,10 @@ Content.car = (directory_names, pwd, ignore_seed_data) => {
             return this.livery(car.file_name, livery_name, cars_dir);
           });
         } else {
+          car.pwd = car.pwd || car.resource_path;
           promises = fs_content.readDir(path.join(car.pwd, 'skins'))
             .reduce(fs_content.directories_only(path.join(car.pwd, 'skins')), [])
-            .map((livery_name) => {
-              return this.livery(car.file_name, livery_name, cars_dir);
-            });
+            .map(livery_name => this.livery(car.file_name, livery_name, cars_dir));
         }
         return promise.all(promises);
       })
@@ -112,7 +108,7 @@ Content.livery = (car_directory_name, directory_name, pwd, ignore_seed_data) => 
       });
     })
     .catch((e) => {
-      console.log(e);
+      console.error(e);
       console.log(path.join(pwd, directory_name));
     });
 };

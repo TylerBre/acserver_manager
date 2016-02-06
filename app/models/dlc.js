@@ -3,25 +3,18 @@
 // users add, and is used to track the source of installed content, and
 // the status of downloads/installations/errors
 
-var Waterline = require('waterline');
-
-module.exports = Waterline.Collection.extend({
-  identity: 'dlc',
-  connection: 'psql',
-
-  attributes: {
-    socket_id: 'integer',
-    url: 'string',
-    install_log: 'array',
+module.exports = (sequelize, DataTypes) => {
+  return sequelize.define('dlc', {
+    socket_id: DataTypes.INTEGER,
+    url: DataTypes.STRING,
+    install_log: DataTypes.ARRAY(DataTypes.TEXT),
     status: {
-      type: 'string',
-      enum: ['errored', 'installed', 'processing'],
-      defaultsTo: 'processing'
+      type: DataTypes.ENUM('errored', 'installed', 'processing'),
+      defaultValue: 'processing'
     },
     lifecycle: {
-      type: 'string',
-      enum: ['downloading', 'extracting', 'installing', 'registering', 'done'],
-      defaultsTo: 'downloading'
+      type: DataTypes.ENUM('downloading', 'extracting', 'installing', 'registering', 'done'),
+      defaultValue: 'downloading'
     }
-  }
-});
+  }, {});
+};

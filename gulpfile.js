@@ -17,6 +17,8 @@ var minifyCSS = require('gulp-cssnano');
 var jade = require('gulp-jade');
 var mocha = require('gulp-mocha');
 var _ = require('lodash');
+var exit = require('gulp-exit');
+var app = require('./app');
 
 var less_src = './app/assets/styles/**/*.less';
 
@@ -26,9 +28,16 @@ gulp.task('test', () => {
     .pipe(mocha({reporter: 'progress'}));
 });
 
+gulp.task('seed', () => {
+  gutil.log('This is going to take about a minute, so grab a coffee...');
+  return app.models.sequelize.sync().then(() => {
+    return app.controllers.content.update_all();
+  }).then(() => exit());
+});
+
 gulp.task('server', () => {
   return nodemon({
-    script: './app.js',
+    script: './server.js',
     ext: 'js json',
     ignore: [
       'app/assets/*',

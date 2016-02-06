@@ -61,7 +61,7 @@ module.exports = Vue.extend({
     save () {
       api.race_preset.save(null, _.omit(this.$data, ['cars', 'tracks'])).then((res) => {
         debugger;
-      }).catch(err => console.log(err));
+      }).catch(err => console.error(err));
     }
   },
   template: require('../templates/race_preset_new.html')

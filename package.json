@@ -2,7 +2,7 @@
   "name": "acserver_manager",
   "version": "0.0.0",
   "description": "manage assetto corsa dedicated servers",
-  "main": "app.js",
+  "main": "server.js",
   "browser": {
     "vue-strap": "vue-strap/dist/vue-strap.min.js",
     "socket.io-client": "./node_modules/socket.io-client/socket.io.js",
@@ -29,11 +29,13 @@
     "morgan": "^1.6.1",
     "node-uncompress": "^0.1.8",
     "passport": "^0.3.2",
+    "pg": "^4.4.4",
+    "pg-hstore": "^2.3.2",
+    "prompt": "^0.2.14",
     "readdirp": "^2.0.0",
-    "sails-postgresql": "^0.11.0",
+    "sequelize": "^3.19.1",
     "serve-favicon": "^2.3.0",
     "shelljs": "^0.5.3",
-    "skipper": "^0.5.9",
     "socket.io": "^1.4.5",
     "socket.io-client": "^1.4.5",
     "systeminformation": "^2.0.1",
@@ -44,7 +46,6 @@
     "vue-router": "^0.7.10",
     "vue-strap": "^1.0.0",
     "vue-validator": "^2.0.0-alpha.16",
-    "waterline": "^0.10.30",
     "wget-improved": "^1.3.0"
   },
   "devDependencies": {
@@ -55,6 +56,7 @@
     "browserify-shim": "^3.8.12",
     "gulp": "^3.9.0",
     "gulp-cssnano": "^2.1.0",
+    "gulp-exit": "0.0.2",
     "gulp-if": "^2.0.0",
     "gulp-jade": "^1.1.0",
     "gulp-less": "^3.0.5",
@@ -73,9 +75,10 @@
   },
   "scripts": {
     "postinstall": "$(which node) $(pwd)/bin/acserver_update.js",
-    "test": "gulp test",
-    "start": "export NODE_ENV=development && $(which node) $(pwd)/bin/digitalocean_metadata.js && gulp up",
-    "start:local": "export NODE_ENV=development && gulp up"
+    "test": "$(which gulp) test",
+    "server": "export NODE_ENV=development && $(which node) $(pwd)/bin/digitalocean_metadata.js && $(which gulp) up",
+    "server:local": "export NODE_ENV=development && $(which gulp) up",
+    "db:seed": "$(which gulp) seed"
   },
   "repository": {
     "type": "git",

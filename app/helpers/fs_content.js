@@ -100,7 +100,7 @@ FS.directories_only = (pwd) => {
       total.push(file_name);
       return total;
     }).catch((e) => {
-      console.log(e);
+      console.error(e);
       return total;
     });
   };
@@ -111,7 +111,7 @@ FS.ui_directories_only = (total, file_obj) => {
     if (data.indexOf('ui') >= 0) total.push({file_obj, data});
     return total;
   }).catch((e) => {
-    console.log(e);
+    console.error(e);
     return total;
   });
 };

@@ -22,7 +22,7 @@ describe('content helper', () => {
 
     it('and the data should match a pre-determined format', () => {
       return car.then(data => data[0])
-        .should.eventually.have.properties('file_name', 'data', 'badge', 'logo', 'official', 'resource_path');
+        .should.eventually.have.properties('file_name', 'data', 'logo', 'official', 'resource_path');
     });
   });
 

@@ -17,6 +17,7 @@ results
 
 # backend
 seed.js
+test.js
 npm-debug.log
 node_modules
 tmp
