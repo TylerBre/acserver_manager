@@ -29,6 +29,7 @@ gulp.task('test', () => {
 });
 
 gulp.task('seed', () => {
+  gutil.log('This is going to take about a minute, so grab a coffee...');
   return app.models.sequelize.sync().then(() => {
     return app.controllers.content.update_all();
   }).then(() => exit());

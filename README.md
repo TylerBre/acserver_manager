@@ -25,7 +25,7 @@ The app is designed to run on incredibly affordable ($5/mo) [Digital Ocean](http
 ### Disclaimer
 This app is very much in a development state at the moment, but please feel free to try it out, make some pull requests and contribute to the code!
 
-Happy hacking! 
+Happy hacking!
 
 # Installation
 
@@ -82,12 +82,16 @@ Install local dependencies. Note, this will also run steamcmd for the first time
 ```
 $ npm install
 ```
+Populate the database with data about the installed content
+```
+$ npm run db:seed
+```
 Finally, copy ```config/default.json``` to ```config/development.json``` and update your database password with what you set earlier.
 
 # Usage
 From the project directory
 ```
-$ npm run start
+$ npm run server
 ```
 
 
