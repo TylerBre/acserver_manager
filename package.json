@@ -35,7 +35,7 @@
     "readdirp": "^2.0.0",
     "sequelize": "^3.19.1",
     "serve-favicon": "^2.3.0",
-    "shelljs": "^0.5.3",
+    "shelljs": "^0.6.0",
     "socket.io": "^1.4.5",
     "socket.io-client": "^1.4.5",
     "systeminformation": "^2.0.1",
