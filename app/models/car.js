@@ -16,8 +16,9 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     classMethods: {
       associate (models) {
-        this.hasOne(models.attachment, {as: 'logo'});
+        this.belongsTo(models.attachment, {as: 'logo'});
         this.hasMany(models.livery, {as: 'liveries'});
+        this.belongsTo(models.dlc);
       },
       fromKunos (content) {
         content.data.specs = content.data.specs || {};
