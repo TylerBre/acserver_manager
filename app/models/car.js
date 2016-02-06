@@ -1,51 +1,45 @@
-var Waterline = require('waterline');
-var _ = require('lodash');
 var path = require('path');
 
-module.exports = Waterline.Collection.extend({
-  identity: 'car',
-  connection: 'psql',
+module.exports = (sequelize, DataTypes) => {
+  return sequelize.define('car', {
+    name: DataTypes.STRING,
+    brand: DataTypes.STRING,
+    description: DataTypes.TEXT,
+    car_class: DataTypes.STRING,
+    power: DataTypes.STRING,
+    torque: DataTypes.STRING,
+    weight: DataTypes.STRING,
+    torque_curve: DataTypes.ARRAY(DataTypes.ARRAY(DataTypes.STRING)),
+    power_curve: DataTypes.ARRAY(DataTypes.ARRAY(DataTypes.STRING)),
+    official: DataTypes.BOOLEAN,
+    file_name: DataTypes.STRING,
+  }, {
+    classMethods: {
+      associate (models) {
+        this.hasOne(models.attachment, {as: 'logo'});
+        this.hasMany(models.livery, {as: 'liveries'});
+      },
+      fromKunos (content) {
+        content.data.specs = content.data.specs || {};
 
-  attributes: {
-    name: 'string',
-    brand: 'string',
-    description: 'text',
-    car_class: 'string',
-    power: 'string',
-    torque: 'string',
-    weight: 'string',
-    torque_curve: 'array',
-    power_curve: 'array',
-    official: 'boolean',
-    file_name: 'string',
-    logo: {
-      model: 'attachment'
-    },
-    liveries: {
-      collection: 'livery',
-      via: 'for_car'
-    }
-  },
-
-  fromKunos: function (content) {
-    content.data.specs = content.data.specs || {};
-
-    return {
-      name: content.data.name,
-      brand: content.data.brand,
-      description: content.data.description,
-      car_class: content.data.class,
-      power: content.data.specs.bhp,
-      torque: content.data.specs.torque,
-      weight: content.data.specs.weight,
-      torque_curve: content.data.torqueCurve,
-      power_curve: content.data.powerCurve,
-      official: content.official,
-      file_name: content.file_name,
-      logo: {
-        file_name: content.logo.split(path.sep)[content.logo.split(path.sep).length - 1],
-        tmp: content.logo
+        return {
+          name: content.data.name,
+          brand: content.data.brand,
+          description: content.data.description,
+          car_class: content.data.class,
+          power: content.data.specs.bhp,
+          torque: content.data.specs.torque,
+          weight: content.data.specs.weight,
+          torque_curve: content.data.torqueCurve,
+          power_curve: content.data.powerCurve,
+          official: content.official,
+          file_name: content.file_name,
+          logo: {
+            file_name: content.logo.split(path.sep)[content.logo.split(path.sep).length - 1],
+            tmp: content.logo
+          }
+        };
       }
-    };
-  }
-});
+    }
+  });
+};

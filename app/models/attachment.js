@@ -1,37 +1,26 @@
-var Waterline = require('waterline');
 var app = require('../../app.js');
 var sh = require('shelljs');
 var path = require('path');
 
-module.exports = Waterline.Collection.extend({
-  identity: 'attachment',
-  connection: 'psql',
-
-  attributes: {
-    file_name: 'string',
-    tmp: 'string',
-    url () {
-      return `${app.get('url_images_root')}/attachments/${this.id}/${this.file_name}`;
-    },
-    toJSON: function () {
-      var obj = this.toObject();
-      obj.url = this.url();
-      delete obj.tmp;
-      return obj;
+module.exports = (sequelize, DataTypes) => {
+  return sequelize.define('attachment', {
+    file_name: DataTypes.STRING,
+    tmp: DataTypes.STRING,
+    url: {
+      type: DataTypes.VIRTUAL(DataTypes.STRING),
+      get: () => generate_url(this.get('id'), this.get('file_name'))
     }
-  },
-  afterCreate (attachment, next) {
-    create(attachment);
-    next();
-  },
-  afterUpdate (attachment, next) {
-    create(attachment);
-    next();
-  },
-  afterDestroy (attachment, next) {
-    next();
-  }
-});
+  }, {
+    hooks: {
+      afterCreate: (attachment) => create(attachment),
+      afterUpdate: (attachment) => create(attachment)
+    }
+  });
+};
+
+function generate_url (id, file_name) {
+  return `${app.get('url_images_root')}/attachments/${id}/${file_name}`;
+}
 
 function create (attachment) {
   var dest = path.join(app.get('images'), `attachments/${attachment.id}`);

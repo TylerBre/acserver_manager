@@ -5,26 +5,21 @@
     "ipv4": "127.0.0.1",
     "host": "http://localhost:3000"
   },
-  "waterline": {
-    "connections": {
-      "psql": {
-        "adapter": "psql",
-        "host": "localhost",
-        "user": "postgres",
-        "password": "postgres",
-        "database": "acserver_manager"
-      },
-      "psql-file": {
-        "adapter": "psql",
-        "host": "localhost",
-        "user": "postgres",
-        "password": "postgres",
-        "database": "acserver_manager"
-      }
-    },
-    "defaults": {
-      "migrate": "alter"
+  "db": {
+    "host": "localhost",
+    "username": "postgres",
+    "password": "postgres",
+    "database": "acserver_manager",
+    "pool": {
+      "maxConnections": 10,
+      "minConnections": 0,
+      "maxIdleTime": 10000
     }
+  },
+  "sequelize": {
+    "logging": false,
+    "dialect": "postgres",
+    "sync": true
   },
   "stracker": {
     "db": {
