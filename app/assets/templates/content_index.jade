@@ -10,9 +10,17 @@ block loaded
         span(v-text="brand")
       hr
     .col-md-4(v-for="car in cars")
-      .panel.panel-default
-        .panel-body
-          .thumbnail
-            img(v-bind:src="car.liveries[0].preview.url")
-          .caption
-            p(v-text="car.name")
+      card(v-bind:title="car.name", v-bind:image="car.liveries[0].preview.url")
+        div(slot="header")
+          dropdown.inner-context.inner-context-topright.deeper
+            button.btn.btn-default.btn-xs(type="button", data-toggle="dropdown")
+              | Liveries &nbsp;
+              i.fa.fa-angle-down
+            ul.dropdown-menu(name="dropdown-menu")
+              li(v-for="livery in car.liveries")
+                a(href="javascript:void(0)")
+                  img.img-rounded(v-bind:src="livery.thumbnail.url", height="25px")
+                  | &nbsp;{{ livery.name }}
+
+        div(slot="content")
+          p This is some content

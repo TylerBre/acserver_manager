@@ -113,7 +113,7 @@ block loaded
                 input.btn.btn-primary(type="submit", v-bind:class="{'disabled': $validation.valid}", transition="expand")
     div(v-bind:class="{'col-lg-6': show_cfg_preview}", v-show="show_cfg_preview", transition="fade")
       div.code-container
+        div(v-html="server_cfg_preview | syntax_highlight 'ini'")
         a.btn.btn-default.btn-xs.inner-context.inner-context-topright.deeper(v-on:click.prevent="show_all_settings = !show_all_settings")
           i.fa(v-bind:class="{'fa-eye': !show_all_settings, 'fa-eye-slash': show_all_settings}")
           small &nbsp;All settings
-        div(v-html="server_cfg_preview | syntax_highlight 'ini'")

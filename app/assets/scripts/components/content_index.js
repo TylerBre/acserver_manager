@@ -21,6 +21,10 @@ module.exports = Vue.extend({
       return _.groupBy(this.content.cars, 'brand');
     }
   },
-  template: require('../templates/content_index.html')
+  template: require('../templates/content_index.html'),
+  components: {
+    card: require('./card.js'),
+    dropdown: require('vue-strap').dropdown
+  }
 });
 

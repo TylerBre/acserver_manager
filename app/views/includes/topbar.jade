@@ -11,7 +11,6 @@ header.navbar.navbar-default.navbar-fixed-top
     nav#acm-navbar.collapse.navbar-collapse
       ul.nav.navbar-nav
         li: a(v-link="{ name: 'content_index'}") Content
-        li: a(v-link="{ name: 'race_preset_index'}") Race Presets
         li: a(v-link="{ name: 'race_preset_new'}") Create Race Preset
       ul.nav.navbar-nav.navbar-right
         li(v-show="$root.ready", transition="fade", style="display:none")
@@ -33,7 +32,6 @@ header.navbar.navbar-default.navbar-fixed-top
                 span(v-text="$root.mem_active_size")
                 | /
                 span(v-text="$root.mem_total_size")
-
             .status-item
               .title
                 span Disk
@@ -43,8 +41,6 @@ header.navbar.navbar-default.navbar-fixed-top
                 span(v-text="$root.storage_used_size")
                 | /
                 span(v-text="$root.storage_total_size")
-
-
         li: a(href="javascript:void(0)")
           i.glyphicon.glyphicon-user
           | &nbsp;Login
