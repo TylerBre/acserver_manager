@@ -7,7 +7,7 @@ body {
 }
 
 button:focus {
-  outline: none;
+  outline: none !important;
 }
 
 .nav.navbar-nav > li > .active {
@@ -21,6 +21,10 @@ button:focus {
   &, &:focus {
     box-shadow: none;
   }
+}
+
+.img-rounded, .img-circle {
+  box-shadow: 0 1px 2px 0 rgba(0,0,0,0.3);
 }
 
 .input-group-addon > .validation-status {
