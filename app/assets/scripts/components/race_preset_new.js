@@ -50,8 +50,11 @@ module.exports = Vue.extend({
     server_cfg_preview () {
       return this.server_cfg_template(this);
     },
+    tracks_flat () {
+      return _(this.tracks).values().flatten().value();
+    },
     track_obj () {
-      return _.find(this.tracks, {id: this.track});
+      return _.find(this.tracks_flat, {id: this.track});
     },
     config_track () {
       return this.track_obj.file_name_secondary;

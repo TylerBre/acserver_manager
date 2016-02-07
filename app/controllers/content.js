@@ -14,7 +14,13 @@ ContentController.index = () => {
 
 ContentController.cars = () => {
   return app.models.car.findAll({include: [{all, nested}]})
-    .then(cars => _.groupBy(cars, 'brand'));
+    .then(cars => _.groupBy(cars, 'brand'))
+    .then(cars => {
+      return _.reduce(Object.keys(cars).sort(), (total, key) => {
+        total[key] = cars[key];
+        return total;
+      }, {});
+    });
 };
 
 ContentController.tracks = () => {
