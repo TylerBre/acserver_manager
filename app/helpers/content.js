@@ -47,9 +47,11 @@ Content.car = (directory_names, pwd, ignore_seed_data) => {
   }), [])
   .map((car) => {
     return promise.all([
-      fs_content.readDirP(car.resource_path, '*logo.*')
-    ]).spread((logo) => {
+      fs_content.readDirP(car.resource_path, '*logo.*'),
+      fs_content.readDirP(car.resource_path, '*badge.*')
+    ]).spread((logo, badge) => {
       car.logo  = (logo.files[0]) ? logo.files[0].fullPath : '';
+      car.badge  = (badge.files[0]) ? badge.files[0].fullPath : '';
       return car;
     });
   })

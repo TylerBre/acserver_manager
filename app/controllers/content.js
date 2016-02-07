@@ -4,6 +4,7 @@ var promise = require('bluebird');
 var app = require('../../app');
 
 var ContentController = module.exports;
+var all = true; var nested = true;
 
 ContentController.index = () => {
   return promise.all([this.cars(), this.tracks()]).spread((cars, tracks) => {
@@ -12,11 +13,13 @@ ContentController.index = () => {
 };
 
 ContentController.cars = () => {
-  return app.models.car.findAll({include: [{all: true, nested: true}]});
+  return app.models.car.findAll({include: [{all, nested}]})
+    .then(cars => _.groupBy(cars, 'brand'));
 };
 
 ContentController.tracks = () => {
-  return app.models.track.findAll({include: [{all: true, nested: true}]});
+  return app.models.track.findAll({include: [{all, nested}]})
+    .then(tracks => _.groupBy(tracks, 'file_name'));
 };
 
 ContentController.update_all = () => {
@@ -76,6 +79,7 @@ ContentController.update_cars = () => {
 };
 
 ContentController.update_car = (content) => {
+  if (_.isEmpty(content.logo)) content.logo = content.badge;
   var liveries = _.map(content.liveries, (livery) => app.models.livery.fromKunos(livery));
   content = app.models.car.fromKunos(content);
   content.liveries = liveries;

@@ -1,4 +1,4 @@
-.row(v-for="(brand, cars) in grouped_cars")
+.row(v-for="(brand, cars) in content")
   .col-md-12
     h4
       img(v-bind:src="cars[0].logo.url", height="50")
@@ -6,17 +6,4 @@
       span(v-text="brand")
     hr
   .col-md-4(v-for="car in cars")
-    card(v-bind:title="car.name", v-bind:image="car.liveries[0].preview.url", v-bind:image_position="'center -20px'")
-      div(slot="header")
-        dropdown.inner-context.inner-context-topright
-          button.btn.btn-pico.btn-dark(type="button", data-toggle="dropdown")
-            | Liveries&nbsp;
-            i.fa.fa-angle-down
-          ul.dropdown-menu(name="dropdown-menu")
-            li(v-for="livery in car.liveries")
-              a(href="javascript:void(0)")
-                img.img-circle(v-bind:src="livery.thumbnail.url", height="25px", v-if="livery.thumbnail.file_name.length > 0")
-                | &nbsp;{{ livery.name }}
-
-      div(slot="content")
-        p This is some content
+    car(v-bind:car="car")

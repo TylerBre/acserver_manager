@@ -1,0 +1,13 @@
+card(v-bind:title="visible_configuration.name", v-bind:image="visible_configuration.preview.url", v-bind:image_position="'top left'")
+  div(slot="header")
+    img(v-bind:src="visible_configuration.outline.url", height="90px")
+    dropdown.inner-context.inner-context-topright(v-if="multiple_configurations")
+      button.btn.btn-pico.btn-dark(type="button", data-toggle="dropdown")
+        | Configurations&nbsp;
+        i.fa.fa-angle-down
+      ul.dropdown-menu(name="dropdown-menu")
+        li(v-for="(index, configuration) in configurations")
+          a(@click.prevent="view_configuration(index)", v-text="configuration.name")
+  div(slot="content")
+    p(v-text="visible_configuration.country")
+    p(v-text="visible_configuration.description")
