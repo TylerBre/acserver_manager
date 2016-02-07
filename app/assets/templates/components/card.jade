@@ -1,5 +1,5 @@
 .card
-  header.card-title(v-bind:style="{'background-image': 'url(' + image + ')'}")
+  header.card-title(v-bind:style="{'background-image': 'url(' + image + ')', 'background-position': image_position}")
     slot(name="header")
     h2.card-title-text(v-text="title", v-if="has_title")
   .card-content

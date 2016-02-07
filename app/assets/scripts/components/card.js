@@ -8,6 +8,9 @@ module.exports = Vue.extend({
     },
     title: {
       default: ''
+    },
+    image_position: {
+      default: 'center'
     }
   },
   computed: {

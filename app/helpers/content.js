@@ -154,11 +154,11 @@ Content.track = (directory_names, pwd, ignore_seed_data) => {
     };
   }), [])
   .map((track) => {
-    var pwd = (track.configuration) ?  path.join(track.resource_path, track.configuration) : track.resource_path;
+    var _pwd = (track.configuration) ?  path.join(track.resource_path, track.configuration) : track.resource_path;
     return promise.all([
-      fs_content.readDirP(pwd, '*outline.*'),
-      fs_content.readDirP(pwd, '*preview.*'),
-      fs_content.readDirP(track.resource_path, 'map.png')
+      fs_content.readDirP(_pwd, '*outline.*'),
+      fs_content.readDirP(_pwd, '*preview.*'),
+      fs_content.readDirP(path.join(pwd, track.file_name), 'map.png')
     ]).spread((outline, preview, map) => {
       track.outline = (outline.files[0]) ? outline.files[0].fullPath : '';
       track.preview = (preview.files[0]) ? preview.files[0].fullPath : '';

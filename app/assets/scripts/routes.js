@@ -1,6 +1,7 @@
 module.exports = (Vue) => {
   return {
     '/': {
+      name: 'dashboard',
       component: require('./components/dashboard.js')
     },
     '/content': {
@@ -8,19 +9,19 @@ module.exports = (Vue) => {
         template: require('./templates/layouts/content.html')
       },
       subRoutes: {
-        '/': {
-          name: 'content_index',
-          component: require('./components/content_index.js')
+        '/cars': {
+          name: 'content_cars',
+          component: require('./components/content_cars.js')
+        },
+        '/tracks': {
+          name: 'content_tracks',
+          component: require('./components/content_tracks.js')
         },
         '/new': {
           name: 'content_new',
           component: require('./components/content_new.js')
         }
       }
-    },
-    '/race_preset': {
-      name: 'race_preset_index',
-      component: require('./components/content_index.js')
     },
     '/race_preset/new': {
       name: 'race_preset_new',

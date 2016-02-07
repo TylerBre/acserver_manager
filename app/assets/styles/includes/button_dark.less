@@ -1,14 +1,17 @@
 @btn-dark-bg: rgba(0,0,0,0.75);
-@btn-dark-bg-active: rgba(150,150,150,0.3);
+@btn-dark-bg-active: rgba(75,75,75,0.75);
 @btn-dark-color: rgba(255,255,255,0.7);
 @btn-dark-color-active: rgba(255,255,255,0.8);
 
 .btn-dark {
-  background-color: @btn-dark-bg;
-  color: @btn-dark-color;
-  border: 1px solid @btn-dark-color;
 
-  &:hover, &:focus {
+  &, &:focus {
+    background-color: @btn-dark-bg;
+    color: @btn-dark-color;
+    border: 1px solid @btn-dark-color;
+  }
+
+  &:hover {
     background-color: @btn-dark-bg-active;
     color: @btn-dark-color-active;
     border-color: @btn-dark-color-active;

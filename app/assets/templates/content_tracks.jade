@@ -1,0 +1,15 @@
+.row: .col-md-4(v-for="track in grouped_tracks")
+
+  card(v-bind:title="track.visible_configuration.name", v-bind:image="track.visible_configuration.preview.url", v-bind:image_position="'top left'")
+    div(slot="header")
+      img(v-bind:src="track.visible_configuration.outline.url", height="90px")
+      dropdown.inner-context.inner-context-topright(v-if="track.multiple_configurations")
+        button.btn.btn-pico.btn-dark(type="button", data-toggle="dropdown")
+          | Configurations&nbsp;
+          i.fa.fa-angle-down
+        ul.dropdown-menu(name="dropdown-menu")
+          li(v-for="configuration in track.configurations")
+            a(href="javascript:void(0)", v-text="configuration.name")
+    div(slot="content")
+      p(v-text="track.visible_configuration.country")
+      p(v-text="track.visible_configuration.description")

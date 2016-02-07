@@ -5,12 +5,13 @@ header.navbar.navbar-default.navbar-fixed-top
         span.icon-bar
         span.icon-bar
         span.icon-bar
-      a.navbar-brand(v-link="{ path: '/'}")
+      a.navbar-brand(v-link="{ name: 'dashboard' }", style="z-index: 1")
         img(src="/assets/images/ac_logo.jpg", style="height: 100%; display: inline;")
         //- | acServer Manager
     nav#acm-navbar.collapse.navbar-collapse
       ul.nav.navbar-nav
-        li: a(v-link="{ name: 'content_index'}") Content
+        li: a(v-link="{ name: 'content_cars'}") Cars
+        li: a(v-link="{ name: 'content_tracks'}") Tracks
         li: a(v-link="{ name: 'race_preset_new'}") Create Race Preset
       ul.nav.navbar-nav.navbar-right
         li(v-show="$root.ready", transition="fade", style="display:none")

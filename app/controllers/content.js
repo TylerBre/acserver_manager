@@ -6,12 +6,17 @@ var app = require('../../app');
 var ContentController = module.exports;
 
 ContentController.index = () => {
-  return promise.all([
-    app.models.car.findAll({include: [{all: true, nested: true}]}),
-    app.models.track.findAll({include: [{all: true, nested: true}]})
-  ]).spread((cars, tracks) => {
+  return promise.all([this.cars(), this.tracks()]).spread((cars, tracks) => {
     return {cars, tracks};
   });
+};
+
+ContentController.cars = () => {
+  return app.models.car.findAll({include: [{all: true, nested: true}]});
+};
+
+ContentController.tracks = () => {
+  return app.models.track.findAll({include: [{all: true, nested: true}]});
 };
 
 ContentController.update_all = () => {
@@ -27,6 +32,7 @@ ContentController.update_tracks = () => {
 };
 
 ContentController.update_track = (content) => {
+  if (_.isEmpty(content.outline)) content.outline = content.map;
   content = app.models.track.fromKunos(content);
   return app.models.track.findOne({
     where: {
