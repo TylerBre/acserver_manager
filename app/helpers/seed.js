@@ -57,32 +57,20 @@ function Seed (content_dir) {
     return helpers.content.cars(path.join(content_dir, 'cars'), true)
       .reduce((total, car) => {
         if (official_car_list.indexOf(car.file_name) < 0) {
-          console.log("Skipping: " + car.file_name);
+          console.log(`Skipping non official content: ${car.file_name}`);
           return total;
         }
 
-        var skins_dir = path.join(seed_cars_dir, car.file_name, 'skins');
-        return new promise((resolve, reject) => {
-          fs_extra.remove(skins_dir, (err) => {
-            if (err) resolve();
-            resolve();
-          });
-        }).then(() => {
-          return fs_content.mkDir(skins_dir);
-        })
-        .then(() => {
-          var m = _.map(official_car_liveries_list[car.file_name], (livery_name) => {
-            return helpers.content.livery(car.file_name, livery_name, path.join(content_dir, 'cars'), true);
-          });
-          return promise.all(m);
-        })
-        .map((livery) => {
-          return this._create_livery(car, livery);
-        })
-        .map((livery) => {
-          total.push(livery);
-          return livery;
-        });
+        this.clear_dir(path.join(seed_cars_dir, car.file_name, 'skins'));
+
+        var liveries = _.reduce(car.liveries, (_total, livery) => {
+          if (livery) _total.push(this._create_livery(car, livery));
+          return _total;
+        }, []);
+
+        return promise.all(liveries)
+          .each(livery => total.push(livery))
+          .then(() => total);
       }, []);
   };
 
@@ -162,18 +150,18 @@ function Seed (content_dir) {
 
   this._create_car = (car) => {
     var json_path = path.join(seed_cars_dir, car.file_name, 'ui', 'ui_car.json');
-    var badge_path = path.join(seed_cars_dir, car.file_name, 'ui', 'badge.png');
+    var logo_path = path.join(seed_cars_dir, car.file_name, 'logo.png');
 
     this.clear_dir(path.join(seed_cars_dir, car.file_name));
 
     return fs_content.mkDir(path.join(seed_cars_dir, car.file_name, 'ui'))
       .then(() => {
         return promise.all([
-          fs_content.copyFile(car.badge, badge_path),
+          fs_content.copyFile(car.logo, logo_path),
           fs_content.writeFile(json_path, JSON.stringify(car.data))
         ]).then(() => {
           console.log("\ncreated: " + json_path);
-          console.log("created: " + badge_path);
+          console.log("created: " + logo_path);
           console.log("/*------------------------*/");
         });
       })
@@ -186,28 +174,29 @@ function Seed (content_dir) {
   };
 
   this._create_livery = (car, livery) => {
+
     var pwd = path.join(seed_cars_dir, car.file_name, 'skins', livery.directory_name);
     var json_path = path.join(pwd,'ui_skin.json');
     var thumbnail_path = path.join(pwd,'livery.png');
     var preview_path = path.join(pwd,'preview.png');
 
-    return fs_content.mkDir(pwd).then(() => {
-      return promise.all([
-        fs_content.copyFile(livery.thumbnail, thumbnail_path).catch((e) => console.log(`${e.message}\nlivery.thumbnail: ${car.file_name}/skins/${livery.directory_name}`)),
-        fs_content.copyFile(livery.preview, preview_path).catch((e) => console.log(`${e.message}\nlivery.preview: ${car.file_name}/skins/${livery.directory_name}`)),
-        fs_content.writeFile(json_path, JSON.stringify(livery.data))
-      ])
-      .then(() => {
-        // console.log("\ncreated: " + json_path);
-        // console.log("created: " + thumbnail_path);
-        // console.log("created: " + preview_path);
-        // console.log("/*------------------------*/");
-      })
-      .then(() => livery)
-      .catch({code: 'EEXIST'}, (e) => {
-        console.error(e);
-        return livery;
-      });
+    this.clear_dir(pwd);
+
+    return promise.all([
+      fs_content.copyFile(livery.thumbnail, thumbnail_path).catch((e) => console.log(`${e.message}\nlivery.thumbnail: ${car.file_name}/skins/${livery.directory_name}`)),
+      fs_content.copyFile(livery.preview, preview_path).catch((e) => console.log(`${e.message}\nlivery.preview: ${car.file_name}/skins/${livery.directory_name}`)),
+      fs_content.writeFile(json_path, JSON.stringify(livery.data))
+    ])
+    .then(() => {
+      // console.log("\ncreated: " + json_path);
+      // console.log("created: " + thumbnail_path);
+      // console.log("created: " + preview_path);
+      // console.log("/*------------------------*/");
+    })
+    .then(() => livery)
+    .catch({code: 'EEXIST'}, (e) => {
+      console.error(e);
+      return livery;
     });
   };
 }

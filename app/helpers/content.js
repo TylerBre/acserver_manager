@@ -22,6 +22,7 @@ Content.cars = (pwd, ignore_seed_data) => {
 Content.car = (directory_names, pwd, ignore_seed_data) => {
   if (!_.isArray(directory_names)) directory_names = [directory_names];
   pwd = pwd || cars_dir;
+  ignore_seed_data = ignore_seed_data || false;
 
   return fs_content.readFile(official_car_list).then((official_car_list) => {
     return _.map(directory_names, (directory_name) => {
@@ -59,13 +60,13 @@ Content.car = (directory_names, pwd, ignore_seed_data) => {
         var promises;
         if (liveries_list[car.file_name]) {
           promises = _.map(liveries_list[car.file_name], (livery_name) => {
-            return this.livery(car.file_name, livery_name, cars_dir);
+            return this.livery(car.file_name, livery_name, pwd, ignore_seed_data);
           });
         } else {
           car.pwd = car.pwd || car.resource_path;
           promises = fs_content.readDir(path.join(car.pwd, 'skins'))
             .reduce(fs_content.directories_only(path.join(car.pwd, 'skins')), [])
-            .map(livery_name => this.livery(car.file_name, livery_name, cars_dir));
+            .map(livery_name => this.livery(car.file_name, livery_name, pwd, ignore_seed_data));
         }
         return promise.all(promises);
       })
@@ -73,20 +74,20 @@ Content.car = (directory_names, pwd, ignore_seed_data) => {
         car.liveries = liveries;
         return car;
       });
-  }).catch({code: 'ENOTDIR'}, () => {});
+  })
+  .catch({code: 'ENOTDIR'}, () => {});
 };
 
 Content.livery = (car_directory_name, directory_name, pwd, ignore_seed_data) => {
   pwd = pwd || cars_dir;
-  pwd = path.join(pwd, car_directory_name, 'skins');
-
+  pwd = path.join(pwd, car_directory_name, 'skins', directory_name);
   return fs_content.readFile(official_car_liveries_list)
     .then((official_car_liveries_list) => {
       official_car_liveries_list = JSON.parse(official_car_liveries_list);
       var official_content = official_car_liveries_list[car_directory_name] && official_car_liveries_list[car_directory_name].indexOf(directory_name) >= 0;
       if (ignore_seed_data) official_content = false;
       return {
-        pwd: (!official_content) ? pwd : path.join(seed_content, 'cars', car_directory_name, 'skins'),
+        pwd: (!official_content) ? pwd : path.join(seed_content, 'cars', car_directory_name, 'skins', directory_name),
         directory_name, car_directory_name, official_content
       };
     })
@@ -96,6 +97,7 @@ Content.livery = (car_directory_name, directory_name, pwd, ignore_seed_data) => 
         fs_content.readDirP(info.pwd, '*review.*'),
         fs_content.readDirP(info.pwd, 'ui_skin.json')
       ]).spread((thumbnail, preview, json) => {
+
         info.thumbnail = (thumbnail.files[0]) ? thumbnail.files[0].fullPath : '';
         info.preview  = (preview.files[0]) ? preview.files[0].fullPath : '';
         info.data  = (json.files[0]) ? json.files[0].fullPath : '';
@@ -104,12 +106,13 @@ Content.livery = (car_directory_name, directory_name, pwd, ignore_seed_data) => 
         return fs_content.readFile(info.data).then((data) => {
           info.data = fs_content.un_format_json(data);
           return info;
+        }).catch((e) => {
+          console.error(`Couldn't read JSON for ${info.pwd}`);
+          return info;
         });
       });
-    })
-    .catch((e) => {
+    }).catch((e) => {
       console.error(e);
-      console.log(path.join(pwd, directory_name));
     });
 };
 
