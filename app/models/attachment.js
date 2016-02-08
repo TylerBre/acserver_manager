@@ -27,13 +27,18 @@ module.exports = (sequelize, DataTypes) => {
     url: {
       type: DataTypes.VIRTUAL(DataTypes.STRING),
       get () {
-        return `${url_images_root}/attachments/${this.id}/${this.file_name}`;
+        return to_url(this);
       }
     }
   }, {
+    classMethods: { to_url },
     hooks: { beforeCreate, afterCreate, beforeUpdate }
   });
 };
+
+function to_url (attachment) {
+  return `${url_images_root}/attachments/${attachment.id}/${attachment.file_name}`;
+}
 
 function beforeCreate (attachment) {
   return generate_checksum(attachment)

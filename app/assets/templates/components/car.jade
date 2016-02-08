@@ -1,12 +1,12 @@
 card(v-bind:title="car.name", v-bind:image="livery.preview.url", v-bind:image_position="'center -20px'")
   div(slot="header")
     dropdown.inner-context.inner-context-topright
-      button.btn.btn-pico.btn-dark(type="button", data-toggle="dropdown")
+      button.btn.btn-pico.btn-dark(type="button", data-toggle="dropdown", @click.prevent.stop="$root.noop")
         | Liveries&nbsp;
         i.fa.fa-angle-down
       ul.dropdown-menu(name="dropdown-menu")
         li(v-for="(index, livery) in car.liveries")
-          a(@click.prevent="view_livery(index)")
+          a(@click.prevent.stop="view_livery(index)")
             img.img-circle(v-bind:src="livery.thumbnail.url", height="25px", v-if="livery.thumbnail.file_name.length > 0")
             | &nbsp;{{ livery.name }}
 

@@ -9,17 +9,21 @@
     "host": "localhost",
     "username": "postgres",
     "password": "postgres",
-    "database": "acserver_manager",
+    "port": 5432,
+    "database": "acserver_manager"
+  },
+  "sequelize": {
+    "logging": false,
+    "dialect": "postgres",
+    "sync": true,
+    "define": {
+      "underscored": true
+    },
     "pool": {
       "maxConnections": 10,
       "minConnections": 0,
       "maxIdleTime": 10000
     }
-  },
-  "sequelize": {
-    "logging": false,
-    "dialect": "postgres",
-    "sync": true
   },
   "stracker": {
     "db": {

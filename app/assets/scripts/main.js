@@ -94,6 +94,7 @@ var App = Vue.extend({
     }
   },
   methods: {
+    noop: _.noop,
     to_percent (a) {
       return (b) => {
         return (b / a) * 100;

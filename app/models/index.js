@@ -7,13 +7,11 @@ var orm_config = config.get('sequelize');
 
 var sequelize = new Sequelize(db_config.database, db_config.username, db_config.password, {
   host: db_config.host,
-  pool: db_config.pool,
+  pool: orm_config.pool,
   logging: orm_config.logging,
   dialect: orm_config.dialect,
   sync: orm_config.sync,
-  define: {
-    underscored: true
-  }
+  define: orm_config.define
 });
 
 var models = read(__dirname)

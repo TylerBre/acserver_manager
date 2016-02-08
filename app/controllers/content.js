@@ -4,7 +4,7 @@ var promise = require('bluebird');
 var app = require('../../app');
 
 var ContentController = module.exports;
-var all = true; var nested = true;
+var all = true; var nested = true; var raw = true; var plain = true;
 
 ContentController.index = () => {
   return promise.all([this.cars(), this.tracks()]).spread((cars, tracks) => {
@@ -13,19 +13,66 @@ ContentController.index = () => {
 };
 
 ContentController.cars = () => {
-  return app.models.car.findAll({include: [{all, nested}]})
-    .then(cars => _.groupBy(cars, 'brand'))
-    .then(cars => {
-      return _.reduce(Object.keys(cars).sort(), (total, key) => {
-        total[key] = cars[key];
-        return total;
-      }, {});
-    });
+  // this is heavily optimized for speed, but this should probably have a cache
+  // layer rather than adding complexity to the app.
+  // but by avoiding some joins, rendering the raw data, and manually
+  // associating data, we save over 1s
+  return promise.all([
+    app.models.car.findAll({
+      raw,
+      include: [
+        {model: app.models.attachment, as: 'logo'}
+      ],
+      attributes: { exclude: ['torque_curve', 'power_curve'] }
+    }),
+    app.models.livery.findAll({
+      raw,
+      include: [
+        {model: app.models.attachment, as: 'thumbnail'},
+        {model: app.models.attachment, as: 'preview'}
+      ]
+    })
+  ]).spread((cars, liveries) => {
+    liveries = _(liveries).map(livery => {
+      livery.name = app.models.livery.to_name(livery);
+      livery.thumbnail = {
+        id: livery['thumbnail.id'],
+        file_name: livery['thumbnail.file_name'],
+        url: app.models.attachment.to_url({file_name: livery['thumbnail.file_name'], id: livery['thumbnail.id']})
+      };
+      livery.preview = {
+        id: livery['preview.id'],
+        file_name: livery['preview.file_name'],
+        url: app.models.attachment.to_url({file_name: livery['preview.file_name'], id: livery['preview.id']})
+      };
+      return _.omit(livery, 'thumbnail.id', 'thumbnail.file_name', 'thumbnail.tmp', 'thumbnail.checksum', 'thumbnail.created_at', 'thumbnail.updated_at', 'preview.id', 'preview.file_name', 'preview.tmp', 'preview.checksum', 'preview.created_at', 'preview.updated_at');
+    }).groupBy('car_id').value();
+
+
+    cars = _(cars).map(car => {
+      car.logo = {
+        id: car['logo.id'],
+        file_name: car['logo.file_name'],
+        url: app.models.attachment.to_url({file_name: car['logo.file_name'], id: car['logo.id']})
+      };
+      return _.omit(car, 'logo.id', 'logo.file_name', 'logo.tmp', 'logo.checksum', 'logo.created_at', 'logo.updated_at');
+    }).groupBy('brand').value();
+
+    return _.reduce(Object.keys(cars).sort(), (total, key) => {
+      total[key] = _.map(cars[key], car => {
+        car.liveries = liveries[car.id] || [];
+        return car;
+      });
+      return total;
+    }, {});
+  });
 };
 
 ContentController.tracks = () => {
-  return app.models.track.findAll({include: [{all, nested}]})
-    .then(tracks => _.groupBy(tracks, 'file_name'));
+  return app.models.track.findAll({include: [
+    {model: app.models.attachment, as: 'outline'},
+    {model: app.models.attachment, as: 'preview'}
+  ]}).then(tracks => _.groupBy(tracks, 'file_name'));
 };
 
 ContentController.update_all = () => {

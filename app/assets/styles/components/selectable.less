@@ -1,0 +1,26 @@
+.selectable {
+  display: block;
+  .transition(box-shadow .1s ease, padding .1s ease);
+}
+
+.selectable.selected {
+  .transition(box-shadow .1s ease, padding .1s ease);
+  @border-width: 30px;
+  border-radius: @border-radius-base 0 0 @border-radius-base;
+  padding: 0 0 0 @border-width;
+  .box-shadow(inset @border-width 0 0 0 @brand-success);
+
+
+  &:before {
+    content: "\f046";
+    position: absolute;
+    font-family: FontAwesome;
+    top: 50%; left: (@border-width / 2) - 5px;
+    margin-top: -9px;
+    color: #fff;
+  }
+}
+
+.selectable * {
+  .user-select(none);
+}

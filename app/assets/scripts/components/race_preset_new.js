@@ -9,7 +9,9 @@ var _ = require('lodash');
 module.exports = Vue.extend({
   route: {
     data (transition) {
-      return this.$http.get('/api/content').then((res) => res.data);
+      return this.$http.get('/api/content/tracks').then(res => {
+        this.tracks = res.data;
+      });
     }
   },
   data () {
@@ -53,6 +55,9 @@ module.exports = Vue.extend({
     tracks_flat () {
       return _(this.tracks).values().flatten().value();
     },
+    cars_flat () {
+      return _(this.cars).values().flatten().value();
+    },
     track_obj () {
       return _.find(this.tracks_flat, {id: this.track});
     },
@@ -62,11 +67,22 @@ module.exports = Vue.extend({
   },
   methods: {
     save () {
-      api.race_preset.save(null, _.omit(this.$data, ['cars', 'tracks'])).then((res) => {
-        debugger;
-      }).catch(err => console.error(err));
+      api.race_preset.save(null, _.omit(this.$data, ['cars', 'tracks']))
+        .then((res) => {
+        }).catch(err => console.error(err));
     }
   },
-  template: require('../templates/race_preset_new.html')
+  events: {
+    'selected-cars-update' (car_ids) {
+      console.log(car_ids);
+    }
+  },
+  template: require('../templates/race_preset_new.html'),
+  components: {
+    car_list: require('./car_list.js'),
+    carousel: require('vue-strap').carousel,
+    slider: require('vue-strap').slider
+  }
+
 });
 

@@ -1,0 +1,41 @@
+.navbar.navbar-inverse
+  .container-fluid
+    .navbar-header
+      button.navbar-toggle.collapsed(type="button", data-toggle="collapse", data-target="#car-list-nav")
+        span.icon-bar
+        span.icon-bar
+        span.icon-bar
+
+    .collapse.navbar-collapse#car-list-nav
+      .navbar-form.navbar-left
+        input.form-control(type="text", placeholder="Search", @keyup="search | debounce 500")
+      ul.nav.navbar-nav.navbar-right
+        li: .btn-group
+          a.btn.btn-default(@click.prevent="list=false"): i.fa.fa-th
+          a.btn.btn-default(@click.prevent="list=true"): i.fa.fa-th-list
+
+
+
+.row(v-for="(brand, cars) in filtered_cars")
+  .col-md-12
+    h4
+      img(v-bind:src="cars[0].logo.url", height="50")
+      |&nbsp;&nbsp;
+      span(v-text="brand")
+  .col-md-4(v-for="car in cars", v-if="!list")
+    .selectable(@click.prevent="update_selected(car.id)" v-if="selectable", v-bind:class="{'selected': selected.indexOf(car.id) >= 0}")
+      car(v-bind:car="car")
+    car(v-bind:car="car", v-if="!selectable")
+
+  .col-md-12(v-if="list")
+    table.table.table-hover
+      thead: tr
+        th Name
+      tbody
+        template(v-for="car in cars")
+          tr(v-if="!selectable")
+            td(v-text="car.name")
+          .selectable(@click.prevent="update_selected(car.id)", v-if="selectable", v-bind:class="{'selected': selected.indexOf(car.id) >= 0}")
+            tr
+              td(v-text="car.name")
+

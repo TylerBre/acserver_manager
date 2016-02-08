@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
     name: {
       type: DataTypes.VIRTUAL(DataTypes.STRING),
       get () {
-        return (_.isEmpty(this.livery_name)) ? this.file_name : this.livery_name;
+        return this.to_name(this);
       }
     }
   }, {
@@ -19,6 +19,9 @@ module.exports = (sequelize, DataTypes) => {
         this.belongsTo(models.attachment, {as: 'thumbnail'});
         this.belongsTo(models.attachment, {as: 'preview'});
         this.belongsTo(models.dlc);
+      },
+      to_name (livery) {
+        return (_.isEmpty(livery.livery_name)) ? livery.file_name : livery.livery_name;
       },
       fromKunos (content) {
         return {
