@@ -1,24 +1,15 @@
 @selectable-border-width: 30px;
 
-tr.selectable {
-  display: table-row;
-
-  &.selected, &.selected:hover  {
-    background-color: @brand-primary;
-    color: #fff;
-  }
-
-  &.selected:before {
-    content: initial;
-  }
-}
-
 .selectable {
   display: block;
   cursor: pointer;
   padding-left: 0;
 
   .transition(box-shadow .1s ease, padding .1s ease);
+
+  &:hover, &.selected {
+    border-radius: @border-radius-base 0 0 @border-radius-base;
+  }
 
   &:hover {
     padding-left: (@selectable-border-width / 4);
@@ -28,14 +19,6 @@ tr.selectable {
   .selectable-text {
     padding-left: @grid-gutter-width / 2;
   }
-}
-
-.selectable.selected {
-  .transition(box-shadow .1s ease, padding .1s ease);
-  border-radius: @border-radius-base 0 0 @border-radius-base;
-  padding-left: @selectable-border-width;
-  .box-shadow(inset @selectable-border-width 0 0 0 @brand-primary);
-
 
   &:before {
     content: "\f046";
@@ -45,6 +28,12 @@ tr.selectable {
     margin-top: -9px;
     color: #fff;
   }
+}
+
+.selectable.selected {
+  .transition(box-shadow .1s ease, padding .1s ease);
+  padding-left: @selectable-border-width;
+  .box-shadow(inset @selectable-border-width 0 0 0 @brand-primary);
 }
 
 .selectable * {
