@@ -23,4 +23,3 @@ module.exports = Vue.extend({
     dropdown: require('vue-strap').dropdown
   }
 });
-

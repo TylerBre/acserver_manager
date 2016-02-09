@@ -1,21 +1,47 @@
+@selectable-border-width: 30px;
+
+tr.selectable {
+  display: table-row;
+
+  &.selected, &.selected:hover  {
+    background-color: @brand-primary;
+    color: #fff;
+  }
+
+  &.selected:before {
+    content: initial;
+  }
+}
+
 .selectable {
   display: block;
+  cursor: pointer;
+  padding-left: 0;
+
   .transition(box-shadow .1s ease, padding .1s ease);
+
+  &:hover {
+    padding-left: (@selectable-border-width / 4);
+    .box-shadow(inset (@selectable-border-width / 4) 0 0 0 @brand-primary);
+  }
+
+  .selectable-text {
+    padding-left: @grid-gutter-width / 2;
+  }
 }
 
 .selectable.selected {
   .transition(box-shadow .1s ease, padding .1s ease);
-  @border-width: 30px;
   border-radius: @border-radius-base 0 0 @border-radius-base;
-  padding: 0 0 0 @border-width;
-  .box-shadow(inset @border-width 0 0 0 @brand-success);
+  padding-left: @selectable-border-width;
+  .box-shadow(inset @selectable-border-width 0 0 0 @brand-primary);
 
 
   &:before {
     content: "\f046";
     position: absolute;
     font-family: FontAwesome;
-    top: 50%; left: (@border-width / 2) - 5px;
+    top: 50%; left: (@selectable-border-width / 2) - 5px;
     margin-top: -9px;
     color: #fff;
   }

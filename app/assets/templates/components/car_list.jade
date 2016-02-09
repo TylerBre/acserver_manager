@@ -10,11 +10,9 @@
       .navbar-form.navbar-left
         input.form-control(type="text", placeholder="Search", @keyup="search | debounce 500")
       ul.nav.navbar-nav.navbar-right
-        li: .btn-group
-          a.btn.btn-default(@click.prevent="list=false"): i.fa.fa-th
-          a.btn.btn-default(@click.prevent="list=true"): i.fa.fa-th-list
-
-
+        li: .btn-group.navbar-btn.btn-xs
+          a.btn.btn-xs.btn-default(@click.prevent="list=false", v-bind:class="{'active': !list}"): i.fa.fa-th
+          a.btn.btn-xs.btn-default(@click.prevent="list=true", v-bind:class="{'active': list}"): i.fa.fa-th-list
 
 .row(v-for="(brand, cars) in filtered_cars")
   .col-md-12
@@ -28,14 +26,9 @@
     car(v-bind:car="car", v-if="!selectable")
 
   .col-md-12(v-if="list")
-    table.table.table-hover
-      thead: tr
-        th Name
-      tbody
-        template(v-for="car in cars")
-          tr(v-if="!selectable")
-            td(v-text="car.name")
-          .selectable(@click.prevent="update_selected(car.id)", v-if="selectable", v-bind:class="{'selected': selected.indexOf(car.id) >= 0}")
-            tr
-              td(v-text="car.name")
+    .list-group
+      template(v-for="car in cars")
+        .list-group-item(v-if="!selectable", v-text="car.name")
+        .list-group-item.selectable(@click.prevent="update_selected(car.id)", v-if="selectable", v-bind:class="{'selected': selected.indexOf(car.id) >= 0}")
+          span.selectable-text(v-text="car.name")
 

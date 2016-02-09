@@ -23,8 +23,10 @@ block loaded
           fieldset
             legend Content
             +form_field_inline("Track", "select", "track", null, {collection: 'tracks_flat', value: 'id', text: 'name'})
-            +form_field_inline("Cars", "select", "car_list", null, {collection: 'cars', value: 'id', text: 'name'})(multiple=true)
-            car_list
+            //- +form_field_inline("Cars", "select", "car_list", null, {collection: 'cars', value: 'id', text: 'name'})(multiple=true)
+            +form_field_inline("Cars", "custom")
+              p Custom car list
+            //- car_list
 
           fieldset
             legend Session Settings
