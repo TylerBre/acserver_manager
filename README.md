@@ -5,10 +5,11 @@
 Acserver Manager is designed to be the only solution you will need to manage a dedicated server for Assetto Corsa.
 
 It aims to provide elegant interfaces and automation for:
-- ~~Uploading third-party cars and tracks~~ ✔
+- ~~Uploading third-party cars and tracks~~ ✔ [demo](https://cl.ly/f6H5)
 - Uploading custom skins
 - Updating the Assetto Corsa Dedicated server app
-- Editing ```server_cfg.ini``` and ```driver_list.ini``` files
+- ~~~Editing ```server_cfg.ini``` file~~~ ✔ [demo](https://cl.ly/f6H5)
+- Editing ```driver_list.ini``` file
 - Managing 3rd-party apps such as stracker
 - Starting and Stopping the server
 
