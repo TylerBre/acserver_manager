@@ -12,6 +12,7 @@ It aims to provide elegant interfaces and automation for:
 - Editing ```driver_list.ini``` file
 - Managing 3rd-party apps such as stracker
 - Starting and Stopping the server
+- Running multiple race servers
 
 As well as to add new features entirely:
 - Rotate server setup on race end
