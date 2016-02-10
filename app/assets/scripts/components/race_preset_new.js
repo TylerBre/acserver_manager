@@ -16,7 +16,6 @@ module.exports = Vue.extend({
   },
   data () {
     return {
-      car_list: [],
       cars: [],
       tracks: [],
       track: 1,
@@ -45,7 +44,8 @@ module.exports = Vue.extend({
       show_more_settings: false,
       server_cfg_template: _.template(server_cfg_template),
       show_cfg_preview: false,
-      show_all_settings: false
+      show_all_settings: false,
+      show_car_list: false
     };
   },
   computed: {
@@ -63,9 +63,22 @@ module.exports = Vue.extend({
     },
     config_track () {
       return this.track_obj.file_name_secondary;
+    },
+    stringified_cars () {
+      var out = _.map(this.cars, car => car.file_name);
+      out = JSON.stringify(out);
+      out = out.replace('[', '');
+      out = out.replace(']', '');
+      out = out.replace(/"/g, '');
+      return out;
     }
   },
   methods: {
+    remove_car (car) {
+      if (this.cars.indexOf(car) >= 0) {
+        this.cars.splice(this.cars.indexOf(car), 1);
+      }
+    },
     save () {
       api.race_preset.save(null, _.omit(this.$data, ['cars', 'tracks']))
         .then((res) => {
@@ -73,14 +86,15 @@ module.exports = Vue.extend({
     }
   },
   events: {
-    'selected-cars-update' (car_ids) {
-      console.log(car_ids);
+    'selected-cars-update' (cars) {
+      this.cars = cars;
     }
   },
   template: require('../templates/race_preset_new.html'),
   components: {
     car_list: require('./car_list.js'),
     carousel: require('vue-strap').carousel,
+    modal: require('vue-strap').modal,
     slider: require('vue-strap').slider
   }
 

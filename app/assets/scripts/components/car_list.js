@@ -4,21 +4,31 @@ var _ = require('lodash');
 module.exports = Vue.extend({
   props: {
     layout: {
-      default: "grid"
+      default: 'grid'
     },
     selectable: {
-      default: true
+      default: false
+    },
+    selected: {
+      default: []
     }
   },
   data () {
     return {
       content: {},
-      selected: [],
-      filter_text: '',
-      list: true
+      filter_text: ''
     };
   },
   computed: {
+    list () {
+      return this.layout === 'list';
+    },
+    logos () {
+      return _.reduce(this.content, (total, cars, brand) => {
+        total[brand] = cars[0].logo.url;
+        return total;
+      }, {});
+    },
     car_list_flat () {
       return _(this.content).values().flatten().value();
     },
@@ -46,11 +56,11 @@ module.exports = Vue.extend({
     }
   },
   methods: {
-    update_selected (id) {
-      if (this.selected.indexOf(id) >= 0) {
-        this.selected.splice(this.selected.indexOf(id), 1);
+    update_selected (car) {
+      if (this.selected.indexOf(car) >= 0) {
+        this.selected.splice(this.selected.indexOf(car), 1);
       } else {
-        this.selected.push(id);
+        this.selected.push(car);
       }
 
       this.$dispatch('selected-cars-update', this.selected);

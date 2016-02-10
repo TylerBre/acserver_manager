@@ -25,8 +25,22 @@ block loaded
             +form_field_inline("Track", "select", "track", null, {collection: 'tracks_flat', value: 'id', text: 'name'})
             //- +form_field_inline("Cars", "select", "car_list", null, {collection: 'cars', value: 'id', text: 'name'})(multiple=true)
             +form_field_inline("Cars", "custom")
-              p Custom car list
-            //- car_list
+              .modal-select-list
+                button.form-control.input.text-right(@click.prevent="show_car_list = true", type="text")
+                  i.fa.fa-plus-circle
+                  | &nbsp;Add Cars
+                .list-group.modal-select-list-group
+                  .list-group-item(v-for="car in cars", v-if="cars.length > 0")
+                    img(v-bind:src="car.brand.url", height="20")
+                    | &nbsp;
+                    span(v-text="car.name")
+                    .pull-right
+                      a.btn.btn-link.btn-pico(@click.prevent="remove_car(car)")
+                        i.fa.fa-trash
+                        | &nbsp;Remove
+                modal(:show.sync="show_car_list")
+                  .modal-body(slot="modal-body")
+                    car_list(v-bind:selectable="true", v-bind:layout="'list'", v-bind:selected="cars")
 
           fieldset
             legend Session Settings
@@ -43,7 +57,6 @@ block loaded
 
             +form_field_inline("Race Over Timer", "number", "race_race_over_timer", {min: 1}, {addon: true})(step="10")
               | Seconds
-              div.foo
 
           hr
           .form-group
