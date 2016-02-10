@@ -10,4 +10,5 @@ card(v-bind:title="car.name", v-bind:image="livery.preview.url", v-bind:image_po
             img.img-circle(v-bind:src="livery.thumbnail.url", height="25px", v-if="livery.thumbnail.file_name.length > 0")
             | &nbsp;{{ livery.name }}
 
-  div(slot="content", v-text="car.description")
+  div(slot="content")
+    {{{ car.description}}}

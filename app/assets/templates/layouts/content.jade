@@ -1,9 +1,9 @@
 extends ../includes/loading
 block loaded
   .row
-    .col-lg-8
+    .col-md-10
       router-view
-    .col-lg-4
+    .col-md-2
       nav.affix
         small.text-uppercase
           i.fa.fa-download
@@ -19,4 +19,4 @@ block loaded
           li: a(v-link="{ name: 'content_cars'}") Cars
           li: a(v-link="{ name: 'content_tracks'}") Tracks
           li: a(href="#") Skins
-      
+
