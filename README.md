@@ -8,7 +8,7 @@ It aims to provide elegant interfaces and automation for:
 - ~~Uploading third-party cars and tracks~~ ✔ [demo](https://cl.ly/f6H5)
 - Uploading custom skins
 - Updating the Assetto Corsa Dedicated server app
-- ~~~Editing ```server_cfg.ini``` file~~~ ✔ [demo](https://cl.ly/f6H5)
+- ~~~Editing ```server_cfg.ini``` file~~~ ✔ [demo](https://cl.ly/f6Kt)
 - Editing ```driver_list.ini``` file
 - Managing 3rd-party apps such as stracker
 - Starting and Stopping the server
