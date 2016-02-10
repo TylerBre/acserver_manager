@@ -23,7 +23,7 @@ prompt.get({
     },
     pass: {
       type: 'string',
-      description: 'Your Steam username',
+      description: 'Your Steam password (will not be shown)',
       required: true,
       hidden: true
     }
