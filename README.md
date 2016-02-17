@@ -41,11 +41,15 @@ As this is being developed for deployment to a 32-bit Ubuntu 15 installation, I 
 ```
 $ sudo apt-get install postgresql postgresql-contrib
 ```
+<strong>git</strong>
+```
+$ sudo apt-get install git
+```
 <strong>node.js</strong>
 
 You can find links to the latest builds here: [https://nodejs.org/dist/latest/](https://nodejs.org/dist/latest/)
 ```
-$ wget http://nodejs.org/dist/latest/node-v5.5.0-linux-x86.tar.gz
+$ wget http://nodejs.org/dist/v5.5.0/node-v5.5.0-linux-x86.tar.gz
 $ sudo tar -C /usr/local --strip-components 1 -xzf node-v5.5.0-linux-x86.tar.gz
 $ rm node-v5.5.0-linux-x86.tar.gz
 ```
@@ -77,7 +81,7 @@ postgres=# create database stracker;
 Clone this repo and cd into it
 ```
 $ cd ~
-$ git clone git@github.com:TylerBre/acserver_manager.git
+$ git clone https://github.com/TylerBre/acserver_manager.git
 $ cd acserver_manager
 ```
 Install local dependencies. Note, this will also run steamcmd for the first time and will prompt you for your steam credentials and a steam guard key
