@@ -88,11 +88,10 @@ Install local dependencies. Note, this will also run steamcmd for the first time
 ```
 $ npm install
 ```
-Populate the database with data about the installed content
+Finally, copy ```config/default.json``` to ```config/development.json``` and update your database password with what you set earlier. Then, populate the database with data about the installed content
 ```
 $ npm run db:seed
 ```
-Finally, copy ```config/default.json``` to ```config/development.json``` and update your database password with what you set earlier.
 
 # Usage
 From the project directory
