@@ -30,6 +30,7 @@ lib/acserver
 !lib/acserver/content/tracks/**/surfaces.ini
 !lib/acserver/content/cars/**/data.acd
 lib/stracker/stracker.ini
+lib/steamcmd/package
 
 # Frontend Ignores
 *.css
