@@ -95,11 +95,7 @@ var App = Vue.extend({
   },
   methods: {
     noop: _.noop,
-    to_percent (a) {
-      return (b) => {
-        return (b / a) * 100;
-      };
-    },
+    to_percent: (a) => (b) => (b / a) * 100,
     convert_bytes (bytes=0, decimal=0, show_extension=true) {
       var out, extension;
 
@@ -121,8 +117,6 @@ var App = Vue.extend({
     }
   },
   ready () {
-    var self = this;
-
     this.$root.io.on('server_status', (data) => {
       this.$root.system_stats.cpu_percent = data.currentLoad.currentload;
       this.$root.system_stats.cpu.avg_load = data.currentLoad.avgload;
@@ -153,7 +147,7 @@ var router = new VueRouter({
   transitionOnLoad: true
 });
 
-router.afterEach(function (transition) {
+router.afterEach((transition) => {
   console.log('Successfully navigated to: ' + transition.to.path);
 });
 
