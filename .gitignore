@@ -21,6 +21,7 @@ test.js
 npm-debug.log
 node_modules
 tmp
+.vagrant
 config/*.json
 app/assets/scripts/config.json
 !config/default.json
