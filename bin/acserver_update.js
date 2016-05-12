@@ -28,7 +28,7 @@ prompt.get({
       hidden: true
     }
   }
-}, function (err, result) {
+}, (err, result) => {
   if (err) {
     console.log('Error!');
     throw err;
@@ -42,8 +42,9 @@ prompt.get({
 function install_steam (cmd, cmd_sanitized, password) {
   cmd_sanitized = cmd_sanitized || cmd;
   console.log(`Running: ${cmd_sanitized}`);
+
   try {
-    exec(cmd, {stdio: [0, 'pipe', 'pipe']});
+    exec(cmd, {stdio: 'inherit'});
   } catch (e) {
     console.log(`\n${e.message.replace(password, '****')}`);
     process.exit(1);
