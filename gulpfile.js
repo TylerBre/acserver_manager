@@ -1,26 +1,28 @@
-var fs = require('fs');
-var config = require('config');
-var gulp = require('gulp');
-var vinyl = require('vinyl');
-var buffer = require('vinyl-buffer');
-var gutil = require('gulp-util');
-var uglify = require('gulp-uglify');
-var sourcemaps = require('gulp-sourcemaps');
-var gulpif = require('gulp-if');
-var path = require('path');
-var nodemon = require('gulp-nodemon');
-var browserify = require('browserify');
-var through2 = require('through2');
-var less = require('gulp-less');
-var watch = require('gulp-watch');
-var minifyCSS = require('gulp-cssnano');
-var jade = require('gulp-jade');
-var mocha = require('gulp-mocha');
-var _ = require('lodash');
-var exit = require('gulp-exit');
-var app = require('./app');
+const fs = require('fs');
+const config = require('config');
+const gulp = require('gulp');
+const vinyl = require('vinyl');
+const buffer = require('vinyl-buffer');
+const gutil = require('gulp-util');
+const uglify = require('gulp-uglify');
+const sourcemaps = require('gulp-sourcemaps');
+const gulpif = require('gulp-if');
+const path = require('path');
+const nodemon = require('gulp-nodemon');
+const browserify = require('browserify');
+const through2 = require('through2');
+const less = require('gulp-less');
+const watch = require('gulp-watch');
+const minifyCSS = require('gulp-cssnano');
+const jade = require('gulp-jade');
+const mocha = require('gulp-mocha');
+const _ = require('lodash');
+const exit = require('gulp-exit');
+const app = require('./app');
 
-var less_src = './app/assets/styles/**/*.less';
+const sequence = require('run-sequence').use(gulp);
+
+const less_src = './app/assets/styles/**/*.less';
 
 
 gulp.task('test', () => {
@@ -49,17 +51,14 @@ gulp.task('server', () => {
   });
 });
 
-gulp.task('watch_styles', () => {
-  return gulp.watch(less_src, ['styles']);
-});
+gulp.task('watch_styles', () =>
+  gulp.watch(less_src, ['styles']));
 
-gulp.task('watch_scripts', () => {
-  return gulp.watch('./app/assets/scripts/**/*.js', ['templates', 'scripts']);
-});
+gulp.task('watch_scripts', () =>
+  gulp.watch('./app/assets/scripts/**/*.js', ['templates', 'scripts']));
 
-gulp.task('watch_templates', () => {
-  return gulp.watch('./app/assets/templates/**/*.jade', ['templates', 'scripts']);
-});
+gulp.task('watch_templates', () =>
+  gulp.watch('./app/assets/templates/**/*.jade', ['templates', 'scripts']));
 
 gulp.task('styles', () => {
   return gulp.src('./app/assets/styles/style.less')
@@ -106,7 +105,7 @@ gulp.task('browserify', () => {
 });
 
 gulp.task('templates', () => {
-  var validations = JSON.parse(fs.readFileSync(path.join(__dirname, './config/validations.json')));
+  var validations = JSON.parse(fs.readFileSync(path.resolve('./config/validations.json')));
   gulp.src('./app/assets/templates/**/*.jade')
     .pipe(jade({data: { _, validations }}))
     .pipe(gulp.dest('./app/assets/scripts/templates/'));
@@ -117,5 +116,14 @@ function is_production () {
 }
 
 gulp.task('scripts', ['create-config', 'browserify']);
-gulp.task('compile_assets', ['templates', 'scripts', 'styles']);
-gulp.task('up', ['server', 'compile_assets', 'watch_styles', 'watch_templates', 'watch_scripts']);
+gulp.task('compile_assets', done => sequence(
+  'templates',
+  ['scripts', 'styles'],
+  done)
+);
+gulp.task('watch', ['watch_styles', 'watch_templates', 'watch_scripts'])
+gulp.task('up', done => sequence(
+  'compile_assets',
+  ['watch', 'server'],
+  done)
+);
