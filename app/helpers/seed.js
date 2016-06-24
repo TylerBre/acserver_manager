@@ -104,7 +104,7 @@ function Seed (content_dir) {
     return fs_content.readDir(seed_cars_dir)
       .reduce(fs_content.directories_only(seed_cars_dir), [])
       .then((data) => {
-        return fs_content.writeFile(car_list_path, JSON.stringify(data));
+        return fs_content.writeFile(car_list_path, JSON.stringify(data, null, 2));
       }).then(() => {
         console.log("\ncreated: " + car_list_path);
         console.log("/*------------------------*/");
@@ -115,7 +115,7 @@ function Seed (content_dir) {
     return fs_content.readDir(seed_tracks_dir)
       .reduce(fs_content.directories_only(seed_tracks_dir), [])
       .then((data) => {
-        return fs_content.writeFile(track_list_path, JSON.stringify(data));
+        return fs_content.writeFile(track_list_path, JSON.stringify(data, null, 2));
       }).then(() => {
         console.log("\ncreated: " + track_list_path);
         console.log("/*------------------------*/");
