@@ -48,13 +48,21 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       defaultValue: 66
     },
+    password: {
+      type: DataTypes.STRING,
+      defaultValue: ""
+    },
     admin_password: {
       type: DataTypes.STRING,
-      defaultValue: null
+      defaultValue: ""
     },
     tire_blankets_allowed: {
       type: DataTypes.BOOLEAN,
       defaultValue: false
+    },
+    weather: {
+      type: DataTypes.STRING,
+      defaultValue: "3_clear"
     },
     dynamic_track_session_start: {
       type: DataTypes.INTEGER,
@@ -80,9 +88,9 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       defaultValue: 30
     },
-    practice_wait: {
+    qualify_max_wait: {
       type: DataTypes.INTEGER,
-      defaultValue: null
+      defaultValue: 120
     },
     qualify_enabled: {
       type: DataTypes.BOOLEAN,
@@ -107,12 +115,16 @@ module.exports = (sequelize, DataTypes) => {
     session_wait: {
       type: DataTypes.INTEGER,
       defaultValue: null
+    },
+    loop: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
     }
   }, {
     classMethods: {
       associate (models) {
         this.belongsTo(models.track);
-        // this.belongsToMany(models.car, {through: 'car_list'});
+        this.belongsToMany(models.car, {through: 'car_list'});
       }
     }
   });
