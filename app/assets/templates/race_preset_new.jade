@@ -5,12 +5,12 @@ include forms/form_field_inline
 extends includes/loading
 block loaded
   .row
-    div(v-bind:class="{'col-md-6': show_cfg_preview, 'col-md-8': !show_cfg_preview, 'col-md-offset-2': !show_cfg_preview}", transition="expand")
+    div(v-bind:class="{'col-md-6': state.show_cfg_preview, 'col-md-8': !state.show_cfg_preview, 'col-md-offset-2': !state.show_cfg_preview}", transition="expand")
       validator(name='validation')
         form.form-horizontal(novalidate, v-on:submit.prevent="save")
           fieldset
             legend New Race Preset
-            a.btn.btn-link.btn-xs.inner-context.inner-context-topright(v-on:click.prevent="show_cfg_preview = !show_cfg_preview", v-bind:class="{'active': show_cfg_preview}")
+            a.btn.btn-link.btn-xs.inner-context.inner-context-topright(v-on:click.prevent="state.show_cfg_preview = !state.show_cfg_preview", v-bind:class="{'active': state.show_cfg_preview}")
               i.fa.fa-file-code-o
               small
                 | &nbsp;
@@ -21,12 +21,11 @@ block loaded
                 //- input.input-lg.form-control(type="text", v-model="name", placeholder="My Fantastic Race", v-validate:name="{ minlength: 4 }")
                 //- span(v-if="$validation.name.minlength") Too short
           fieldset
-            legend Content
+            legend Event
             +form_field_inline("Track", "select", "track", null, {collection: 'tracks_flat', value: 'id', text: 'name'})
-            //- +form_field_inline("Cars", "select", "car_list", null, {collection: 'cars', value: 'id', text: 'name'})(multiple=true)
             +form_field_inline("Cars", "custom")
               .modal-select-list
-                button.form-control.input.text-right(@click.prevent="show_car_list = true", type="text")
+                button.form-control.input.text-right(@click.prevent="state.show_car_list = true", type="text")
                   i.fa.fa-plus-circle
                   | &nbsp;Add Cars
                 .list-group.modal-select-list-group
@@ -38,9 +37,10 @@ block loaded
                       a.btn.btn-link.btn-pico(@click.prevent="remove_car(car)")
                         i.fa.fa-trash
                         | &nbsp;Remove
-                modal(:show.sync="show_car_list")
+                modal(:show.sync="state.show_car_list")
                   .modal-body(slot="modal-body")
                     car_list(v-bind:selectable="true", v-bind:layout="'list'", v-bind:selected="cars")
+            +form_field_inline("Weather", "select", "weather", null, {collection: 'weather_collection', value: 'id', text: 'name'})
 
           fieldset
             legend Session Settings
@@ -55,16 +55,21 @@ block loaded
             +form_field_inline("Race", "number", "race_laps", {min: 1}, {addon: true})
               | Laps
 
-            +form_field_inline("Race Over Timer", "number", "race_race_over_timer", {min: 1}, {addon: true})(step="10")
-              | Seconds
+          fieldset
+            legend Administration
+            +form_field_inline("Password", "text", "password")
+              | Password
+
+            +form_field_inline("Admin Password", "text", "admin_password")
+              | Admin Password
 
           hr
           .form-group
             .col-lg-12
-              a.btn.btn-link.center-block(href="#", @click.prevent="show_more_settings = !show_more_settings")
-                i.fa(v-bind:class="{ 'fa-minus-square-o': show_more_settings, 'fa-plus-square-o': !show_more_settings }")
+              a.btn.btn-link.center-block(href="#", @click.prevent="state.show_more_settings = !state.show_more_settings")
+                i.fa(v-bind:class="{ 'fa-minus-square-o': state.show_more_settings, 'fa-plus-square-o': !state.show_more_settings }")
                 | &nbsp;More Settings
-          .advanced-settings(v-show="show_more_settings", transition="expand")
+          .advanced-settings(v-show="state.show_more_settings", transition="expand")
             fieldset
               legend Rules
               +form_field_inline("Allowed tires out", "custom", "allowed_tires_out")
@@ -107,12 +112,20 @@ block loaded
               legend Sessions
               +form_field_inline("Wait Time (Between Events)", "number", "session_wait", {min: 0 }, {addon: true})(step="15")
                 | Seconds
+              +form_field_inline("Race Over Timer", "number", "race_race_over_timer", {min: 1}, {addon: true})(step="10")
+                | Seconds
+              +form_field_inline("Qualify Over Timer", "number", "qualify_max_wait", {min: 0, max: 500}, {addon: true})(step="10")
+                | % of Fastest Lap
               +form_field_inline("Vote Quorum", "number", "voting_quorum", {min: 0, max: 100 }, {addon: true})(step="1")
                 | %
               +form_field_inline("Kick Quorum", "number", "kick_quorum", {min: 0, max: 100 }, {addon: true})(step="1")
                 | %
               +form_field_inline("Vote Duration", "number", "vote_duration", {min: 0 }, {addon: true})(step="1")
                 | Seconds
+              +form_field_inline("Restart Session on End", "custom", "loop")
+                .checkbox: label
+                  input(type='checkbox', v-model="loop")
+                  | Enable
 
             fieldset
               legend Dynamic Track
@@ -125,11 +138,11 @@ block loaded
           .form-group
             .col-lg-12
               .pull-right
-                a.btn.btn-link.text-lowercase(v-on:click.prevent="show_cfg_preview = !show_cfg_preview") Preview Config
+                a.btn.btn-link.text-lowercase(v-on:click.prevent="state.show_cfg_preview = !state.show_cfg_preview") Preview Config
                 input.btn.btn-primary(type="submit", v-bind:class="{'disabled': $validation.valid}", transition="expand")
-    div(v-bind:class="{'col-md-6': show_cfg_preview}", v-show="show_cfg_preview", transition="fade")
+    div(v-bind:class="{'col-md-6': state.show_cfg_preview}", v-show="state.show_cfg_preview", transition="fade")
       div.code-container
         div(v-html="server_cfg_preview | syntax_highlight 'ini'")
-        a.btn.btn-default.btn-xs.inner-context.inner-context-topright.deeper(v-on:click.prevent="show_all_settings = !show_all_settings")
-          i.fa(v-bind:class="{'fa-eye': !show_all_settings, 'fa-eye-slash': show_all_settings}")
+        a.btn.btn-default.btn-xs.inner-context.inner-context-topright.deeper(v-on:click.prevent="state.show_all_settings = !state.show_all_settings")
+          i.fa(v-bind:class="{'fa-eye': !state.show_all_settings, 'fa-eye-slash': state.show_all_settings}")
           small &nbsp;All settings
