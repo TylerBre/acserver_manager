@@ -83,7 +83,7 @@ FS.is_directory = (dir) => {
     fs.stat(dir, (err, data) => {
       if (err) reject(err);
       if (!data.isDirectory()) reject(`Not a directory, skipping:\n${dir}`);
-      if (data.isDirectory()) resolve();
+      if (data.isDirectory()) resolve(`Looking in:\n${dir}`);
     });
   });
 };
