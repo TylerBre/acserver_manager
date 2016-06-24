@@ -139,7 +139,8 @@ block loaded
             .col-lg-12
               .pull-right
                 a.btn.btn-link.text-lowercase(v-on:click.prevent="state.show_cfg_preview = !state.show_cfg_preview") Preview Config
-                input.btn.btn-primary(type="submit", v-bind:class="{'disabled': $validation.valid}", transition="expand")
+                input.btn.btn-primary(type="submit", v-bind:class="{'disabled': !$validation.valid}", transition="expand")
+
     div(v-bind:class="{'col-md-6': state.show_cfg_preview}", v-show="state.show_cfg_preview", transition="fade")
       div.code-container
         div(v-html="server_cfg_preview | syntax_highlight 'ini'")

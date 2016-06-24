@@ -41,8 +41,8 @@ module.exports = Vue.extend({
       track: 1,
       weather: '3_clear',
       name: 'Untitled Race',
-      password: 'password',
-      admin_password: 'password',
+      password: 'my_password',
+      admin_password: 'my_admin_password',
       practice_length: 30,
       practice_enabled: true,
       qualify_length: 10,
@@ -112,7 +112,7 @@ module.exports = Vue.extend({
     save () {
       api.race_preset.save(null, _.omit(this.$data, ['cars', 'tracks']))
         .then(res => {
-
+          debugger;
         })
         .catch(err => console.error(err));
     }
