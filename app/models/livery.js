@@ -10,7 +10,10 @@ module.exports = (sequelize, DataTypes) => {
     name: {
       type: DataTypes.VIRTUAL(DataTypes.STRING),
       get () {
-        return this.to_name(this);
+        return _to_name(this);
+
+        // this broke shit, so fuck it, you know?
+        // return this.to_name(this);
       }
     }
   }, {
@@ -20,9 +23,7 @@ module.exports = (sequelize, DataTypes) => {
         this.belongsTo(models.attachment, {as: 'preview'});
         this.belongsTo(models.dlc);
       },
-      to_name (livery) {
-        return (_.isEmpty(livery.livery_name)) ? livery.file_name : livery.livery_name;
-      },
+      to_name: (livery) => _to_name(livery),
       fromKunos (content) {
         return {
           livery_name: content.data.skinname,
@@ -42,3 +43,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   });
 };
+
+function _to_name (livery) {
+  return (_.isEmpty(livery.livery_name)) ? livery.file_name : livery.livery_name;
+}

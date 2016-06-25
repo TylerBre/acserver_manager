@@ -124,7 +124,7 @@ module.exports = (sequelize, DataTypes) => {
     classMethods: {
       associate (models) {
         this.belongsTo(models.track);
-        this.belongsToMany(models.car, {through: 'car_list'});
+        this.belongsToMany(models.car, {through: 'car_list', as: 'cars'});
       }
     }
   });

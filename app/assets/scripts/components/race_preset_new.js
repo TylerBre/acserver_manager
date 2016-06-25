@@ -110,10 +110,8 @@ module.exports = Vue.extend({
       }
     },
     save () {
-      api.race_preset.save(null, _.omit(this.$data, ['cars', 'tracks']))
-        .then(res => {
-          debugger;
-        })
+      api.race_preset.save(null, _.omit(this.$data, ['tracks']))
+        .then(res => console.log(res.data))
         .catch(err => console.error(err));
     }
   },

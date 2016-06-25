@@ -8,14 +8,13 @@ var helpers = require('../helpers');
 // router.get('*', controllers.app.before);
 
 router.get('/', (req, res, next) => {
-  app.models.race_preset.find()
-    .populate('track')
-    .then((data) => res.json(data));
+  controllers.race_presets.index()
+    .then(data => res.json(data));
 });
 
 router.post('/', (req, res, next) => {
-  app.models.race_preset.create(req.body)
-    .then((data) => res.json(data));
+  controllers.race_presets.create(req.body)
+    .then(data => res.json(data));
 });
 
 

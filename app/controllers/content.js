@@ -7,9 +7,9 @@ var ContentController = module.exports;
 var all = true; var nested = true; var raw = true; var plain = true;
 
 ContentController.index = () => {
-  return promise.all([this.cars(), this.tracks()]).spread((cars, tracks) => {
-    return {cars, tracks};
-  });
+  return promise
+    .all([this.cars(), this.tracks()])
+    .spread((cars, tracks) => ({cars, tracks}));
 };
 
 ContentController.cars = () => {

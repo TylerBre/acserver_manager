@@ -18,6 +18,7 @@ module.exports = (sequelize, DataTypes) => {
       associate (models) {
         this.belongsTo(models.attachment, {as: 'logo'});
         this.hasMany(models.livery, {as: 'liveries'});
+        this.belongsToMany(models.race_preset, {through: 'car_list'});
         this.belongsTo(models.dlc);
       },
       fromKunos (content) {
