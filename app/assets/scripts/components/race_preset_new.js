@@ -29,9 +29,11 @@ var weather_collection = _.reduce(weather_types, (all, id) => {
 module.exports = Vue.extend({
   route: {
     data (transition) {
-      return this.$http.get('/api/content/tracks').then(res => {
-        this.tracks = res.data;
-      });
+      return this.$http
+        .get('/api/content/tracks')
+        .then(res => {
+          this.tracks = res.data;
+        });
     }
   },
   data () {

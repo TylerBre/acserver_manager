@@ -1,0 +1,13 @@
+extends ../includes/loading
+block loaded
+  .row
+    .col-md-10
+      router-view
+    .col-md-2
+      nav.affix
+        small.text-uppercase
+          i.fa.fa-download
+          | &nbsp;Add Content
+        ul.nav.nav-pills.nav-stacked
+          li: a(v-link="{ name: 'race_preset_new'}")
+            | Create New Race Presets

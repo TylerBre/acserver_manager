@@ -1,0 +1,4 @@
+extends includes/loading
+block loaded
+  .row
+    div(v-html="stringified_data | syntax_highlight 'json'")

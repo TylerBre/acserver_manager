@@ -23,9 +23,21 @@ module.exports = (Vue) => {
         }
       }
     },
-    '/race_preset/new': {
-      name: 'race_preset_new',
-      component: require('./components/race_preset_new.js')
+    '/race_presets': {
+      name: 'race_presets',
+      component: {
+        template: require('./templates/layouts/race_presets.html')
+      },
+      subRoutes: {
+        '/': {
+          name: 'race_preset_index',
+          component: require('./components/race_preset_index.js')
+        },
+        '/new': {
+          name: 'race_preset_new',
+          component: require('./components/race_preset_new.js')
+        }
+      }
     }
   };
 };
